@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Usuario {
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
+  password String
+  rol      String   @default("ADMIN")
+
+  pedidos     Pedido[]
+  valoraciones Valoracion[]
+}
+
+model Categoria {
+  id        Int        @id @default(autoincrement())
+  nombre    String
+  productos Producto[]
+}
+
+model Producto {
+  id          Int       @id @default(autoincrement())
+  nombre      String
+  precio      Float
+  stock       Int
+  estado      Boolean   @default(true)
+  destacado   Boolean   @default(false)
+  oferta      Boolean   @default(false)
+  imagenUrl   String?
+  categoriaId Int
+  categoria   Categoria @relation(fields: [categoriaId], references: [id])
+  marcas      Marca[]
+  pedidoItems PedidoItem[]
+  valoraciones Valoracion[]
+}
+
+model Marca {
+  id     Int      @id @default(autoincrement())
+  nombre String   @unique
+  productos Producto[]
+}
+
+model Pedido {
+  id         Int         @id @default(autoincrement())
+  usuarioId  Int
+  usuario    Usuario     @relation(fields: [usuarioId], references: [id])
+  total      Float
+  estado     String      @default("PENDIENTE")
+  creadoAt   DateTime    @default(now())
+  items      PedidoItem[]
+  envio      Envio?
+}
+
+model PedidoItem {
+  id         Int      @id @default(autoincrement())
+  pedidoId   Int
+  pedido     Pedido   @relation(fields: [pedidoId], references: [id])
+  productoId Int
+  producto   Producto @relation(fields: [productoId], references: [id])
+  cantidad   Int
+  precioUnit  Float
+}
+
+model Envio {
+  id         Int      @id @default(autoincrement())
+  pedidoId   Int      @unique
+  pedido     Pedido   @relation(fields: [pedidoId], references: [id])
+  metodo     String
+  costo      Float
+  tracking   String?
+  estado     String   @default("PENDIENTE")
+}
+
+model Valoracion {
+  id         Int      @id @default(autoincrement())
+  productoId Int
+  producto   Producto @relation(fields: [productoId], references: [id])
+  usuarioId  Int
+  usuario    Usuario  @relation(fields: [usuarioId], references: [id])
+  rating     Int
+  comentario String?
+  creadoAt   DateTime @default(now())
+}
+
+model Cupon {
+  id        Int     @id @default(autoincrement())
+  codigo    String  @unique
+  descuento Float
+  activo    Boolean @default(true)
+}

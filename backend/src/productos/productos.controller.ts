@@ -1,0 +1,141 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/prefer-promise-reject-errors */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  UploadedFile,
+  UseInterceptors,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import type { Express } from 'express';
+import type { Multer } from 'multer';
+import { v2 as cloudinary } from 'cloudinary';
+import * as streamifier from 'streamifier';
+import { PrismaService } from '../prisma/prisma.service';
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+@Controller('productos')
+export class ProductosController {
+  constructor(private prisma: PrismaService) {}
+
+  // Obtener productos públicos en stock y búsqueda (filtrado por q, paginado)
+  @Get()
+  findAll(@Query('q') q?: string, @Query('page') page = '1') {
+    const take = 24;
+    const skip = (Number(page) - 1) * take;
+    const where: any = {
+      stock: { gt: 0 },
+      estado: true,
+    };
+    if (q && q.trim()) {
+      where.OR = [
+        { nombre: { contains: q, mode: 'insensitive' } },
+        { descripcion: { contains: q, mode: 'insensitive' } },
+      ];
+    }
+    return this.prisma.producto.findMany({
+      where,
+      include: { categoria: true },
+      orderBy: { id: 'desc' },
+      take,
+      skip,
+    });
+  }
+
+  // Obtener un producto por ID
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.prisma.producto.findUnique({
+      where: { id: Number(id) },
+      include: { categoria: true },
+    });
+  }
+
+  private parseBoolean(value: unknown): boolean {
+    return value === true || value === 'true' || value === 1 || value === '1';
+  }
+
+  private async uploadImage(fileBuffer: Buffer): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        { folder: 'natura_catalogo' },
+        (error, result) => {
+          if (error) return reject(error);
+          if (!result) return reject(new Error('Upload failed'));
+          resolve(result.secure_url);
+        },
+      );
+      streamifier.createReadStream(fileBuffer).pipe(uploadStream);
+    });
+  }
+
+  // Crear producto con imagen
+  @Post()
+  @UseInterceptors(FileInterceptor('imagen'))
+  async create(@Body() body: any, @UploadedFile() file: Express.Multer.File) {
+    let imagenUrl: string | null = null;
+    if (file) {
+      imagenUrl = await this.uploadImage(file.buffer);
+    }
+    return this.prisma.producto.create({
+      data: {
+        nombre: body.nombre,
+        precio: parseFloat(body.precio),
+        stock: parseInt(body.stock),
+        estado: this.parseBoolean(body.estado),
+        destacado: this.parseBoolean(body.destacado),
+        oferta: this.parseBoolean(body.oferta),
+        categoriaId: parseInt(body.categoriaId),
+        imagenUrl: imagenUrl,
+      },
+    });
+  }
+
+  // Actualizar producto con imagen
+  @Patch(':id')
+  @UseInterceptors(FileInterceptor('imagen'))
+  async update(
+    @Param('id') id: string,
+    @Body() body: any,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    const dataToUpdate: any = {
+      nombre: body.nombre,
+      precio: parseFloat(body.precio),
+      stock: parseInt(body.stock),
+      estado: this.parseBoolean(body.estado),
+      destacado: this.parseBoolean(body.destacado),
+      oferta: this.parseBoolean(body.oferta),
+      categoriaId: parseInt(body.categoriaId),
+    };
+    if (file) {
+      dataToUpdate.imagenUrl = await this.uploadImage(file.buffer);
+    }
+    return this.prisma.producto.update({
+      where: { id: parseInt(id) },
+      data: dataToUpdate,
+    });
+  }
+
+  // Eliminar producto
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.prisma.producto.delete({
+      where: { id: Number(id) },
+    });
+  }
+}
