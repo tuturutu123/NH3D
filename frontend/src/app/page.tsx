@@ -72,7 +72,7 @@ export default function Home() {
           <img src="/portada.png" alt="Portada" className="w-full h-full object-cover object-center md:object-right pointer-events-none select-none" />
         </div>
         {/* Degradado entre la imagen y el contenido para garantizar legibilidad */}
-        <div className="absolute inset-0 z-10 bg-gradient-to-r from-white/80 via-white/50 to-transparent"></div>
+        <div className="absolute inset-0 z-10 bg-linear-to-r from-white/80 via-white/50 to-transparent"></div>
 
         <div className="container mx-auto px-4 max-w-7xl relative z-20">
           <div className="max-w-2xl">
