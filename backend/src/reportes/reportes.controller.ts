@@ -7,7 +7,9 @@ export class ReportesController {
 
   @Get('resumen')
   async resumen() {
-    const totalVentas = await this.prisma.pedido.aggregate({ _sum: { total: true } });
+    const totalVentas = await this.prisma.pedido.aggregate({
+      _sum: { total: true },
+    });
     const pedidosCount = await this.prisma.pedido.count();
     const productosCount = await this.prisma.producto.count();
     const clientesCount = await this.prisma.usuario.count();

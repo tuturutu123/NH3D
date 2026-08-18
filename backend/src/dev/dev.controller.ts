@@ -16,8 +16,12 @@ export class DevController {
     const productos = await this.prisma.producto.findMany();
     for (const p of productos) {
       if (!p.imagenUrl) {
-        const url = mapping[p.categoriaId] || 'http://localhost:3000/portada.png';
-        await this.prisma.producto.update({ where: { id: p.id }, data: { imagenUrl: url } });
+        const url =
+          mapping[p.categoriaId] || 'http://localhost:3000/portada.png';
+        await this.prisma.producto.update({
+          where: { id: p.id },
+          data: { imagenUrl: url },
+        });
       }
     }
 

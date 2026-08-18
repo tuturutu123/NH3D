@@ -43,8 +43,12 @@ export class AuthService {
   // Método auxiliar para inicializar el administrador con las nuevas credenciales.
   // Se pueden pasar mediante variables de entorno INIT_ADMIN_EMAIL e INIT_ADMIN_PASS.
   async createInitialAdmin(emailParam?: string, passwordParam?: string) {
-    const emailAdmin = emailParam || process.env.INIT_ADMIN_EMAIL || 'santiagoheredia2000@gmail.com';
-    const plainPassword = passwordParam || process.env.INIT_ADMIN_PASS || 'Mado.santi2005';
+    const emailAdmin =
+      emailParam ||
+      process.env.INIT_ADMIN_EMAIL ||
+      'santiagoheredia2000@gmail.com';
+    const plainPassword =
+      passwordParam || process.env.INIT_ADMIN_PASS || 'Mado.santi2005';
     const hashedPassword = await bcrypt.hash(plainPassword, 10);
 
     const admin = await this.prisma.usuario.upsert({

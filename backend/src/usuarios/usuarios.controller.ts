@@ -7,13 +7,18 @@ export class UsuariosController {
 
   @Get()
   async list() {
-    return this.prisma.usuario.findMany({ select: { id: true, email: true, rol: true } });
+    return this.prisma.usuario.findMany({
+      select: { id: true, email: true, rol: true },
+    });
   }
 
   @Get(':id')
   async get(@Param('id') id: string) {
     const uid = Number(id);
-    return this.prisma.usuario.findUnique({ where: { id: uid }, select: { id: true, email: true, rol: true } });
+    return this.prisma.usuario.findUnique({
+      where: { id: uid },
+      select: { id: true, email: true, rol: true },
+    });
   }
 
   @Patch(':id')
@@ -22,7 +27,11 @@ export class UsuariosController {
     const data: any = {};
     if (body.email) data.email = body.email;
     if (body.rol) data.rol = body.rol;
-    return this.prisma.usuario.update({ where: { id: uid }, data, select: { id: true, email: true, rol: true } });
+    return this.prisma.usuario.update({
+      where: { id: uid },
+      data,
+      select: { id: true, email: true, rol: true },
+    });
   }
 
   @Delete(':id')

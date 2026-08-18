@@ -21,8 +21,3 @@ describe('AppController', () => {
     });
   });
 });
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function expect(_arg0: string) {
-  throw new Error('Function not implemented.');
-}

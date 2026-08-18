@@ -23,7 +23,10 @@ export class AuthController {
   // Endpoint temporal para crear el primer usuario.
   // En producción real, esto debería estar bloqueado o ejecutarse vía seed.
   @Get('init')
-  initAdmin(@Query('email') email?: string, @Query('password') password?: string) {
+  initAdmin(
+    @Query('email') email?: string,
+    @Query('password') password?: string,
+  ) {
     return this.authService.createInitialAdmin(email, password);
   }
 }
