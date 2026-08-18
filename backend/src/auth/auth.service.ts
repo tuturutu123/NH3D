@@ -32,7 +32,9 @@ export class AuthService {
     const payload = { sub: user.id, email: user.email, rol: user.rol };
 
     return {
-      access_token: await this.jwtService.signAsync(payload),
+      access_token: await this.jwtService.signAsync(payload, {
+        expiresIn: '24h',
+      }),
       user: {
         email: user.email,
         rol: user.rol,
@@ -43,12 +45,14 @@ export class AuthService {
   // Método auxiliar para inicializar el administrador con las nuevas credenciales.
   // Se pueden pasar mediante variables de entorno INIT_ADMIN_EMAIL e INIT_ADMIN_PASS.
   async createInitialAdmin(emailParam?: string, passwordParam?: string) {
-    const emailAdmin =
-      emailParam ||
-      process.env.INIT_ADMIN_EMAIL ||
-      'santiagoheredia2000@gmail.com';
-    const plainPassword =
-      passwordParam || process.env.INIT_ADMIN_PASS || 'Mado.santi2005';
+    const emailAdmin = emailParam || process.env.INIT_ADMIN_EMAIL;
+    const plainPassword = passwordParam || process.env.INIT_ADMIN_PASS;
+
+    if (!emailAdmin || !plainPassword) {
+      throw new UnauthorizedException(
+        'Credenciales no configuradas. Setear INIT_ADMIN_EMAIL e INIT_ADMIN_PASS en .env',
+      );
+    }
     const hashedPassword = await bcrypt.hash(plainPassword, 10);
 
     const admin = await this.prisma.usuario.upsert({

@@ -8,8 +8,8 @@ import { JwtAuthGuard } from './jwt.guard';
   imports: [
     JwtModule.register({
       global: true,
-      secret: process.env.JWT_SECRET || 'super-secreto-cambiar-en-produccion',
-      signOptions: { expiresIn: '1d' },
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '24h' },
     }),
   ],
   controllers: [AuthController],

@@ -38,7 +38,6 @@ export default function ProductoModal({ isOpen, onClose, producto, onSuccess }: 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   
-  // Estado del formulario
   const [formData, setFormData] = useState({
     nombre: '',
     precio: '',
@@ -49,7 +48,6 @@ export default function ProductoModal({ isOpen, onClose, producto, onSuccess }: 
     oferta: false,
   });
   
-  // Estado de la imagen
   const [imagenFile, setImagenFile] = useState<File | null>(null);
   const [imagenPreview, setImagenPreview] = useState<string | null>(null);
 
@@ -69,7 +67,6 @@ export default function ProductoModal({ isOpen, onClose, producto, onSuccess }: 
           oferta: producto.oferta,
         });
         
-        // Adaptación para Cloudinary o URLs externas
         setImagenPreview(
           producto.imagenUrl 
             ? (producto.imagenUrl.startsWith('http') ? producto.imagenUrl : `${backendUrl}${producto.imagenUrl}`) 
@@ -164,30 +161,31 @@ export default function ProductoModal({ isOpen, onClose, producto, onSuccess }: 
 
   if (!isOpen) return null;
 
+  const inputClass = "w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm";
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm p-4 overflow-y-auto">
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl my-8">
-        <div className="flex justify-between items-center p-6 border-b border-gray-200 sticky top-0 bg-white rounded-t-xl z-10">
-          <h2 className="text-xl font-bold text-gray-900">
+      <div className="bg-white dark:bg-[#1e293b] rounded-xl shadow-xl w-full max-w-2xl my-8">
+        <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700 sticky top-0 bg-white dark:bg-[#1e293b] rounded-t-xl z-10">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
             {producto ? 'Editar Producto' : 'Nuevo Producto'}
           </h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition-colors">
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">
             <X className="h-6 w-6" />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6">
           {error && (
-            <div className="mb-6 bg-red-50 text-red-700 p-3 rounded-md text-sm font-medium">
+            <div className="mb-6 bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-400 p-3 rounded-md text-sm font-medium">
               {error}
             </div>
           )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Columna Izquierda - Imagen */}
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">Imagen del producto</label>
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center h-48 bg-gray-50 relative overflow-hidden group">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Imagen del producto</label>
+              <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-4 flex flex-col items-center justify-center h-48 bg-gray-50 dark:bg-gray-800 relative overflow-hidden group">
                 {imagenPreview ? (
                   <>
                     <img src={imagenPreview} alt="Preview" className="w-full h-full object-contain" />
@@ -199,9 +197,9 @@ export default function ProductoModal({ isOpen, onClose, producto, onSuccess }: 
                   </>
                 ) : (
                   <div className="text-center">
-                    <ImageIcon className="mx-auto h-12 w-12 text-gray-300" />
-                    <span className="mt-2 block text-sm font-medium text-gray-900">Subir foto</span>
-                    <span className="mt-1 block text-xs text-gray-500">PNG, JPG, WEBP hasta 5MB</span>
+                    <ImageIcon className="mx-auto h-12 w-12 text-gray-300 dark:text-gray-600" />
+                    <span className="mt-2 block text-sm font-medium text-gray-900 dark:text-gray-100">Subir foto</span>
+                    <span className="mt-1 block text-xs text-gray-500 dark:text-gray-400">PNG, JPG, WEBP hasta 5MB</span>
                   </div>
                 )}
                 <input 
@@ -213,23 +211,22 @@ export default function ProductoModal({ isOpen, onClose, producto, onSuccess }: 
               </div>
             </div>
 
-            {/* Columna Derecha - Datos básicos */}
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre</label>
                 <input
                   type="text"
                   required
                   value={formData.nombre}
                   onChange={(e) => setFormData({...formData, nombre: e.target.value})}
-                  className="w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
+                  className={inputClass}
                   placeholder="Ej: Coca Cola 2.25L"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Precio ($)</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Precio ($)</label>
                   <input
                     type="number"
                     required
@@ -237,29 +234,29 @@ export default function ProductoModal({ isOpen, onClose, producto, onSuccess }: 
                     step="0.01"
                     value={formData.precio}
                     onChange={(e) => setFormData({...formData, precio: e.target.value})}
-                    className="w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
+                    className={inputClass}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Stock</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Stock</label>
                   <input
                     type="number"
                     required
                     min="0"
                     value={formData.stock}
                     onChange={(e) => setFormData({...formData, stock: e.target.value})}
-                    className="w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
+                    className={inputClass}
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Categoría</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Categoría</label>
                 <select
                   required
                   value={formData.categoriaId}
                   onChange={(e) => setFormData({...formData, categoriaId: e.target.value})}
-                  className="w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
+                  className={inputClass}
                 >
                   <option value="" disabled>Seleccione una categoría</option>
                   {categorias.map(cat => (
@@ -270,8 +267,8 @@ export default function ProductoModal({ isOpen, onClose, producto, onSuccess }: 
             </div>
           </div>
 
-          <div className="mt-8 pt-6 border-t border-gray-200">
-            <h3 className="text-sm font-medium text-gray-900 mb-4">Opciones de visibilidad</h3>
+          <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+            <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-4">Opciones de visibilidad</h3>
             <div className="flex gap-6">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input 
@@ -280,7 +277,7 @@ export default function ProductoModal({ isOpen, onClose, producto, onSuccess }: 
                   onChange={(e) => setFormData({...formData, estado: e.target.checked})}
                   className="rounded text-green-600 focus:ring-green-500 h-4 w-4" 
                 />
-                <span className="text-sm text-gray-700">Producto Activo</span>
+                <span className="text-sm text-gray-700 dark:text-gray-300">Producto Activo</span>
               </label>
               
               <label className="flex items-center gap-2 cursor-pointer">
@@ -290,7 +287,7 @@ export default function ProductoModal({ isOpen, onClose, producto, onSuccess }: 
                   onChange={(e) => setFormData({...formData, destacado: e.target.checked})}
                   className="rounded text-green-600 focus:ring-green-500 h-4 w-4" 
                 />
-                <span className="text-sm text-gray-700">Destacado (Más vendido)</span>
+                <span className="text-sm text-gray-700 dark:text-gray-300">Destacado (Más vendido)</span>
               </label>
 
               <label className="flex items-center gap-2 cursor-pointer">
@@ -300,16 +297,16 @@ export default function ProductoModal({ isOpen, onClose, producto, onSuccess }: 
                   onChange={(e) => setFormData({...formData, oferta: e.target.checked})}
                   className="rounded text-green-600 focus:ring-green-500 h-4 w-4" 
                 />
-                <span className="text-sm text-gray-700">En Oferta</span>
+                <span className="text-sm text-gray-700 dark:text-gray-300">En Oferta</span>
               </label>
             </div>
           </div>
 
-          <div className="mt-8 flex justify-end gap-3 sticky bottom-0 bg-white pt-4">
+          <div className="mt-8 flex justify-end gap-3 sticky bottom-0 bg-white dark:bg-[#1e293b] pt-4">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none transition-colors"
+              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none transition-colors"
             >
               Cancelar
             </button>

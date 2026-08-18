@@ -1,10 +1,8 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import CartDrawer from '../components/CartDrawer';
 import LayoutShell from '../components/LayoutShell';
+import ThemeInitializer from '../components/ThemeInitializer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,8 +17,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className="scroll-smooth">
-      <body className={`${inter.className} bg-gray-50 text-gray-900 antialiased min-h-screen flex flex-col`}>
+    <html lang="es" className="scroll-smooth" suppressHydrationWarning>
+      <body className={`${inter.className} bg-gray-50 dark:bg-[#0f172a] text-gray-900 dark:text-gray-100 antialiased min-h-screen flex flex-col`}>
+        <ThemeInitializer />
         <LayoutShell>{children}</LayoutShell>
       </body>
     </html>

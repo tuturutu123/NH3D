@@ -31,30 +31,30 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#0f172a] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center items-center gap-2 mb-6">
-          <Store className="h-10 w-10 text-green-600" />
-          <span className="text-3xl font-bold tracking-tight text-gray-900">
-            KIOSCO <span className="text-green-600">24HS</span>
+          <Store className="h-10 w-10 text-green-600 dark:text-green-400" />
+          <span className="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
+            KIOSCO <span className="text-green-600 dark:text-green-400">24HS</span>
           </span>
         </div>
-        <h2 className="text-center text-2xl font-bold text-gray-900">
+        <h2 className="text-center text-2xl font-bold text-gray-900 dark:text-gray-100">
           Panel de Administración
         </h2>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 border border-gray-200">
+        <div className="bg-white dark:bg-[#1e293b] py-8 px-4 shadow sm:rounded-lg sm:px-10 border border-gray-200 dark:border-gray-700">
           <form className="space-y-6" onSubmit={handleLogin}>
             {error && (
-              <div className="bg-red-50 text-red-700 p-3 rounded-md text-sm font-medium">
+              <div className="bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-400 p-3 rounded-md text-sm font-medium">
                 {error}
               </div>
             )}
             
             <div>
-              <label className="block text-sm font-medium text-gray-700">Correo electrónico</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Correo electrónico</label>
               <div className="mt-1 relative rounded-md shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Mail className="h-5 w-5 text-gray-400" />
@@ -64,14 +64,14 @@ export default function LoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="pl-10 block w-full rounded-md border-gray-300 border py-2 px-3 focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                  className="pl-10 block w-full rounded-md border-gray-300 dark:border-gray-600 border py-2 px-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-green-500 focus:border-green-500 sm:text-sm"
                   placeholder="admin@kiosco24hs.com"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Contraseña</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Contraseña</label>
               <div className="mt-1 relative rounded-md shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Lock className="h-5 w-5 text-gray-400" />
@@ -81,7 +81,7 @@ export default function LoginPage() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="pl-10 block w-full rounded-md border-gray-300 border py-2 px-3 focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                  className="pl-10 block w-full rounded-md border-gray-300 dark:border-gray-600 border py-2 px-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-green-500 focus:border-green-500 sm:text-sm"
                   placeholder="••••••••"
                 />
               </div>

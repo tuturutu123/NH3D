@@ -25,7 +25,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   const handleLogout = () => { logout(); router.push('/admin/login'); };
 
-  // Menú extendido basado en la imagen de referencia
   const menuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', href: '/admin', active: pathname === '/admin' },
     { icon: Package, label: 'Productos', href: '/admin/productos', active: pathname.includes('/admin/productos') || pathname === '/admin' },
@@ -45,10 +44,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   ];
 
   return (
-    <div className="flex h-screen bg-[#f8f9fa] overflow-hidden font-sans">
+    <div className="flex h-screen bg-[#f8f9fa] dark:bg-[#0f172a] overflow-hidden font-sans">
       
-      {/* Sidebar Verde Oscuro (#283d2d) */}
-      <aside className="w-64 bg-[#283d2d] text-gray-300 flex flex-col shrink-0">
+      {/* Sidebar */}
+      <aside className="w-64 bg-[#283d2d] dark:bg-[#0c1520] text-gray-300 flex flex-col shrink-0">
         <div className="h-20 flex items-center px-6 pt-2">
           <Link href="/admin" className="flex items-center gap-3 text-white">
             <Leaf className="h-8 w-8 text-white" />

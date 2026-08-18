@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Get,
   Query,
+  ForbiddenException,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
@@ -20,13 +21,16 @@ export class AuthController {
     return this.authService.login(loginDto);
   }
 
-  // Endpoint temporal para crear el primer usuario.
-  // En producción real, esto debería estar bloqueado o ejecutarse vía seed.
   @Get('init')
   initAdmin(
     @Query('email') email?: string,
     @Query('password') password?: string,
+    @Query('secret') secret?: string,
   ) {
+    const expectedSecret = process.env.INIT_SECRET;
+    if (!expectedSecret || secret !== expectedSecret) {
+      throw new ForbiddenException('Secret inválido o no configurado');
+    }
     return this.authService.createInitialAdmin(email, password);
   }
 }
