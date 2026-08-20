@@ -165,7 +165,7 @@ export default function Home() {
                     <img
                       src={getCategoriaImagen(cat.nombre)}
                       alt={cat.nombre}
-                      className="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-300"
+                      className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
                       onError={(e) => { e.currentTarget.src = '/categorias/default.svg'; }}
                     />
                   </div>
@@ -269,7 +269,9 @@ function ProductoCard({ producto, backendUrl, onAdd }: { producto: Producto, bac
     setTimeout(() => setAgregado(false), 1200);
   }, [onAdd, producto]);
 
-  const imgSrc = producto.imagenUrl?.startsWith('http') ? producto.imagenUrl : `${backendUrl}${producto.imagenUrl || ''}`;
+  const imgSrc = producto.imagenUrl?.startsWith('http')
+    ? producto.imagenUrl
+    : producto.imagenUrl || '';
 
   return (
     <div className="bg-white dark:bg-[#1e293b] border border-[#eae6db] dark:border-gray-700 rounded-2xl p-4 flex flex-col justify-between hover:shadow-lg transition-all duration-300 group h-full">
