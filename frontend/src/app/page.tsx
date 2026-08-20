@@ -8,6 +8,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { api } from '../lib/api';
+import { catalogProducts, catalogCategories } from '../lib/catalog';
 import { useCartStore } from '../store/cartStore';
 import { MapPin, Phone, ShieldCheck, ShoppingCart, Truck, Star, ArrowRight } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
@@ -30,9 +31,14 @@ export default function Home() {
     const fetchData = async () => {
       try {
         const [resProductos, resCategorias] = await Promise.all([api.get('/productos'), api.get('/categorias')]);
-        setProductos(resProductos.data.filter((p: Producto) => p.estado));
-        setCategorias(resCategorias.data);
-      } catch (error) { console.error('Error al cargar el catálogo'); } finally { setLoading(false); }
+        const prod = Array.isArray(resProductos.data) ? resProductos.data : catalogProducts;
+        const cat = Array.isArray(resCategorias.data) ? resCategorias.data : catalogCategories;
+        setProductos(prod.filter((p: Producto) => p.estado));
+        setCategorias(cat);
+      } catch {
+        setProductos(catalogProducts.filter(p => p.estado));
+        setCategorias(catalogCategories);
+      } finally { setLoading(false); }
     };
     fetchData();
   }, []);
