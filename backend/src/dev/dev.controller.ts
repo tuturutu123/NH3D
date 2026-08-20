@@ -1,4 +1,4 @@
-import { Controller, Post } from '@nestjs/common';
+import { Controller, Post, ForbiddenException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Controller('dev')
@@ -7,6 +7,10 @@ export class DevController {
 
   @Post('assign-images')
   async assignImages() {
+    if (process.env.NODE_ENV === 'production') {
+      throw new ForbiddenException('Endpoint no disponible en producción');
+    }
+
     const mapping: Record<number, string> = {
       1: 'http://localhost:3000/categorias/mates.png',
       2: 'http://localhost:3000/categorias/yerba.png',

@@ -6,13 +6,17 @@ import {
   Param,
   Delete,
   NotFoundException,
+  BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { Public } from '../auth/public.decorator';
+import { CreateCategoriaDto } from './dto/create-categoria.dto';
 
 @Controller('categorias')
 export class CategoriasController {
   constructor(private prisma: PrismaService) {}
 
+  @Public()
   @Get()
   async findAll() {
     return this.prisma.categoria.findMany({
@@ -26,13 +30,10 @@ export class CategoriasController {
   }
 
   @Post()
-  async create(@Body() body: { nombre: string }) {
-    if (!body.nombre) {
-      throw new NotFoundException('El nombre de la categoría es obligatorio');
-    }
-
+  async create(@Body() dto: CreateCategoriaDto) {
     return this.prisma.categoria.create({
-      data: { nombre: body.nombre },
+      data: { nombre: dto.nombre },
+      select: { id: true, nombre: true },
     });
   }
 
@@ -40,19 +41,19 @@ export class CategoriasController {
   async remove(@Param('id') id: string) {
     const categoriaId = Number(id);
 
-    // Verificamos si tiene productos asociados
     const productosAsociados = await this.prisma.producto.count({
       where: { categoriaId },
     });
 
     if (productosAsociados > 0) {
-      throw new Error(
+      throw new BadRequestException(
         'No se puede eliminar una categoría que tiene productos asociados.',
       );
     }
 
     return this.prisma.categoria.delete({
       where: { id: categoriaId },
+      select: { id: true, nombre: true },
     });
   }
 }

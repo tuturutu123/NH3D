@@ -1,5 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import type { Response } from 'express';
 import * as bcrypt from 'bcryptjs';
 import { PrismaService } from '../prisma/prisma.service';
 import { LoginDto } from './dto/login.dto';
@@ -11,7 +12,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async login(loginDto: LoginDto) {
+  async login(loginDto: LoginDto, res?: Response) {
     const user = await this.prisma.usuario.findUnique({
       where: { email: loginDto.email },
     });
@@ -31,10 +32,21 @@ export class AuthService {
 
     const payload = { sub: user.id, email: user.email, rol: user.rol };
 
+    const accessToken = await this.jwtService.signAsync(payload, {
+      expiresIn: '24h',
+    });
+
+    if (res) {
+      res.cookie('access_token', accessToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 24 * 60 * 60 * 1000,
+        path: '/',
+      });
+    }
+
     return {
-      access_token: await this.jwtService.signAsync(payload, {
-        expiresIn: '24h',
-      }),
       user: {
         email: user.email,
         rol: user.rol,
@@ -42,8 +54,6 @@ export class AuthService {
     };
   }
 
-  // Método auxiliar para inicializar el administrador con las nuevas credenciales.
-  // Se pueden pasar mediante variables de entorno INIT_ADMIN_EMAIL e INIT_ADMIN_PASS.
   async createInitialAdmin(emailParam?: string, passwordParam?: string) {
     const emailAdmin = emailParam || process.env.INIT_ADMIN_EMAIL;
     const plainPassword = passwordParam || process.env.INIT_ADMIN_PASS;

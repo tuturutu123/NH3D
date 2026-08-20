@@ -6,24 +6,34 @@ import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { LayoutDashboard, Package, Tags, LogOut, Settings, Leaf, Tag, Star, ShoppingBag, Users, MessageSquare, Ticket, Truck, BarChart2, Calendar, ShoppingCart } from 'lucide-react';
-import { useAuthStore } from '../../store/authStore';
+import { api } from '../../lib/api';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const { token, logout } = useAuthStore();
+  const [authenticated, setAuthenticated] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    if (!token && pathname !== '/admin/login') { router.push('/admin/login'); }
-  }, [token, pathname, router]);
+    if (pathname === '/admin/login') return;
+
+    api.get('/usuarios')
+      .then(() => setAuthenticated(true))
+      .catch(() => {
+        setAuthenticated(false);
+        router.push('/admin/login');
+      });
+  }, [pathname, router]);
 
   if (!mounted) return null;
   if (pathname === '/admin/login') return <>{children}</>;
-  if (!token) return null;
+  if (!authenticated) return null;
 
-  const handleLogout = () => { logout(); router.push('/admin/login'); };
+  const handleLogout = () => {
+    document.cookie = 'access_token=; path=/; max-age=0';
+    router.push('/admin/login');
+  };
 
   const menuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', href: '/admin', active: pathname === '/admin' },
@@ -32,7 +42,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { icon: Tag, label: 'Marcas', href: '/admin/marcas', active: pathname.includes('/admin/marcas') },
     { icon: Star, label: 'Ofertas', href: '/admin/ofertas', active: pathname.includes('/admin/ofertas') },
     { icon: ShoppingBag, label: 'Novedades', href: '/admin/novedades', active: pathname.includes('/admin/novedades') },
-    { icon: ShoppingCart, label: 'Pedidos', href: '/admin/pedidos', active: pathname.includes('/admin/pedidos'), badge: 12 },
+    { icon: ShoppingCart, label: 'Pedidos', href: '/admin/pedidos', active: pathname.includes('/admin/pedidos') },
     { icon: Users, label: 'Clientes', href: '/admin/clientes', active: pathname.includes('/admin/clientes') },
     { icon: MessageSquare, label: 'Valoraciones', href: '/admin/valoraciones', active: pathname.includes('/admin/valoraciones') },
     { icon: Ticket, label: 'Cupones', href: '/admin/cupones', active: pathname.includes('/admin/cupones') },
@@ -45,7 +55,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <div className="flex h-screen bg-[#f8f9fa] dark:bg-[#0f172a] overflow-hidden font-sans">
-      
+
       {/* Sidebar */}
       <aside className="w-64 bg-[#283d2d] dark:bg-[#0c1520] text-gray-300 flex flex-col shrink-0">
         <div className="h-20 flex items-center px-6 pt-2">
@@ -66,8 +76,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 key={idx}
                 href={item.href}
                 className={`flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors font-medium text-sm ${
-                  item.active 
-                    ? 'bg-[#3b5542] text-white shadow-sm' 
+                  item.active
+                    ? 'bg-[#3b5542] text-white shadow-sm'
                     : 'hover:bg-[#324a38] text-[#d4dbd6] hover:text-white'
                 }`}
               >
@@ -75,11 +85,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   <Icon className="h-4.5 w-4.5 opacity-90" />
                   {item.label}
                 </div>
-                {item.badge && (
-                  <span className="bg-[#4d6b55] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-                    {item.badge}
-                  </span>
-                )}
               </Link>
             );
           })}

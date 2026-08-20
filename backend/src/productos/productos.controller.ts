@@ -14,6 +14,7 @@ import {
   Param,
   Delete,
   Query,
+  BadRequestException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import type { Express } from 'express';
@@ -21,6 +22,7 @@ import type { Multer } from 'multer';
 import { v2 as cloudinary } from 'cloudinary';
 import * as streamifier from 'streamifier';
 import { PrismaService } from '../prisma/prisma.service';
+import { Public } from '../auth/public.decorator';
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -32,7 +34,7 @@ cloudinary.config({
 export class ProductosController {
   constructor(private prisma: PrismaService) {}
 
-  // Obtener productos públicos en stock y búsqueda (filtrado por q, paginado)
+  @Public()
   @Get()
   findAll(@Query('q') q?: string, @Query('page') page = '1') {
     const take = 24;
@@ -56,7 +58,7 @@ export class ProductosController {
     });
   }
 
-  // Obtener un producto por ID
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.prisma.producto.findUnique({
@@ -83,9 +85,16 @@ export class ProductosController {
     });
   }
 
-  // Crear producto con imagen
   @Post()
-  @UseInterceptors(FileInterceptor('imagen'))
+  @UseInterceptors(FileInterceptor('imagen', {
+    limits: { fileSize: 5 * 1024 * 1024 },
+    fileFilter: (_req, file, cb) => {
+      if (!file.mimetype.match(/^image\/(jpeg|png|webp|gif)$/)) {
+        return cb(new BadRequestException('Solo se permiten archivos de imagen (JPEG, PNG, WebP, GIF)'), false);
+      }
+      cb(null, true);
+    },
+  }))
   async create(@Body() body: any, @UploadedFile() file: Express.Multer.File) {
     let imagenUrl: string | null = null;
     if (file) {
@@ -102,12 +111,31 @@ export class ProductosController {
         categoriaId: parseInt(body.categoriaId),
         imagenUrl: imagenUrl,
       },
+      select: {
+        id: true,
+        nombre: true,
+        precio: true,
+        stock: true,
+        estado: true,
+        destacado: true,
+        oferta: true,
+        imagenUrl: true,
+        categoriaId: true,
+        categoria: { select: { id: true, nombre: true } },
+      },
     });
   }
 
-  // Actualizar producto con imagen
   @Patch(':id')
-  @UseInterceptors(FileInterceptor('imagen'))
+  @UseInterceptors(FileInterceptor('imagen', {
+    limits: { fileSize: 5 * 1024 * 1024 },
+    fileFilter: (_req, file, cb) => {
+      if (!file.mimetype.match(/^image\/(jpeg|png|webp|gif)$/)) {
+        return cb(new BadRequestException('Solo se permiten archivos de imagen (JPEG, PNG, WebP, GIF)'), false);
+      }
+      cb(null, true);
+    },
+  }))
   async update(
     @Param('id') id: string,
     @Body() body: any,
@@ -128,14 +156,26 @@ export class ProductosController {
     return this.prisma.producto.update({
       where: { id: parseInt(id) },
       data: dataToUpdate,
+      select: {
+        id: true,
+        nombre: true,
+        precio: true,
+        stock: true,
+        estado: true,
+        destacado: true,
+        oferta: true,
+        imagenUrl: true,
+        categoriaId: true,
+        categoria: { select: { id: true, nombre: true } },
+      },
     });
   }
 
-  // Eliminar producto
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.prisma.producto.delete({
       where: { id: Number(id) },
+      select: { id: true, nombre: true },
     });
   }
 }

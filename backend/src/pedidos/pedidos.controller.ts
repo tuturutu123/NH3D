@@ -1,5 +1,14 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Req } from '@nestjs/common';
+import type { Request } from 'express';
 import { PrismaService } from '../prisma/prisma.service';
+import { Public } from '../auth/public.decorator';
+import { CreatePedidoDto } from './dto/create-pedido.dto';
+
+const pedidoInclude = {
+  items: { include: { producto: { select: { id: true, nombre: true, precio: true, imagenUrl: true } } } },
+  usuario: { select: { id: true, email: true } },
+  envio: { select: { id: true, metodo: true, costo: true, tracking: true, estado: true } },
+};
 
 @Controller('pedidos')
 export class PedidosController {
@@ -7,38 +16,28 @@ export class PedidosController {
 
   @Get()
   async list() {
-    return this.prisma.pedido.findMany({
-      include: {
-        items: { include: { producto: true } },
-        usuario: { select: { id: true, email: true } },
-        envio: true,
-      },
-    });
+    return this.prisma.pedido.findMany({ include: pedidoInclude });
   }
 
   @Get(':id')
   async get(@Param('id') id: string) {
-    const pid = Number(id);
     return this.prisma.pedido.findUnique({
-      where: { id: pid },
-      include: {
-        items: { include: { producto: true } },
-        usuario: { select: { id: true, email: true } },
-        envio: true,
-      },
+      where: { id: Number(id) },
+      include: pedidoInclude,
     });
   }
 
   @Post()
-  async create(@Body() body: any) {
-    // body: { usuarioId, items: [{productoId, cantidad, precioUnit}], total }
-    const { usuarioId, items, total } = body;
+  async create(@Body() dto: CreatePedidoDto, @Req() req: Request) {
+    const user = req['user'] as { sub: number };
+    const usuarioId = user.sub;
+
     const pedido = await this.prisma.pedido.create({
       data: {
         usuarioId,
-        total,
+        total: dto.total,
         items: {
-          create: items.map((it: any) => ({
+          create: dto.items.map((it) => ({
             productoId: it.productoId,
             cantidad: it.cantidad,
             precioUnit: it.precioUnit,
@@ -48,8 +47,7 @@ export class PedidosController {
       include: { items: true },
     });
 
-    // Decrement stock for productos
-    for (const it of items) {
+    for (const it of dto.items) {
       await this.prisma.producto.update({
         where: { id: it.productoId },
         data: { stock: { decrement: it.cantidad } } as any,

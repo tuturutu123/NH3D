@@ -21,7 +21,7 @@ export default function LoginPage() {
 
     try {
       const response = await api.post('/auth/login', { email, password });
-      setAuth(response.data.access_token, response.data.user);
+      setAuth(response.data.user);
       router.push('/admin');
     } catch (err: unknown) {
       setError((err as { response?: { data?: { message?: string } } }).response?.data?.message || 'Error al iniciar sesión');

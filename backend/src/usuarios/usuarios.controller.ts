@@ -1,5 +1,6 @@
 import { Controller, Get, Param, Delete, Patch, Body } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 
 @Controller('usuarios')
 export class UsuariosController {
@@ -22,14 +23,11 @@ export class UsuariosController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() body: any) {
+  async update(@Param('id') id: string, @Body() dto: UpdateUsuarioDto) {
     const uid = Number(id);
-    const data: any = {};
-    if (body.email) data.email = body.email;
-    if (body.rol) data.rol = body.rol;
     return this.prisma.usuario.update({
       where: { id: uid },
-      data,
+      data: dto,
       select: { id: true, email: true, rol: true },
     });
   }
