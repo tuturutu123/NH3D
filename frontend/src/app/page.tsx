@@ -143,25 +143,50 @@ export default function Home() {
       {/* ── Categorías ──────────────────────────────────────── */}
       <ScrollReveal>
         <section className="py-14 md:py-12">
-          <div className="container mx-auto px-4 max-w-7xl">
-            <div className="flex justify-between items-end mb-6 md:mb-8">
+          <div className="md:container mx-auto px-4 max-w-7xl">
+            <div className="flex justify-between items-end mb-6 md:mb-8 px-4 md:px-0">
               <h2 className="text-lg md:text-xl font-bold text-[#2a3c2e] dark:text-[#a8d5a2] uppercase tracking-wide">Categorías</h2>
               <Link href="/productos" className="text-xs md:text-sm font-bold text-[#627653] dark:text-[#6ba368] hover:text-[#2a3c2e] flex items-center gap-1 transition-colors">
                 VER TODAS <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
-            <div className="grid grid-cols-3 sm:flex sm:overflow-x-auto pb-4 gap-5 md:gap-4 hide-scrollbar">
+
+            {/* Mobile: carrusel horizontal con auto-scroll */}
+            <div className="md:hidden overflow-hidden">
+              <div className="flex gap-4 w-max" style={{ animation: 'marquee 25s linear infinite' }}>
+                {[...categorias, ...categorias].map((cat, i) => (
+                  <a
+                    key={`mob-${cat.id}-${i}`}
+                    href={`#cat-${cat.id}`}
+                    className="flex flex-col items-center gap-2 min-w-[5.5rem] group"
+                  >
+                    <div className="w-16 h-16 rounded-xl bg-white dark:bg-gray-800 border border-[#e5e2d6] dark:border-gray-700 shadow-sm flex items-center justify-center p-2 group-hover:border-[#324b3b] dark:group-hover:border-[#6ba368] transition-all duration-300 overflow-hidden">
+                      <img
+                        src={getCategoriaImagen(cat.nombre)}
+                        alt={cat.nombre}
+                        className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
+                        onError={(e) => { e.currentTarget.src = '/categorias/default.svg'; }}
+                      />
+                    </div>
+                    <span className="font-semibold text-[10px] text-center text-gray-800 dark:text-gray-300 leading-tight w-20 line-clamp-2">{cat.nombre}</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Desktop: grid normal */}
+            <div className="hidden md:grid md:grid-cols-5 lg:grid-cols-6 gap-4">
               {categorias.map((cat, i) => (
                 <motion.a
                   key={cat.id}
                   href={`#cat-${cat.id}`}
-                  className="flex flex-col items-center gap-2.5 min-w-0 group"
+                  className="flex flex-col items-center gap-3 group"
                   initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05, duration: 0.4 }}
                 >
-                  <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl bg-white dark:bg-gray-800 border border-[#e5e2d6] dark:border-gray-700 shadow-sm flex items-center justify-center p-3 group-hover:border-[#324b3b] dark:group-hover:border-[#6ba368] transition-all duration-300 overflow-hidden group-hover:shadow-md">
+                  <div className="w-24 h-24 rounded-2xl bg-white dark:bg-gray-800 border border-[#e5e2d6] dark:border-gray-700 shadow-sm flex items-center justify-center p-3 group-hover:border-[#324b3b] dark:group-hover:border-[#6ba368] transition-all duration-300 overflow-hidden group-hover:shadow-md">
                     <img
                       src={getCategoriaImagen(cat.nombre)}
                       alt={cat.nombre}
@@ -169,7 +194,7 @@ export default function Home() {
                       onError={(e) => { e.currentTarget.src = '/categorias/default.svg'; }}
                     />
                   </div>
-                  <span className="font-semibold text-[11px] md:text-xs text-center text-gray-800 dark:text-gray-300 leading-tight px-1 line-clamp-2">{cat.nombre}</span>
+                  <span className="font-semibold text-xs text-center text-gray-800 dark:text-gray-300 leading-tight px-1 line-clamp-2">{cat.nombre}</span>
                 </motion.a>
               ))}
             </div>
@@ -223,7 +248,7 @@ export default function Home() {
             </div>
             <ProductCarousel>
               {[...productosDestacados, ...productosDestacados].map((producto, i) => (
-                <div key={`${producto.id}-${i}`} className="w-[200px] sm:w-[220px] md:w-[240px] shrink-0">
+                <div key={`${producto.id}-${i}`} className="w-[150px] sm:w-[200px] md:w-[240px] shrink-0">
                   <ProductoCard producto={producto} backendUrl={backendUrl} onAdd={addItem} />
                 </div>
               ))}
@@ -236,8 +261,8 @@ export default function Home() {
       <ScrollReveal>
         <section className="py-10 md:py-12 bg-white dark:bg-[#111827] border-t border-[#e5e2d6] dark:border-gray-800">
           <div className="container mx-auto px-4 max-w-7xl">
-            <h2 className="text-lg md:text-xl font-bold text-[#2a3c2e] dark:text-[#a8d5a2] uppercase tracking-wide mb-6 md:mb-8">Todos los Productos</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
+            <h2 className="text-lg md:text-xl font-bold text-[#2a3c2e] dark:text-[#a8d5a2] uppercase tracking-wide mb-5 md:mb-8">Todos los Productos</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2.5 sm:gap-3 md:gap-6">
               {todosLosProductos.map((producto, i) => (
                 <motion.div
                   key={producto.id}
@@ -274,10 +299,10 @@ function ProductoCard({ producto, backendUrl, onAdd }: { producto: Producto, bac
     : producto.imagenUrl || '';
 
   return (
-    <div className="bg-white dark:bg-[#1e293b] border border-[#eae6db] dark:border-gray-700 rounded-2xl p-3 md:p-4 flex flex-col justify-between hover:shadow-lg transition-all duration-300 group h-full">
-      <div className="relative aspect-square w-full mb-3 md:mb-4 bg-[#fcfbf9] dark:bg-gray-800 rounded-xl overflow-hidden flex items-center justify-center p-2">
+    <div className="bg-white dark:bg-[#1e293b] border border-[#eae6db] dark:border-gray-700 rounded-xl md:rounded-2xl p-2 sm:p-3 md:p-4 flex flex-col justify-between hover:shadow-lg transition-all duration-300 group h-full">
+      <div className="relative aspect-square w-full mb-2 md:mb-4 bg-[#fcfbf9] dark:bg-gray-800 rounded-lg md:rounded-xl overflow-hidden flex items-center justify-center p-1.5 md:p-2">
         {producto.oferta && (
-          <span className="absolute top-1.5 right-1.5 md:top-2 md:right-2 bg-[#d8eed9] dark:bg-[#1a4d24] text-[#2e6b36] dark:text-[#6ba368] text-[9px] md:text-[10px] font-bold px-1.5 py-0.5 md:px-2 md:py-1 rounded-md z-10 animate-fade-in">
+          <span className="absolute top-1 right-1 md:top-2 md:right-2 bg-[#d8eed9] dark:bg-[#1a4d24] text-[#2e6b36] dark:text-[#6ba368] text-[8px] md:text-[10px] font-bold px-1 py-px md:px-1.5 md:py-0.5 rounded z-10 animate-fade-in">
             OFERTA
           </span>
         )}
@@ -294,14 +319,14 @@ function ProductoCard({ producto, backendUrl, onAdd }: { producto: Producto, bac
       </div>
 
       <div className="flex-1 flex flex-col">
-        <h3 className="text-[13px] md:text-sm font-semibold text-gray-900 dark:text-gray-100 line-clamp-2 min-h-[2.5rem] md:min-h-[2.5rem] leading-tight mb-1.5 md:mb-2">
+        <h3 className="text-[11px] sm:text-[13px] md:text-sm font-semibold text-gray-900 dark:text-gray-100 line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem] md:min-h-[2.5rem] leading-tight mb-1 md:mb-2">
           {producto.nombre}
         </h3>
-        <p className="text-base md:text-lg font-bold text-[#2a3c2e] dark:text-[#6ba368] mb-1.5 md:mb-2">
+        <p className="text-sm sm:text-base md:text-lg font-bold text-[#2a3c2e] dark:text-[#6ba368] mb-1 md:mb-2">
           ${producto.precio.toLocaleString('es-AR')}
         </p>
 
-        <div className="flex items-center gap-1 mb-3 md:mb-4 text-[11px] md:text-xs font-medium text-gray-500 dark:text-gray-400">
+        <div className="hidden sm:flex items-center gap-1 mb-2 md:mb-4 text-[11px] md:text-xs font-medium text-gray-500 dark:text-gray-400">
           <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
           <span className="text-gray-800 dark:text-gray-200">4.8</span>
           <span>(125)</span>
@@ -312,7 +337,7 @@ function ProductoCard({ producto, backendUrl, onAdd }: { producto: Producto, bac
         ref={btnRef}
         onClick={handleAgregar}
         disabled={producto.stock <= 0}
-        className={`w-full py-2 md:py-2.5 rounded-xl font-bold text-[11px] md:text-xs flex items-center justify-center gap-1.5 md:gap-2 transition-all duration-300 ${
+        className={`w-full py-1.5 sm:py-2 md:py-2.5 rounded-lg md:rounded-xl font-bold text-[10px] sm:text-[11px] md:text-xs flex items-center justify-center gap-1 md:gap-2 transition-all duration-300 ${
           producto.stock <= 0
             ? 'bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
             : agregado
