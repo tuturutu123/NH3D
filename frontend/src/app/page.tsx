@@ -25,6 +25,7 @@ export default function Home() {
   const [productos, setProductos] = useState<Producto[]>([]);
   const [categorias, setCategorias] = useState<Categoria[]>([]);
   const [loading, setLoading] = useState(true);
+  const [catSeleccionada, setCatSeleccionada] = useState<number | null>(null);
   const addItem = useCartStore((state) => state.addItem);
 
   useEffect(() => {
@@ -146,21 +147,24 @@ export default function Home() {
           <div className="md:container mx-auto px-4 max-w-7xl">
             <div className="flex justify-between items-end mb-6 md:mb-8 px-4 md:px-0">
               <h2 className="text-lg md:text-xl font-bold text-[#2a3c2e] dark:text-[#a8d5a2] uppercase tracking-wide">Categorías</h2>
-              <Link href="/productos" className="text-xs md:text-sm font-bold text-[#627653] dark:text-[#6ba368] hover:text-[#2a3c2e] flex items-center gap-1 transition-colors">
-                VER TODAS <ArrowRight className="h-4 w-4" />
-              </Link>
+              <button
+                onClick={() => { setCatSeleccionada(null); document.getElementById('todos-productos')?.scrollIntoView({ behavior: 'smooth' }); }}
+                className="text-xs md:text-sm font-bold text-[#627653] dark:text-[#6ba368] hover:text-[#2a3c2e] transition-colors"
+              >
+                {catSeleccionada !== null ? 'VER TODAS' : ''}
+              </button>
             </div>
 
             {/* Mobile: carrusel horizontal con auto-scroll */}
             <div className="md:hidden overflow-hidden">
               <div className="flex gap-4 w-max" style={{ animation: 'marquee 25s linear infinite' }}>
                 {[...categorias, ...categorias].map((cat, i) => (
-                  <a
+                  <button
                     key={`mob-${cat.id}-${i}`}
-                    href={`#cat-${cat.id}`}
-                    className="flex flex-col items-center gap-2 min-w-[5.5rem] group"
+                    onClick={() => { setCatSeleccionada(cat.id); document.getElementById('todos-productos')?.scrollIntoView({ behavior: 'smooth' }); }}
+                    className={`flex flex-col items-center gap-2 min-w-[5.5rem] group ${catSeleccionada === cat.id ? 'opacity-100' : 'opacity-100'}`}
                   >
-                    <div className="w-16 h-16 rounded-xl bg-white dark:bg-gray-800 border border-[#e5e2d6] dark:border-gray-700 shadow-sm flex items-center justify-center p-2 group-hover:border-[#324b3b] dark:group-hover:border-[#6ba368] transition-all duration-300 overflow-hidden">
+                    <div className={`w-16 h-16 rounded-xl bg-white dark:bg-gray-800 shadow-sm flex items-center justify-center p-2 transition-all duration-300 overflow-hidden ${catSeleccionada === cat.id ? 'border-2 border-[#324b3b] dark:border-[#6ba368] shadow-md' : 'border border-[#e5e2d6] dark:border-gray-700 group-hover:border-[#324b3b] dark:group-hover:border-[#6ba368]'}`}>
                       <img
                         src={getCategoriaImagen(cat.nombre)}
                         alt={cat.nombre}
@@ -168,8 +172,8 @@ export default function Home() {
                         onError={(e) => { e.currentTarget.src = '/categorias/default.svg'; }}
                       />
                     </div>
-                    <span className="font-semibold text-[10px] text-center text-gray-800 dark:text-gray-300 leading-tight w-20 line-clamp-2">{cat.nombre}</span>
-                  </a>
+                    <span className={`font-semibold text-[10px] text-center leading-tight w-20 line-clamp-2 ${catSeleccionada === cat.id ? 'text-[#324b3b] dark:text-[#6ba368] font-bold' : 'text-gray-800 dark:text-gray-300'}`}>{cat.nombre}</span>
+                  </button>
                 ))}
               </div>
             </div>
@@ -177,16 +181,16 @@ export default function Home() {
             {/* Desktop: grid normal */}
             <div className="hidden md:grid md:grid-cols-5 lg:grid-cols-6 gap-4">
               {categorias.map((cat, i) => (
-                <motion.a
+                <motion.button
                   key={cat.id}
-                  href={`#cat-${cat.id}`}
-                  className="flex flex-col items-center gap-3 group"
+                  onClick={() => { setCatSeleccionada(cat.id); document.getElementById('todos-productos')?.scrollIntoView({ behavior: 'smooth' }); }}
+                  className={`flex flex-col items-center gap-3 group ${catSeleccionada === cat.id ? 'scale-105' : ''}`}
                   initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05, duration: 0.4 }}
                 >
-                  <div className="w-24 h-24 rounded-2xl bg-white dark:bg-gray-800 border border-[#e5e2d6] dark:border-gray-700 shadow-sm flex items-center justify-center p-3 group-hover:border-[#324b3b] dark:group-hover:border-[#6ba368] transition-all duration-300 overflow-hidden group-hover:shadow-md">
+                  <div className={`w-24 h-24 rounded-2xl bg-white dark:bg-gray-800 shadow-sm flex items-center justify-center p-3 transition-all duration-300 overflow-hidden ${catSeleccionada === cat.id ? 'border-2 border-[#324b3b] dark:border-[#6ba368] shadow-md' : 'border border-[#e5e2d6] dark:border-gray-700 group-hover:border-[#324b3b] dark:group-hover:border-[#6ba368] group-hover:shadow-md'}`}>
                     <img
                       src={getCategoriaImagen(cat.nombre)}
                       alt={cat.nombre}
@@ -194,8 +198,8 @@ export default function Home() {
                       onError={(e) => { e.currentTarget.src = '/categorias/default.svg'; }}
                     />
                   </div>
-                  <span className="font-semibold text-xs text-center text-gray-800 dark:text-gray-300 leading-tight px-1 line-clamp-2">{cat.nombre}</span>
-                </motion.a>
+                  <span className={`font-semibold text-xs text-center leading-tight px-1 line-clamp-2 ${catSeleccionada === cat.id ? 'text-[#324b3b] dark:text-[#6ba368] font-bold' : 'text-gray-800 dark:text-gray-300'}`}>{cat.nombre}</span>
+                </motion.button>
               ))}
             </div>
           </div>
@@ -259,22 +263,50 @@ export default function Home() {
 
       {/* ── Todos los Productos ──────────────────────────────── */}
       <ScrollReveal>
-        <section className="py-10 md:py-12 bg-white dark:bg-[#111827] border-t border-[#e5e2d6] dark:border-gray-800">
+        <section className="py-10 md:py-12 bg-white dark:bg-[#111827] border-t border-[#e5e2d6] dark:border-gray-800" id="todos-productos">
           <div className="container mx-auto px-4 max-w-7xl">
-            <h2 className="text-lg md:text-xl font-bold text-[#2a3c2e] dark:text-[#a8d5a2] uppercase tracking-wide mb-5 md:mb-8">Todos los Productos</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2.5 sm:gap-3 md:gap-6">
-              {todosLosProductos.map((producto, i) => (
-                <motion.div
-                  key={producto.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-50px' }}
-                  transition={{ delay: (i % 5) * 0.07, duration: 0.4 }}
+            <div className="flex items-center justify-between mb-5 md:mb-8">
+              <h2 className="text-lg md:text-xl font-bold text-[#2a3c2e] dark:text-[#a8d5a2] uppercase tracking-wide">
+                {catSeleccionada !== null
+                  ? categorias.find(c => c.id === catSeleccionada)?.nombre || 'Productos'
+                  : 'Todos los Productos'}
+              </h2>
+              {catSeleccionada !== null && (
+                <button
+                  onClick={() => setCatSeleccionada(null)}
+                  className="text-[10px] sm:text-xs font-bold text-[#627653] dark:text-[#6ba368] hover:text-[#2a3c2e] dark:hover:text-[#a8d5a2] bg-[#d8eed9]/50 dark:bg-[#1a4d24]/30 px-3 py-1.5 rounded-full transition-colors"
                 >
-                  <ProductoCard producto={producto} backendUrl={backendUrl} onAdd={addItem} />
-                </motion.div>
-              ))}
+                  VER TODAS
+                </button>
+              )}
             </div>
+            {(() => {
+              const filtrados = catSeleccionada !== null
+                ? todosLosProductos.filter(p => p.categoriaId === catSeleccionada)
+                : todosLosProductos;
+              if (filtrados.length === 0) {
+                return (
+                  <p className="text-center text-gray-400 dark:text-gray-500 py-12 text-sm">
+                    No hay productos en esta categoría.
+                  </p>
+                );
+              }
+              return (
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2.5 sm:gap-3 md:gap-6">
+                  {filtrados.map((producto, i) => (
+                    <motion.div
+                      key={producto.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: '-50px' }}
+                      transition={{ delay: (i % 5) * 0.07, duration: 0.4 }}
+                    >
+                      <ProductoCard producto={producto} backendUrl={backendUrl} onAdd={addItem} />
+                    </motion.div>
+                  ))}
+                </div>
+              );
+            })()}
           </div>
         </section>
       </ScrollReveal>
