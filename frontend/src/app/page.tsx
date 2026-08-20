@@ -78,7 +78,7 @@ export default function Home() {
     <div className="bg-[#faf9f6] dark:bg-[#0f172a] min-h-screen">
 
       {/* ── Hero Section ─────────────────────────────────────── */}
-      <section className="relative py-12 md:py-32 overflow-hidden border-b border-[#e5e2d6] dark:border-gray-800">
+      <section className="relative py-16 md:py-32 overflow-hidden border-b border-[#e5e2d6] dark:border-gray-800">
         <div className="absolute inset-0 z-0">
           <Image src="/portada.png" alt="Portada" fill className="object-cover object-center md:object-right pointer-events-none select-none" priority />
         </div>
@@ -91,19 +91,19 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: 'easeOut' }}
           >
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold text-[#2a3c2e] dark:text-[#a8d5a2] leading-[1.05] mb-6 tracking-tight">
+            <h1 className="text-[2rem] sm:text-5xl md:text-7xl font-extrabold text-[#2a3c2e] dark:text-[#a8d5a2] leading-[1.1] mb-4 md:mb-6 tracking-tight">
               Todo lo que<br />te gusta, en un<br />solo lugar.
             </h1>
-            <p className="text-base sm:text-lg text-gray-800 dark:text-gray-300 mb-8 font-medium max-w-md">
+            <p className="text-sm sm:text-lg text-gray-800 dark:text-gray-300 mb-6 md:mb-8 font-medium max-w-md">
               Mates, yerbas, comidas, snacks, bebidas, accesorios y mucho más.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
               <a href="https://wa.me/5493535635221" target="_blank" rel="noopener noreferrer"
-                className="bg-[#25D366] hover:bg-[#1ebd59] text-white font-bold py-3.5 px-6 rounded-full text-center transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-green-900/20 w-full sm:w-auto hover:shadow-xl hover:shadow-green-900/30 hover:scale-[1.02]">
-                <Phone className="h-5 w-5" /> PEDIR POR WHATSAPP
+                className="bg-[#25D366] hover:bg-[#1ebd59] text-white font-bold py-3 px-6 md:py-3.5 rounded-full text-center transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-green-900/20 w-full sm:w-auto hover:shadow-xl hover:shadow-green-900/30 hover:scale-[1.02] text-sm md:text-base">
+                <Phone className="h-4 w-4 md:h-5 md:w-5" /> PEDIR POR WHATSAPP
               </a>
               <Link href="/productos"
-                className="border-2 border-[#2a3c2e] dark:border-[#6ba368] bg-[#e5e3d9]/50 dark:bg-gray-800/50 backdrop-blur-sm text-[#2a3c2e] dark:text-[#6ba368] hover:bg-[#2a3c2e] hover:text-white dark:hover:bg-[#6ba368] dark:hover:text-[#0f172a] font-bold py-3.5 px-8 rounded-full text-center transition-all duration-300 w-full sm:w-auto hover:scale-[1.02]">
+                className="border-2 border-[#2a3c2e] dark:border-[#6ba368] bg-[#e5e3d9]/50 dark:bg-gray-800/50 backdrop-blur-sm text-[#2a3c2e] dark:text-[#6ba368] hover:bg-[#2a3c2e] hover:text-white dark:hover:bg-[#6ba368] dark:hover:text-[#0f172a] font-bold py-3 px-6 md:py-3.5 md:px-8 rounded-full text-center transition-all duration-300 w-full sm:w-auto hover:scale-[1.02] text-sm md:text-base">
                 VER PRODUCTOS
               </Link>
             </div>
@@ -113,9 +113,9 @@ export default function Home() {
 
       {/* ── Features Bar ─────────────────────────────────────── */}
       <ScrollReveal>
-        <section className="bg-white dark:bg-[#111827] py-6 border-b border-[#e5e2d6] dark:border-gray-800">
+        <section className="bg-white dark:bg-[#111827] py-6 md:py-6 border-b border-[#e5e2d6] dark:border-gray-800">
           <div className="container mx-auto px-4 max-w-7xl">
-            <div className="flex flex-col sm:flex-row sm:flex-wrap justify-between items-center gap-4 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <div className="grid grid-cols-2 gap-x-6 gap-y-5 sm:flex sm:flex-wrap sm:justify-between sm:items-center sm:gap-4 text-sm font-medium text-gray-700 dark:text-gray-300">
               <motion.div className="flex items-center gap-3 stagger-1" whileHover={{ y: -2 }} transition={{ type: 'spring', stiffness: 400 }}>
                 <Truck className="h-5 w-5 text-[#7d6f5f] dark:text-[#6ba368]" />
                 <span>Envíos rápidos<br /><span className="text-xs text-gray-500 font-normal">en Villa Mercedes</span></span>
@@ -142,26 +142,26 @@ export default function Home() {
 
       {/* ── Categorías ──────────────────────────────────────── */}
       <ScrollReveal>
-        <section className="py-12">
+        <section className="py-14 md:py-12">
           <div className="container mx-auto px-4 max-w-7xl">
-            <div className="flex justify-between items-end mb-8">
-              <h2 className="text-xl font-bold text-[#2a3c2e] dark:text-[#a8d5a2] uppercase tracking-wide">Categorías</h2>
-              <Link href="/productos" className="text-sm font-bold text-[#627653] dark:text-[#6ba368] hover:text-[#2a3c2e] flex items-center gap-1 transition-colors">
+            <div className="flex justify-between items-end mb-6 md:mb-8">
+              <h2 className="text-lg md:text-xl font-bold text-[#2a3c2e] dark:text-[#a8d5a2] uppercase tracking-wide">Categorías</h2>
+              <Link href="/productos" className="text-xs md:text-sm font-bold text-[#627653] dark:text-[#6ba368] hover:text-[#2a3c2e] flex items-center gap-1 transition-colors">
                 VER TODAS <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
-            <div className="grid grid-cols-3 sm:flex sm:overflow-x-auto pb-4 gap-4 hide-scrollbar">
+            <div className="grid grid-cols-3 sm:flex sm:overflow-x-auto pb-4 gap-5 md:gap-4 hide-scrollbar">
               {categorias.map((cat, i) => (
                 <motion.a
                   key={cat.id}
                   href={`#cat-${cat.id}`}
-                  className="flex flex-col items-center gap-3 min-w-25 group"
+                  className="flex flex-col items-center gap-2.5 min-w-0 group"
                   initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05, duration: 0.4 }}
                 >
-                  <div className="w-24 h-24 rounded-2xl bg-white dark:bg-gray-800 border border-[#e5e2d6] dark:border-gray-700 shadow-sm flex items-center justify-center p-3 group-hover:border-[#324b3b] dark:group-hover:border-[#6ba368] transition-all duration-300 overflow-hidden group-hover:shadow-md">
+                  <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl bg-white dark:bg-gray-800 border border-[#e5e2d6] dark:border-gray-700 shadow-sm flex items-center justify-center p-3 group-hover:border-[#324b3b] dark:group-hover:border-[#6ba368] transition-all duration-300 overflow-hidden group-hover:shadow-md">
                     <img
                       src={getCategoriaImagen(cat.nombre)}
                       alt={cat.nombre}
@@ -169,7 +169,7 @@ export default function Home() {
                       onError={(e) => { e.currentTarget.src = '/categorias/default.svg'; }}
                     />
                   </div>
-                  <span className="font-semibold text-xs text-center text-gray-800 dark:text-gray-300 leading-tight w-20">{cat.nombre}</span>
+                  <span className="font-semibold text-[11px] md:text-xs text-center text-gray-800 dark:text-gray-300 leading-tight px-1 line-clamp-2">{cat.nombre}</span>
                 </motion.a>
               ))}
             </div>
@@ -179,13 +179,13 @@ export default function Home() {
 
       {/* ── Ofertas Destacadas ───────────────────────────────── */}
       <ScrollReveal>
-        <section className="py-8" id="ofertas">
+        <section className="py-10 md:py-8" id="ofertas">
           <div className="container mx-auto px-4 max-w-7xl">
-            <div className="flex justify-between items-end mb-6">
-              <h2 className="text-xl font-bold text-[#2a3c2e] dark:text-[#a8d5a2] uppercase tracking-wide">Ofertas Destacadas</h2>
-              <Link href="/productos" className="text-sm font-bold text-[#627653] dark:text-[#6ba368] hover:text-[#2a3c2e] flex items-center gap-1">VER TODAS <ArrowRight className="h-4 w-4" /></Link>
+            <div className="flex justify-between items-end mb-5 md:mb-6">
+              <h2 className="text-lg md:text-xl font-bold text-[#2a3c2e] dark:text-[#a8d5a2] uppercase tracking-wide">Ofertas Destacadas</h2>
+              <Link href="/productos" className="text-xs md:text-sm font-bold text-[#627653] dark:text-[#6ba368] hover:text-[#2a3c2e] flex items-center gap-1">VER TODAS <ArrowRight className="h-4 w-4" /></Link>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
               {[
                 { title: 'Combo\nMateador', sub: 'Mate + Yerba + Bombilla', price: '$15.990', bg: 'bg-[#5a6b5a] dark:bg-[#2d4a35]', text: 'text-white', priceColor: '' },
                 { title: '2 Yerbas\nCBSé 500g', sub: 'Tradicional o Silueta', price: '$7.990', bg: 'bg-[#f0ece1] dark:bg-[#1e293b]', text: 'text-[#2a3c2e] dark:text-gray-100', priceColor: 'text-[#b4483a]', border: 'border border-[#e5e2d6] dark:border-gray-700' },
@@ -194,16 +194,16 @@ export default function Home() {
               ].map((oferta, i) => (
                 <motion.div
                   key={i}
-                  className={`${oferta.bg} ${oferta.text} ${oferta.border || ''} rounded-2xl p-6 relative overflow-hidden h-48 flex flex-col justify-center cursor-default`}
+                  className={`${oferta.bg} ${oferta.text} ${oferta.border || ''} rounded-2xl p-4 md:p-6 relative overflow-hidden h-36 md:h-48 flex flex-col justify-center cursor-default`}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1, duration: 0.5 }}
                   whileHover={{ scale: 1.02, y: -4 }}
                 >
-                  <h3 className="font-bold text-xl uppercase leading-tight mb-1 whitespace-pre-line">{oferta.title}</h3>
-                  <p className="text-xs opacity-90 mb-3">{oferta.sub}</p>
-                  <p className={`font-bold text-2xl ${oferta.priceColor}`}>{oferta.price}</p>
+                  <h3 className="font-bold text-base md:text-xl uppercase leading-tight mb-1 whitespace-pre-line">{oferta.title}</h3>
+                  <p className="text-[11px] md:text-xs opacity-90 mb-2 md:mb-3">{oferta.sub}</p>
+                  <p className={`font-bold text-lg md:text-2xl ${oferta.priceColor}`}>{oferta.price}</p>
                 </motion.div>
               ))}
             </div>
@@ -214,11 +214,11 @@ export default function Home() {
       {/* ── Productos Destacados (Carrusel infinito) ──────────── */}
       {productosDestacados.length > 0 && (
         <ScrollReveal>
-          <section className="py-12" id="productos">
+          <section className="py-10 md:py-12" id="productos">
             <div className="container mx-auto px-4 max-w-7xl">
-              <div className="flex justify-between items-end mb-6">
-                <h2 className="text-xl font-bold text-[#2a3c2e] dark:text-[#a8d5a2] uppercase tracking-wide">Productos Destacados</h2>
-                <Link href="/productos" className="text-sm font-bold text-[#627653] dark:text-[#6ba368] hover:text-[#2a3c2e] flex items-center gap-1">VER TODOS <ArrowRight className="h-4 w-4" /></Link>
+              <div className="flex justify-between items-end mb-5 md:mb-6">
+                <h2 className="text-lg md:text-xl font-bold text-[#2a3c2e] dark:text-[#a8d5a2] uppercase tracking-wide">Productos Destacados</h2>
+                <Link href="/productos" className="text-xs md:text-sm font-bold text-[#627653] dark:text-[#6ba368] hover:text-[#2a3c2e] flex items-center gap-1">VER TODOS <ArrowRight className="h-4 w-4" /></Link>
               </div>
             </div>
             <ProductCarousel>
@@ -234,10 +234,10 @@ export default function Home() {
 
       {/* ── Todos los Productos ──────────────────────────────── */}
       <ScrollReveal>
-        <section className="py-12 bg-white dark:bg-[#111827] border-t border-[#e5e2d6] dark:border-gray-800">
+        <section className="py-10 md:py-12 bg-white dark:bg-[#111827] border-t border-[#e5e2d6] dark:border-gray-800">
           <div className="container mx-auto px-4 max-w-7xl">
-            <h2 className="text-xl font-bold text-[#2a3c2e] dark:text-[#a8d5a2] uppercase tracking-wide mb-8">Todos los Productos</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-6">
+            <h2 className="text-lg md:text-xl font-bold text-[#2a3c2e] dark:text-[#a8d5a2] uppercase tracking-wide mb-6 md:mb-8">Todos los Productos</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
               {todosLosProductos.map((producto, i) => (
                 <motion.div
                   key={producto.id}
@@ -274,10 +274,10 @@ function ProductoCard({ producto, backendUrl, onAdd }: { producto: Producto, bac
     : producto.imagenUrl || '';
 
   return (
-    <div className="bg-white dark:bg-[#1e293b] border border-[#eae6db] dark:border-gray-700 rounded-2xl p-4 flex flex-col justify-between hover:shadow-lg transition-all duration-300 group h-full">
-      <div className="relative aspect-square w-full mb-4 bg-[#fcfbf9] dark:bg-gray-800 rounded-xl overflow-hidden flex items-center justify-center p-2">
+    <div className="bg-white dark:bg-[#1e293b] border border-[#eae6db] dark:border-gray-700 rounded-2xl p-3 md:p-4 flex flex-col justify-between hover:shadow-lg transition-all duration-300 group h-full">
+      <div className="relative aspect-square w-full mb-3 md:mb-4 bg-[#fcfbf9] dark:bg-gray-800 rounded-xl overflow-hidden flex items-center justify-center p-2">
         {producto.oferta && (
-          <span className="absolute top-2 right-2 bg-[#d8eed9] dark:bg-[#1a4d24] text-[#2e6b36] dark:text-[#6ba368] text-[10px] font-bold px-2 py-1 rounded-md z-10 animate-fade-in">
+          <span className="absolute top-1.5 right-1.5 md:top-2 md:right-2 bg-[#d8eed9] dark:bg-[#1a4d24] text-[#2e6b36] dark:text-[#6ba368] text-[9px] md:text-[10px] font-bold px-1.5 py-0.5 md:px-2 md:py-1 rounded-md z-10 animate-fade-in">
             OFERTA
           </span>
         )}
@@ -294,14 +294,14 @@ function ProductoCard({ producto, backendUrl, onAdd }: { producto: Producto, bac
       </div>
 
       <div className="flex-1 flex flex-col">
-        <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 line-clamp-2 min-h-10 leading-tight mb-2">
+        <h3 className="text-[13px] md:text-sm font-semibold text-gray-900 dark:text-gray-100 line-clamp-2 min-h-[2.5rem] md:min-h-[2.5rem] leading-tight mb-1.5 md:mb-2">
           {producto.nombre}
         </h3>
-        <p className="text-lg font-bold text-[#2a3c2e] dark:text-[#6ba368] mb-2">
+        <p className="text-base md:text-lg font-bold text-[#2a3c2e] dark:text-[#6ba368] mb-1.5 md:mb-2">
           ${producto.precio.toLocaleString('es-AR')}
         </p>
 
-        <div className="flex items-center gap-1 mb-4 text-xs font-medium text-gray-500 dark:text-gray-400">
+        <div className="flex items-center gap-1 mb-3 md:mb-4 text-[11px] md:text-xs font-medium text-gray-500 dark:text-gray-400">
           <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
           <span className="text-gray-800 dark:text-gray-200">4.8</span>
           <span>(125)</span>
@@ -312,7 +312,7 @@ function ProductoCard({ producto, backendUrl, onAdd }: { producto: Producto, bac
         ref={btnRef}
         onClick={handleAgregar}
         disabled={producto.stock <= 0}
-        className={`w-full py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all duration-300 ${
+        className={`w-full py-2 md:py-2.5 rounded-xl font-bold text-[11px] md:text-xs flex items-center justify-center gap-1.5 md:gap-2 transition-all duration-300 ${
           producto.stock <= 0
             ? 'bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
             : agregado
