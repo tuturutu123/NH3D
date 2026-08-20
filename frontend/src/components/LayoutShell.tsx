@@ -1,48 +1,55 @@
 "use client";
 import React from 'react';
 import { usePathname } from 'next/navigation';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ShoppingCart } from 'lucide-react';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import CartDrawer from './CartDrawer';
+import { useCartStore } from '../store/cartStore';
 
 export default function LayoutShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() || '';
   const isAdmin = pathname.startsWith('/admin');
+  const items = useCartStore((s) => s.items);
+  const openCart = useCartStore((s) => s.openCart);
+  const totalItems = items.reduce((acc, item) => acc + item.cantidad, 0);
 
   return (
     <>
       {!isAdmin && <Navbar />}
 
-      {/* main area — children provided by the parent layout */}
       <main className="grow">{children}</main>
 
       {!isAdmin && <Footer />}
-
-      {/* Hide cart drawer and floating contact in admin */}
       {!isAdmin && <CartDrawer />}
 
+      {/* Floating Cart Button (replaces WhatsApp) */}
       {!isAdmin && (
-        <a
-          href="https://wa.me/5493535635221"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="fixed bottom-6 right-6 bg-[#25D366] text-white p-4 rounded-full shadow-lg animate-pulse hover:scale-110 transition-transform z-50 flex items-center justify-center"
-          aria-label="Contactar por WhatsApp"
-          title="Contactar por WhatsApp"
+        <motion.button
+          onClick={openCart}
+          className="fixed bottom-6 right-6 bg-[#324b3b] dark:bg-[#6ba368] text-white p-4 rounded-full shadow-lg z-50 flex items-center justify-center hover:scale-110 transition-transform"
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ type: 'spring', stiffness: 260, damping: 20, delay: 0.5 }}
+          aria-label="Abrir carrito"
+          title="Abrir carrito"
         >
-          <svg
-            viewBox="0 0 24 24"
-            width="28"
-            height="28"
-            stroke="currentColor"
-            strokeWidth="2"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-          </svg>
-        </a>
+          <ShoppingCart className="h-6 w-6" />
+          <AnimatePresence>
+            {totalItems > 0 && (
+              <motion.span
+                key={totalItems}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0 }}
+                className="absolute -top-1 -right-1 bg-[#b4483a] text-white text-[10px] font-bold h-5 w-5 rounded-full flex items-center justify-center"
+              >
+                {totalItems}
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </motion.button>
       )}
     </>
   );

@@ -1,30 +1,16 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
+import { motion, AnimatePresence } from 'framer-motion';
 import { useCartStore } from '../../store/cartStore';
+import { buildWhatsAppUrl } from '../../lib/whatsapp';
 import { Trash2, Plus, Minus, ShoppingBag, ArrowLeft, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 
 export default function CarritoPage() {
-  const { items, addItem, updateQuantity, removeItem, clearCart } = useCartStore();
+  const { items, updateQuantity, removeItem, clearCart } = useCartStore();
 
   const totalGeneral = items.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
-
-  const handleCheckoutWhatsApp = () => {
-    if (items.length === 0) return;
-
-    let mensaje = "Hola! 🌿 Vengo de *Natura Tienda de Productos* y quiero realizar el siguiente pedido:\n\n";
-    items.forEach((item, index) => {
-      mensaje += `${index + 1}. *${item.nombre}* x${item.cantidad} - $${(item.precio * item.cantidad).toLocaleString('es-AR')}\n`;
-    });
-    mensaje += `\n*TOTAL A PAGAR: $${totalGeneral.toLocaleString('es-AR')}*`;
-    mensaje += `\n\nQuedo a la espera de la coordinación del pago y envío en Villa Mercedes. ¡Gracias!`;
-
-    const telefono = "5493535635221";
-    const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
-    window.open(url, '_blank');
-  };
 
   if (items.length === 0) {
     return (
@@ -58,8 +44,17 @@ export default function CarritoPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-4">
-            {items.map((item) => (
-              <div key={item.id} className="bg-white dark:bg-[#1e293b] border border-[#eae6db] dark:border-gray-700 rounded-2xl p-4 flex items-center gap-4 shadow-sm">
+            <AnimatePresence mode="popLayout">
+              {items.map((item) => (
+                <motion.div
+                  key={item.id}
+                  layout
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -30, scale: 0.95 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                  className="bg-white dark:bg-[#1e293b] border border-[#eae6db] dark:border-gray-700 rounded-2xl p-4 flex items-center gap-4 shadow-sm"
+                >
                 <div className="h-20 w-20 rounded-xl bg-[#fcfbf9] dark:bg-gray-800 border border-gray-100 dark:border-gray-700 overflow-hidden shrink-0 flex items-center justify-center p-2">
                   {item.imagenUrl ? (
                     <img src={item.imagenUrl} alt={item.nombre} className="h-full w-full object-contain" />
@@ -97,8 +92,9 @@ export default function CarritoPage() {
                 >
                   <Trash2 className="h-4 w-4" />
                 </button>
-              </div>
-            ))}
+              </motion.div>
+              ))}
+            </AnimatePresence>
 
             <div className="flex justify-between items-center pt-2">
               <button 
@@ -129,12 +125,14 @@ export default function CarritoPage() {
                 </div>
               </div>
 
-              <button 
-                onClick={handleCheckoutWhatsApp}
+              <a
+                href={buildWhatsAppUrl(items)}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-full bg-[#25D366] hover:bg-[#1ebd59] text-white font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-green-900/10 flex items-center justify-center gap-2 transition-colors text-sm"
               >
                 <MessageCircle className="h-5 w-5" /> PEDIR POR WHATSAPP
-              </button>
+              </a>
               
               <p className="text-[11px] text-center text-gray-400 mt-4">
                 Al hacer clic serás redirigido a WhatsApp para enviar el detalle exacto de tu compra al vendedor.

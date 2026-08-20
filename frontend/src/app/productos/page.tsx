@@ -44,10 +44,10 @@ export default async function ProductosPage({ searchParams }: { searchParams?: a
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {filtrados.map((producto: any) => (
-            <div key={producto.id} className="bg-white dark:bg-[#1e293b] rounded-2xl p-4 shadow-sm border border-[#ece7dc] dark:border-gray-700 hover:shadow-lg transition-all duration-200">
+            <div key={producto.id} className="bg-white dark:bg-[#1e293b] rounded-2xl p-4 shadow-sm border border-[#ece7dc] dark:border-gray-700 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
               <div className="h-40 mb-4 flex items-center justify-center rounded-xl bg-[#f6f4ef] dark:bg-gray-800 overflow-hidden">
                 {producto.imagenUrl ? (
-                  <img src={producto.imagenUrl} alt={producto.nombre} className="max-h-full object-contain p-2" />
+                  <img src={producto.imagenUrl} alt={producto.nombre} className="max-h-full object-contain p-2" loading="lazy" />
                 ) : (
                   <div className="text-sm text-gray-400">Sin imagen</div>
                 )}
