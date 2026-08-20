@@ -47,7 +47,9 @@ export default function Home() {
     );
   }
 
+  const productosOferta = productos.filter(p => p.oferta).slice(0, 10);
   const productosDestacados = productos.filter(p => p.destacado).slice(0, 10);
+  const carruselProductos = productosDestacados.length > 0 ? productosDestacados : productos.slice(0, 10);
   const todosLosProductos = productos.slice(0, 10);
 
   const getCategoriaImagen = (nombre: string) => {
@@ -171,60 +173,53 @@ export default function Home() {
         </section>
       </ScrollReveal>
 
-      {/* ── Ofertas Destacadas ───────────────────────────────── */}
+      {/* ── Ofertas Destacadas (Carrusel) ──────────────────── */}
       <ScrollReveal>
-        <section className="py-8" id="ofertas">
+        <section className="py-10" id="ofertas">
           <div className="container mx-auto px-4 max-w-7xl">
             <div className="flex justify-between items-end mb-6">
               <h2 className="text-xl font-bold text-[#2a3c2e] dark:text-[#a8d5a2] uppercase tracking-wide">Ofertas Destacadas</h2>
               <Link href="/productos" className="text-sm font-bold text-[#627653] dark:text-[#6ba368] hover:text-[#2a3c2e] flex items-center gap-1">VER TODAS <ArrowRight className="h-4 w-4" /></Link>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {[
-                { title: 'Combo\nMateador', sub: 'Mate + Yerba + Bombilla', price: '$15.990', bg: 'bg-[#5a6b5a] dark:bg-[#2d4a35]', text: 'text-white', priceColor: '' },
-                { title: '2 Yerbas\nCBSé 500g', sub: 'Tradicional o Silueta', price: '$7.990', bg: 'bg-[#f0ece1] dark:bg-[#1e293b]', text: 'text-[#2a3c2e] dark:text-gray-100', priceColor: 'text-[#b4483a]', border: 'border border-[#e5e2d6] dark:border-gray-700' },
-                { title: 'Termo\nStanley 1L', sub: 'Clásico verde', price: '$32.990', bg: 'bg-[#f8f4e6] dark:bg-[#1e293b]', text: 'text-[#2a3c2e] dark:text-gray-100', priceColor: '', border: 'border border-[#e5e2d6] dark:border-gray-700' },
-                { title: 'Snacks\nFavoritos', sub: 'Llevando 3 pagás 2', price: '-33% OFF', bg: 'bg-[#f7eedd] dark:bg-[#1e293b]', text: 'text-[#2a3c2e] dark:text-gray-100', priceColor: 'text-[#b4483a]', border: 'border border-[#e5e2d6] dark:border-gray-700' },
-              ].map((oferta, i) => (
-                <motion.div
-                  key={i}
-                  className={`${oferta.bg} ${oferta.text} ${oferta.border || ''} rounded-2xl p-6 relative overflow-hidden h-48 flex flex-col justify-center cursor-default`}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1, duration: 0.5 }}
-                  whileHover={{ scale: 1.02, y: -4 }}
-                >
-                  <h3 className="font-bold text-xl uppercase leading-tight mb-1 whitespace-pre-line">{oferta.title}</h3>
-                  <p className="text-xs opacity-90 mb-3">{oferta.sub}</p>
-                  <p className={`font-bold text-2xl ${oferta.priceColor}`}>{oferta.price}</p>
-                </motion.div>
-              ))}
-            </div>
           </div>
-        </section>
-      </ScrollReveal>
-
-      {/* ── Productos Destacados (Carrusel infinito) ──────────── */}
-      {productosDestacados.length > 0 && (
-        <ScrollReveal>
-          <section className="py-12" id="productos">
-            <div className="container mx-auto px-4 max-w-7xl">
-              <div className="flex justify-between items-end mb-6">
-                <h2 className="text-xl font-bold text-[#2a3c2e] dark:text-[#a8d5a2] uppercase tracking-wide">Productos Destacados</h2>
-                <Link href="/productos" className="text-sm font-bold text-[#627653] dark:text-[#6ba368] hover:text-[#2a3c2e] flex items-center gap-1">VER TODOS <ArrowRight className="h-4 w-4" /></Link>
-              </div>
-            </div>
-            <ProductCarousel>
-              {[...productosDestacados, ...productosDestacados].map((producto, i) => (
-                <div key={`${producto.id}-${i}`} className="w-[200px] sm:w-[220px] md:w-[240px] shrink-0">
+          {productosOferta.length > 0 ? (
+            <ProductCarousel speed="slow">
+              {[...productosOferta, ...productosOferta].map((producto, i) => (
+                <div key={`oferta-${producto.id}-${i}`} className="w-[200px] sm:w-[220px] md:w-[240px] shrink-0">
                   <ProductoCard producto={producto} backendUrl={backendUrl} onAdd={addItem} />
                 </div>
               ))}
             </ProductCarousel>
-          </section>
-        </ScrollReveal>
-      )}
+          ) : (
+            <ProductCarousel speed="slow">
+              {[...productos, ...productos].slice(0, 20).map((producto, i) => (
+                <div key={`all-${producto.id}-${i}`} className="w-[200px] sm:w-[220px] md:w-[240px] shrink-0">
+                  <ProductoCard producto={producto} backendUrl={backendUrl} onAdd={addItem} />
+                </div>
+              ))}
+            </ProductCarousel>
+          )}
+        </section>
+      </ScrollReveal>
+
+      {/* ── Productos (Carrusel infinito) ────────────────────── */}
+      <ScrollReveal>
+        <section className="py-10" id="productos">
+          <div className="container mx-auto px-4 max-w-7xl">
+            <div className="flex justify-between items-end mb-6">
+              <h2 className="text-xl font-bold text-[#2a3c2e] dark:text-[#a8d5a2] uppercase tracking-wide">Nuestros Productos</h2>
+              <Link href="/productos" className="text-sm font-bold text-[#627653] dark:text-[#6ba368] hover:text-[#2a3c2e] flex items-center gap-1">VER TODOS <ArrowRight className="h-4 w-4" /></Link>
+            </div>
+          </div>
+          <ProductCarousel>
+            {[...carruselProductos, ...carruselProductos].map((producto, i) => (
+              <div key={`prod-${producto.id}-${i}`} className="w-[200px] sm:w-[220px] md:w-[240px] shrink-0">
+                <ProductoCard producto={producto} backendUrl={backendUrl} onAdd={addItem} />
+              </div>
+            ))}
+          </ProductCarousel>
+        </section>
+      </ScrollReveal>
 
       {/* ── Todos los Productos ──────────────────────────────── */}
       <ScrollReveal>
