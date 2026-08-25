@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, type FormEvent } from 'react';
 import { Search as SearchIcon, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
@@ -14,7 +14,7 @@ export default function SearchBar() {
     if (open) inputRef.current?.focus();
   }, [open]);
 
-  const submit = (e?: any) => {
+  const submit = (e?: FormEvent<HTMLFormElement>) => {
     if (e) e.preventDefault();
     setOpen(false);
     const encoded = encodeURIComponent(q || '');

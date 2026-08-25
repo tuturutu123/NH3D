@@ -1,8 +1,24 @@
 "use client";
 import { useEffect, useState } from 'react';
 
+interface PedidoItem {
+  id: number;
+  cantidad: number;
+  precioUnit: number;
+  producto?: { nombre?: string };
+}
+
+interface Pedido {
+  id: number;
+  creadoAt: string;
+  total: number;
+  estado: string;
+  usuario?: { email?: string };
+  items: PedidoItem[];
+}
+
 export default function AdminPedidos() {
-  const [pedidos, setPedidos] = useState<any[]>([]);
+  const [pedidos, setPedidos] = useState<Pedido[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -39,7 +55,7 @@ export default function AdminPedidos() {
                 <div>
                   <div className="text-sm font-semibold mb-1">Items:</div>
                   <ul className="list-disc list-inside text-sm">
-                    {p.items.map((it: any) => (
+                    {p.items.map((it) => (
                       <li key={it.id}>{it.cantidad} x {it.producto?.nombre || 'Producto'} — ${it.precioUnit}</li>
                     ))}
                   </ul>

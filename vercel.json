@@ -6,8 +6,7 @@
     },
     "backend": {
       "root": "backend",
-      "runtime": "container",
-      "entrypoint": "Dockerfile.vercel"
+      "buildCommand": "npx prisma generate && npm run build"
     }
   },
   "rewrites": [

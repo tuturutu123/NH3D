@@ -1,8 +1,14 @@
 "use client";
 import { useEffect, useState } from 'react';
 
+interface Cliente {
+  id: number;
+  email?: string;
+  rol?: string;
+}
+
 export default function AdminClientes() {
-  const [clientes, setClientes] = useState<any[]>([]);
+  const [clientes, setClientes] = useState<Cliente[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

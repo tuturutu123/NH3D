@@ -54,5 +54,5 @@ npm run build        # build de producción
 - El `.env` del backend tiene credenciales reales de la DB y secretos de Cloudinary — nunca commitear cambios al mismo
 - El usuario admin se inicializa con `GET /api/auth/init` (no hay archivo de seed)
 - En el backend, `@typescript-eslint/no-explicit-any` está desactivado; `no-floating-promises` es solo warning
-- No hay CI ni Makefile — el deploy es un único proyecto Vercel en modo **Services** (`vercel.json` de la raíz): servicio `frontend` (Next.js) sirve `/` y servicio `backend` (contenedor Node vía `backend/Dockerfile.vercel`, escucha en `$PORT`) sirve bajo `/api/*`. En producción hay que setear `NEXT_PUBLIC_API_URL=https://<dominio>/api` para que el frontend llame al backend same-origin
+- No hay CI ni Makefile — el deploy es un único proyecto Vercel en modo **Services** (`vercel.json` de la raíz): servicio `frontend` (Next.js) sirve `/` y servicio `backend` (NestJS con soporte nativo de Vercel, entrypoint auto-detectado en `backend/src/main.ts`, build: `npx prisma generate && npm run build`) sirve bajo `/api/*`. En producción hay que setear `NEXT_PUBLIC_API_URL=https://<dominio>/api` para que el frontend llame al backend same-origin
 - `frontend/AGENTS.md` y `frontend/CLAUDE.md` son auto-generados por Next.js — no editar a mano

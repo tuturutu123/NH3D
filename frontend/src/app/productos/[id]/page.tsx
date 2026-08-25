@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Minus, Plus, ShoppingCart, Star } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { catalogProducts } from '../../../lib/catalog';
+import { catalogProducts, type CatalogProduct } from '../../../lib/catalog';
 import { useCartStore } from '../../../store/cartStore';
 import SmartImage from '../../../components/SmartImage';
 
@@ -15,19 +15,19 @@ export default function ProductoDetallePage() {
   const params = useParams();
   const id = Number(params?.id ?? 0);
   const [cantidad, setCantidad] = useState(1);
-  const [producto, setProducto] = useState<any | null>(null);
-  const [relacionados, setRelacionados] = useState<any[]>([]);
+  const [producto, setProducto] = useState<CatalogProduct | null>(null);
+  const [relacionados, setRelacionados] = useState<CatalogProduct[]>([]);
   const [added, setAdded] = useState(false);
   const addItem = useCartStore((state) => state.addItem);
 
   useEffect(() => {
     const cargar = async () => {
       try {
-        const res = await fetch(`${API_URL}/productos/${id}`);
+        const res = await fetch(`${API_URL}/productos/${id}`, { signal: AbortSignal.timeout(6000) });
         if (!res.ok) throw new Error('No encontrado');
         const data = await res.json();
         setProducto(data || catalogProducts[0]);
-        const productos = await fetch(`${API_URL}/productos`).then(r => r.ok ? r.json() : catalogProducts);
+        const productos = await fetch(`${API_URL}/productos`, { signal: AbortSignal.timeout(6000) }).then(r => r.ok ? r.json() : catalogProducts);
         setRelacionados((Array.isArray(productos) ? productos : catalogProducts).filter((item) => item.id !== data?.id).slice(0, 4));
       } catch {
         const fallback = catalogProducts.find((item) => item.id === id) || catalogProducts[0];

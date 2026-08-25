@@ -6,7 +6,6 @@ import { useThemeStore, initTheme } from '../store/themeStore';
 
 export default function ThemeToggle() {
   const { theme, toggleTheme } = useThemeStore();
-  const mounted = useThemeStore((s) => s.theme !== 'light' || typeof window !== 'undefined');
 
   useEffect(() => {
     initTheme();

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Search, SearchX, ShoppingCart } from 'lucide-react';
-import { catalogProducts } from '../../lib/catalog';
+import { catalogProducts, type CatalogProduct } from '../../lib/catalog';
 import SmartImage from '../../components/SmartImage';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
@@ -8,7 +8,7 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 async function fetchProductos(q?: string) {
   try {
     const url = `${API_BASE}/productos${q ? `?q=${encodeURIComponent(q)}` : ''}`;
-    const res = await fetch(url, { cache: 'no-store' });
+    const res = await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(4000) });
     if (!res.ok) return catalogProducts;
     const data = await res.json();
     return Array.isArray(data) && data.length > 0 ? data : catalogProducts;
@@ -17,12 +17,17 @@ async function fetchProductos(q?: string) {
   }
 }
 
-export default async function ProductosPage({ searchParams }: { searchParams?: any }) {
+export default async function ProductosPage({
+  searchParams,
+}: {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+}) {
   const params = await searchParams;
-  const q = (params?.query || params?.q || '').trim().toLowerCase();
+  const rawQ = params?.query ?? params?.q;
+  const q = (Array.isArray(rawQ) ? rawQ[0] : rawQ ?? '').trim().toLowerCase();
   const productos = await fetchProductos(q);
   const filtrados = q
-    ? productos.filter((producto: any) => {
+    ? productos.filter((producto: CatalogProduct) => {
         const nombre = String(producto.nombre || '').toLowerCase();
         const categoria = String(producto.categoria?.nombre || producto.categoria || '').toLowerCase();
         return nombre.includes(q) || categoria.includes(q);
@@ -44,7 +49,7 @@ export default async function ProductosPage({ searchParams }: { searchParams?: a
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {filtrados.map((producto: any, i: number) => (
+          {filtrados.map((producto: CatalogProduct, i: number) => (
             <div
               key={producto.id}
               className="group animate-fade-in-up bg-white dark:bg-[#1e293b] rounded-2xl p-4 shadow-sm border border-[#dce5ee] dark:border-gray-700 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"

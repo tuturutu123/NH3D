@@ -1,8 +1,14 @@
 "use client";
 import { useEffect, useState } from 'react';
 
+interface ProductoInventario {
+  id: number;
+  nombre?: string;
+  stock: number;
+}
+
 export default function AdminInventario() {
-  const [productos, setProductos] = useState<any[]>([]);
+  const [productos, setProductos] = useState<ProductoInventario[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

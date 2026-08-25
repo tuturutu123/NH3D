@@ -3,18 +3,18 @@
 import Link from 'next/link';
 import { ArrowRight, Percent, ShieldCheck, Truck } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { catalogProducts } from '../../lib/catalog';
+import { catalogProducts, type CatalogProduct } from '../../lib/catalog';
 import SmartImage from '../../components/SmartImage';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 
 export default function OfertasPage() {
-  const [ofertas, setOfertas] = useState<any[]>([]);
+  const [ofertas, setOfertas] = useState<CatalogProduct[]>([]);
 
   useEffect(() => {
     const cargar = async () => {
       try {
-        const res = await fetch(`${API_URL}/productos`);
+        const res = await fetch(`${API_URL}/productos`, { signal: AbortSignal.timeout(6000) });
         if (!res.ok) throw new Error('No se pudo cargar');
         const data = await res.json();
         setOfertas((Array.isArray(data) ? data : catalogProducts).filter((p) => p.oferta || p.destacado).slice(0, 8));
