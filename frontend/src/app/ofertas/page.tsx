@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArrowRight, Percent, ShieldCheck, Truck } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { catalogProducts } from '../../lib/catalog';
+import SmartImage from '../../components/SmartImage';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 
@@ -45,12 +46,12 @@ export default function OfertasPage() {
                 <span className="text-[#0ea5e9] dark:text-gray-400 text-xs font-medium">{producto.stock > 0 ? `${producto.stock} disponibles` : 'Sin stock'}</span>
               </div>
 
-              <div className="h-36 flex items-center justify-center mb-4 rounded-xl bg-[#f0f5f9] dark:bg-gray-800">
-                {producto.imagenUrl ? (
-                  <img src={producto.imagenUrl} alt={producto.nombre} className="h-full w-full object-contain p-3" />
-                ) : (
-                  <div className="text-sm text-gray-400">Sin imagen</div>
-                )}
+              <div className="h-36 flex items-center justify-center mb-4 rounded-xl bg-[#f0f5f9] dark:bg-gray-800 overflow-hidden group">
+                <SmartImage
+                  src={producto.imagenUrl || '/categorias/default.svg'}
+                  alt={producto.nombre}
+                  className="h-full w-full object-contain p-3 group-hover:scale-105 transition-transform duration-300"
+                />
               </div>
 
               <p className="text-xs uppercase tracking-wide text-[#0284c7] dark:text-[#22d3ee] mb-2">{producto.categoria?.nombre}</p>

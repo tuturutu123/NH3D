@@ -13,6 +13,7 @@ import { useCartStore } from '../store/cartStore';
 import { MapPin, Phone, ShoppingCart, Truck, Star, ArrowRight, Box, PenTool, Layers } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import ProductCarousel from '../components/ProductCarousel';
+import SmartImage from '../components/SmartImage';
 
 interface Categoria { id: number; nombre: string; }
 interface Producto {
@@ -44,12 +45,23 @@ export default function Home() {
     fetchData();
   }, []);
 
-  const backendUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:3001';
-
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen bg-gray-50 dark:bg-[#0f172a]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#154971]"></div>
+      <div className="bg-[#f4f7fa] dark:bg-[#0f172a] min-h-screen py-16 animate-fade-in">
+        <div className="container mx-auto px-4 max-w-7xl">
+          <div className="shimmer-bg h-10 w-56 md:w-72 rounded-xl mb-3" />
+          <div className="shimmer-bg h-4 w-80 max-w-full rounded-lg mb-10" />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="bg-white dark:bg-[#1e293b] border border-[#dce5ee] dark:border-gray-700 rounded-2xl p-3 md:p-4">
+                <div className="shimmer-bg aspect-square w-full rounded-xl mb-3" />
+                <div className="shimmer-bg h-3 w-3/4 rounded mb-2" />
+                <div className="shimmer-bg h-3 w-1/2 rounded mb-4" />
+                <div className="shimmer-bg h-8 w-full rounded-lg" />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     );
   }
@@ -60,22 +72,22 @@ export default function Home() {
   const getCategoriaImagen = (nombre: string) => {
     const nombreNormalizado = nombre.toLowerCase();
     const mapaImagenes: Record<string, string> = {
-      'llaveros': '/categorias/llaveros.png',
+      'llaveros': '/productos/llaveros.svg',
       'mates y bombillas': '/categorias/mate-arg.jpg',
       'mates': '/categorias/mate-arg.jpg',
-      'porta sahumerios': '/categorias/sahumerios.png',
-      'dijes y accesorios': '/categorias/dijes.png',
-      'dijes': '/categorias/dijes.png',
+      'porta sahumerios': '/productos/sahumerios.svg',
+      'dijes y accesorios': '/productos/dijes.svg',
+      'dijes': '/productos/dijes.svg',
       'soportes y organizadores': '/categorias/soporte-note-mody.jpg',
       'soportes para notebook': '/categorias/soporte-note-mody.jpg',
-      'juguetes y juegos': '/categorias/juguetes.png',
-      'juguetes': '/categorias/juguetes.png',
-      'personajes y figuras': '/categorias/personajes.png',
-      'personajes': '/categorias/personajes.png',
-      'utilidades del hogar': '/categorias/utilidades.png',
-      'utilidades': '/categorias/utilidades.png',
+      'juguetes y juegos': '/productos/juguetes.svg',
+      'juguetes': '/productos/juguetes.svg',
+      'personajes y figuras': '/productos/personajes.svg',
+      'personajes': '/productos/personajes.svg',
+      'utilidades del hogar': '/productos/utilidades.svg',
+      'utilidades': '/productos/utilidades.svg',
     };
-    return mapaImagenes[nombreNormalizado] || '/categorias/default.svg';
+    return mapaImagenes[nombreNormalizado] || '/productos/utilidades.svg';
   };
 
   return (
@@ -103,11 +115,11 @@ export default function Home() {
             </p>
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
               <a href="https://wa.me/5493535635221" target="_blank" rel="noopener noreferrer"
-                className="bg-[#25D366] hover:bg-[#1ebd59] text-white font-bold py-3 px-6 md:py-3.5 rounded-full text-center transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-blue-900/20 w-full sm:w-auto hover:shadow-xl hover:shadow-blue-900/30 hover:scale-[1.02] text-sm md:text-base">
+                className="bg-[#25D366] hover:bg-[#1ebd59] text-white font-bold py-3 px-6 md:py-3.5 rounded-full text-center transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-blue-900/20 w-full sm:w-auto hover:shadow-xl hover:shadow-blue-900/30 hover:scale-[1.02] active:scale-[0.98] text-sm md:text-base">
                 <Phone className="h-4 w-4 md:h-5 md:w-5" /> PEDIR PRESUPUESTO
               </a>
               <Link href="/productos"
-                className="border-2 border-[#132a45] dark:border-[#22d3ee] bg-[#e1ebf3]/50 dark:bg-gray-800/50 backdrop-blur-sm text-[#132a45] dark:text-[#22d3ee] hover:bg-[#132a45] hover:text-white dark:hover:bg-[#22d3ee] dark:hover:text-[#0f172a] font-bold py-3 px-6 md:py-3.5 md:px-8 rounded-full text-center transition-all duration-300 w-full sm:w-auto hover:scale-[1.02] text-sm md:text-base">
+                className="border-2 border-[#132a45] dark:border-[#22d3ee] bg-[#e1ebf3]/50 dark:bg-gray-800/50 backdrop-blur-sm text-[#132a45] dark:text-[#22d3ee] hover:bg-[#132a45] hover:text-white dark:hover:bg-[#22d3ee] dark:hover:text-[#0f172a] font-bold py-3 px-6 md:py-3.5 md:px-8 rounded-full text-center transition-all duration-300 w-full sm:w-auto hover:scale-[1.02] active:scale-[0.98] text-sm md:text-base">
                 VER CATÁLOGO
               </Link>
             </div>
@@ -182,66 +194,54 @@ export default function Home() {
 
       {/* ── Categorías ──────────────────────────────────────── */}
       <ScrollReveal>
-        <section className="py-14 md:py-12">
-          <div className="md:container mx-auto px-4 max-w-7xl">
-            <div className="flex justify-between items-end mb-6 md:mb-8 px-4 md:px-0">
-              <h2 className="text-lg md:text-xl font-bold text-[#132a45] dark:text-[#67e8f9] uppercase tracking-wide">Categorías</h2>
-              <button
-                onClick={() => { setCatSeleccionada(null); document.getElementById('todos-productos')?.scrollIntoView({ behavior: 'smooth' }); }}
-                className="text-xs md:text-sm font-bold text-[#0369a1] dark:text-[#22d3ee] hover:text-[#132a45] transition-colors"
-              >
-                {catSeleccionada !== null ? 'VER TODAS' : ''}
-              </button>
-            </div>
-
-            {/* Mobile: carrusel horizontal con auto-scroll */}
-            <div className="md:hidden overflow-hidden">
-              <div className="flex gap-4 w-max" style={{ animation: 'marquee 25s linear infinite' }}>
-                {[...categorias, ...categorias].map((cat, i) => (
-                  <button
-                    key={`mob-${cat.id}-${i}`}
-                    onClick={() => { setCatSeleccionada(cat.id); document.getElementById('todos-productos')?.scrollIntoView({ behavior: 'smooth' }); }}
-                    className={`flex flex-col items-center gap-2 min-w-[5.5rem] group ${catSeleccionada === cat.id ? 'opacity-100' : 'opacity-100'}`}
-                  >
-                    <div className={`w-16 h-16 rounded-xl bg-white dark:bg-gray-800 shadow-sm flex items-center justify-center p-2 transition-all duration-300 overflow-hidden ${catSeleccionada === cat.id ? 'border-2 border-[#154971] dark:border-[#22d3ee] shadow-md' : 'border border-[#dbe4ec] dark:border-gray-700 group-hover:border-[#154971] dark:group-hover:border-[#22d3ee]'}`}>
-                      <img
-                        src={getCategoriaImagen(cat.nombre)}
-                        alt={cat.nombre}
-                        className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
-                        onError={(e) => { e.currentTarget.src = '/categorias/default.svg'; }}
-                      />
-                    </div>
-                    <span className={`font-semibold text-[10px] text-center leading-tight w-20 line-clamp-2 ${catSeleccionada === cat.id ? 'text-[#154971] dark:text-[#22d3ee] font-bold' : 'text-gray-800 dark:text-gray-300'}`}>{cat.nombre}</span>
-                  </button>
-                ))}
+        <section className="py-14 md:py-12 overflow-hidden">
+          <div className="container mx-auto px-4 max-w-7xl">
+            <div className="flex justify-between items-end mb-6 md:mb-8">
+              <div>
+                <p className="text-[11px] md:text-xs uppercase tracking-[0.25em] text-[#0369a1] dark:text-[#22d3ee] font-semibold mb-1">Encontrá lo tuyo</p>
+                <h2 className="text-lg md:text-xl font-bold text-[#132a45] dark:text-[#67e8f9] uppercase tracking-wide">Categorías</h2>
               </div>
-            </div>
-
-            {/* Desktop: grid normal */}
-            <div className="hidden md:grid md:grid-cols-5 lg:grid-cols-6 gap-4">
-              {categorias.map((cat, i) => (
-                <motion.button
-                  key={cat.id}
-                  onClick={() => { setCatSeleccionada(cat.id); document.getElementById('todos-productos')?.scrollIntoView({ behavior: 'smooth' }); }}
-                  className={`flex flex-col items-center gap-3 group ${catSeleccionada === cat.id ? 'scale-105' : ''}`}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.05, duration: 0.4 }}
+              {catSeleccionada !== null && (
+                <button
+                  onClick={() => { setCatSeleccionada(null); document.getElementById('todos-productos')?.scrollIntoView({ behavior: 'smooth' }); }}
+                  className="text-xs md:text-sm font-bold text-[#0369a1] dark:text-[#22d3ee] hover:text-[#132a45] dark:hover:text-white transition-colors"
                 >
-                  <div className={`w-24 h-24 rounded-2xl bg-white dark:bg-gray-800 shadow-sm flex items-center justify-center p-3 transition-all duration-300 overflow-hidden ${catSeleccionada === cat.id ? 'border-2 border-[#154971] dark:border-[#22d3ee] shadow-md' : 'border border-[#dbe4ec] dark:border-gray-700 group-hover:border-[#154971] dark:group-hover:border-[#22d3ee] group-hover:shadow-md'}`}>
-                    <img
-                      src={getCategoriaImagen(cat.nombre)}
-                      alt={cat.nombre}
-                      className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
-                      onError={(e) => { e.currentTarget.src = '/categorias/default.svg'; }}
-                    />
-                  </div>
-                  <span className={`font-semibold text-xs text-center leading-tight px-1 line-clamp-2 ${catSeleccionada === cat.id ? 'text-[#154971] dark:text-[#22d3ee] font-bold' : 'text-gray-800 dark:text-gray-300'}`}>{cat.nombre}</span>
-                </motion.button>
-              ))}
+                  VER TODAS
+                </button>
+              )}
             </div>
           </div>
+
+          <ProductCarousel speed="slow">
+            {[...categorias, ...categorias].map((cat, i) => (
+              <button
+                key={`cat-${cat.id}-${i}`}
+                onClick={() => { setCatSeleccionada(cat.id); document.getElementById('todos-productos')?.scrollIntoView({ behavior: 'smooth' }); }}
+                className="flex flex-col items-center gap-2.5 w-[104px] sm:w-[124px] shrink-0 group focus:outline-none cursor-pointer"
+              >
+                <div
+                  className={`w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-white dark:bg-gray-800 flex items-center justify-center p-3 transition-all duration-300 group-hover:-translate-y-1 group-active:scale-95 ${
+                    catSeleccionada === cat.id
+                      ? 'border-2 border-[#154971] dark:border-[#22d3ee] shadow-md scale-105'
+                      : 'border border-[#dbe4ec] dark:border-gray-700 shadow-sm group-hover:border-[#154971] dark:group-hover:border-[#22d3ee] group-hover:shadow-md'
+                  }`}
+                >
+                  <SmartImage
+                    src={getCategoriaImagen(cat.nombre)}
+                    alt={cat.nombre}
+                    className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
+                <span
+                  className={`font-semibold text-[10px] sm:text-xs text-center leading-tight line-clamp-2 transition-colors ${
+                    catSeleccionada === cat.id ? 'text-[#154971] dark:text-[#22d3ee] font-bold' : 'text-gray-800 dark:text-gray-300'
+                  }`}
+                >
+                  {cat.nombre}
+                </span>
+              </button>
+            ))}
+          </ProductCarousel>
         </section>
       </ScrollReveal>
 
@@ -292,7 +292,7 @@ export default function Home() {
             <ProductCarousel>
               {[...productosDestacados, ...productosDestacados].map((producto, i) => (
                 <div key={`${producto.id}-${i}`} className="w-[150px] sm:w-[200px] md:w-[240px] shrink-0">
-                  <ProductoCard producto={producto} backendUrl={backendUrl} onAdd={addItem} />
+                  <ProductoCard producto={producto} onAdd={addItem} />
                 </div>
               ))}
             </ProductCarousel>
@@ -340,7 +340,7 @@ export default function Home() {
                       viewport={{ once: true, margin: '-50px' }}
                       transition={{ delay: (i % 5) * 0.07, duration: 0.4 }}
                     >
-                      <ProductoCard producto={producto} backendUrl={backendUrl} onAdd={addItem} />
+                      <ProductoCard producto={producto} onAdd={addItem} />
                     </motion.div>
                   ))}
                 </div>
@@ -355,7 +355,7 @@ export default function Home() {
 
 /* ── ProductoCard ───────────────────────────────────────────── */
 
-function ProductoCard({ producto, backendUrl, onAdd }: { producto: Producto, backendUrl: string, onAdd: any }) {
+function ProductoCard({ producto, onAdd }: { producto: Producto, onAdd: any }) {
   const [agregado, setAgregado] = useState(false);
   const btnRef = useRef<HTMLButtonElement>(null);
 
@@ -365,12 +365,8 @@ function ProductoCard({ producto, backendUrl, onAdd }: { producto: Producto, bac
     setTimeout(() => setAgregado(false), 1200);
   }, [onAdd, producto]);
 
-  const imgSrc = producto.imagenUrl?.startsWith('http')
-    ? producto.imagenUrl
-    : producto.imagenUrl || '';
-
   return (
-    <div className="bg-white dark:bg-[#1e293b] border border-[#dce5ee] dark:border-gray-700 rounded-xl md:rounded-2xl p-2 sm:p-3 md:p-4 flex flex-col justify-between hover:shadow-lg transition-all duration-300 group h-full">
+    <div className="bg-white dark:bg-[#1e293b] border border-[#dce5ee] dark:border-gray-700 rounded-xl md:rounded-2xl p-2 sm:p-3 md:p-4 flex flex-col justify-between hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group h-full">
       <div className="relative aspect-square w-full mb-2 md:mb-4 bg-[#f4f8fb] dark:bg-gray-800 rounded-lg md:rounded-xl overflow-hidden flex items-center justify-center p-1.5 md:p-2">
         {producto.oferta && (
           <span className="absolute top-1 right-1 md:top-2 md:right-2 bg-[#cffafe] dark:bg-[#155e75] text-[#0e7490] dark:text-[#22d3ee] text-[8px] md:text-[10px] font-bold px-1 py-px md:px-1.5 md:py-0.5 rounded z-10 animate-fade-in">
@@ -378,14 +374,17 @@ function ProductoCard({ producto, backendUrl, onAdd }: { producto: Producto, bac
           </span>
         )}
         {producto.imagenUrl ? (
-          <img
-            src={imgSrc}
+          <SmartImage
+            src={producto.imagenUrl}
             alt={producto.nombre}
             className="object-contain w-full h-full group-hover:scale-105 transition-transform duration-300"
-            loading="lazy"
           />
         ) : (
-          <span className="text-gray-300 dark:text-gray-600">Sin imagen</span>
+          <SmartImage
+            src="/categorias/default.svg"
+            alt={producto.nombre}
+            className="object-contain w-full h-full opacity-60"
+          />
         )}
       </div>
 
@@ -408,7 +407,7 @@ function ProductoCard({ producto, backendUrl, onAdd }: { producto: Producto, bac
         ref={btnRef}
         onClick={handleAgregar}
         disabled={producto.stock <= 0}
-        className={`w-full py-1.5 sm:py-2 md:py-2.5 rounded-lg md:rounded-xl font-bold text-[10px] sm:text-[11px] md:text-xs flex items-center justify-center gap-1 md:gap-2 transition-all duration-300 ${
+        className={`w-full py-1.5 sm:py-2 md:py-2.5 rounded-lg md:rounded-xl font-bold text-[10px] sm:text-[11px] md:text-xs flex items-center justify-center gap-1 md:gap-2 transition-all duration-300 active:scale-[0.97] ${
           producto.stock <= 0
             ? 'bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
             : agregado

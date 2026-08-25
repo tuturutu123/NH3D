@@ -1,6 +1,7 @@
 import Link from 'next/link';
-import { Search, ShoppingCart } from 'lucide-react';
+import { Search, SearchX, ShoppingCart } from 'lucide-react';
 import { catalogProducts } from '../../lib/catalog';
+import SmartImage from '../../components/SmartImage';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 
@@ -43,14 +44,18 @@ export default async function ProductosPage({ searchParams }: { searchParams?: a
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {filtrados.map((producto: any) => (
-            <div key={producto.id} className="bg-white dark:bg-[#1e293b] rounded-2xl p-4 shadow-sm border border-[#dce5ee] dark:border-gray-700 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+          {filtrados.map((producto: any, i: number) => (
+            <div
+              key={producto.id}
+              className="group animate-fade-in-up bg-white dark:bg-[#1e293b] rounded-2xl p-4 shadow-sm border border-[#dce5ee] dark:border-gray-700 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+              style={{ animationDelay: `${(i % 8) * 0.06}s` }}
+            >
               <div className="h-40 mb-4 flex items-center justify-center rounded-xl bg-[#f0f5f9] dark:bg-gray-800 overflow-hidden">
-                {producto.imagenUrl ? (
-                  <img src={producto.imagenUrl} alt={producto.nombre} className="max-h-full object-contain p-2" loading="lazy" />
-                ) : (
-                  <div className="text-sm text-gray-400">Sin imagen</div>
-                )}
+                <SmartImage
+                  src={producto.imagenUrl || '/categorias/default.svg'}
+                  alt={producto.nombre}
+                  className="max-h-full object-contain p-2 group-hover:scale-105 transition-transform duration-300"
+                />
               </div>
 
               <p className="text-[10px] uppercase tracking-[0.18em] text-[#0284c7] dark:text-[#22d3ee] font-semibold mb-2">{producto.categoria?.nombre || 'General'}</p>
@@ -63,10 +68,10 @@ export default async function ProductosPage({ searchParams }: { searchParams?: a
               </div>
 
               <div className="flex gap-2">
-                <Link href={`/productos/${producto.id}`} className="flex-1 bg-[#154971] dark:bg-[#22d3ee] text-white py-2.5 rounded-full text-center font-semibold hover:bg-[#0f3556] dark:hover:bg-[#0891b2] transition-colors">
+                <Link href={`/productos/${producto.id}`} className="flex-1 bg-[#154971] dark:bg-[#22d3ee] text-white py-2.5 rounded-full text-center font-semibold hover:bg-[#0f3556] dark:hover:bg-[#0891b2] active:scale-[0.98] transition-all duration-300">
                   Ver
                 </Link>
-                <Link href={`/carrito`} className="w-12 border border-[#cfe0ec] dark:border-gray-600 rounded-full flex items-center justify-center text-[#154971] dark:text-[#22d3ee] hover:bg-[#eaf3f9] dark:hover:bg-gray-700 transition-colors" aria-label="Agregar al carrito">
+                <Link href={`/carrito`} className="w-12 border border-[#cfe0ec] dark:border-gray-600 rounded-full flex items-center justify-center text-[#154971] dark:text-[#22d3ee] hover:bg-[#eaf3f9] dark:hover:bg-gray-700 active:scale-[0.95] transition-all duration-300" aria-label="Agregar al carrito">
                   <ShoppingCart className="h-4 w-4" />
                 </Link>
               </div>
@@ -75,7 +80,8 @@ export default async function ProductosPage({ searchParams }: { searchParams?: a
         </div>
 
         {filtrados.length === 0 && (
-          <div className="mt-10 text-center bg-white dark:bg-[#1e293b] rounded-2xl border border-[#dce5ee] dark:border-gray-700 py-10">
+          <div className="mt-10 text-center bg-white dark:bg-[#1e293b] rounded-2xl border border-[#dce5ee] dark:border-gray-700 py-12 animate-fade-in-up">
+            <SearchX className="h-10 w-10 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
             <p className="text-gray-600 dark:text-gray-400 text-lg">No encontramos productos para tu búsqueda.</p>
           </div>
         )}

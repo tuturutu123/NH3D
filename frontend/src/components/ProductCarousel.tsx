@@ -11,11 +11,13 @@ export default function ProductCarousel({ children, speed = 'normal' }: ProductC
   const animClass = speed === 'slow' ? 'animate-marquee-slow' : 'animate-marquee';
 
   return (
-    <div className="relative overflow-hidden group">
+    <div className="relative overflow-hidden group/carousel">
       <div className={`${animClass} flex gap-4 md:gap-6 w-max`}>
         {children}
         {children}
       </div>
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-10 md:w-20 bg-linear-to-r from-[#f4f7fa] dark:from-[#0f172a] to-transparent z-10" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-10 md:w-20 bg-linear-to-l from-[#f4f7fa] dark:from-[#0f172a] to-transparent z-10" />
     </div>
   );
 }

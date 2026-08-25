@@ -7,6 +7,7 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { catalogProducts } from '../../../lib/catalog';
 import { useCartStore } from '../../../store/cartStore';
+import SmartImage from '../../../components/SmartImage';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 
@@ -73,12 +74,12 @@ export default function ProductoDetallePage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
           >
-            <div className="h-[420px] bg-[#f0f5f9] dark:bg-gray-800 rounded-2xl flex items-center justify-center overflow-hidden">
-              {producto.imagenUrl ? (
-                <img src={producto.imagenUrl} alt={producto.nombre} className="max-h-full object-contain" loading="lazy" />
-              ) : (
-                <div className="text-gray-400">Sin imagen</div>
-              )}
+            <div className="h-[420px] bg-[#f0f5f9] dark:bg-gray-800 rounded-2xl flex items-center justify-center overflow-hidden group">
+              <SmartImage
+                src={producto.imagenUrl || '/categorias/default.svg'}
+                alt={producto.nombre}
+                className="max-h-full object-contain group-hover:scale-105 transition-transform duration-500"
+              />
             </div>
           </motion.div>
 
@@ -164,7 +165,7 @@ export default function ProductoDetallePage() {
               >
                 <Link href={`/productos/${item.id}`} className="block bg-white dark:bg-[#1e293b] rounded-2xl p-4 border border-[#dce5ee] dark:border-gray-700 hover:shadow-md transition-all duration-300 hover:-translate-y-1">
                   <div className="h-32 flex items-center justify-center mb-4">
-                    {item.imagenUrl ? <img src={item.imagenUrl} alt={item.nombre} className="h-full object-contain" loading="lazy" /> : null}
+                    <SmartImage src={item.imagenUrl || '/categorias/default.svg'} alt={item.nombre} className="h-full object-contain" />
                   </div>
                   <p className="text-xs uppercase tracking-wide text-[#0284c7] dark:text-[#22d3ee] mb-2">{item.categoria?.nombre || 'General'}</p>
                   <h3 className="font-bold text-[#132a45] dark:text-gray-100 mb-3">{item.nombre}</h3>
