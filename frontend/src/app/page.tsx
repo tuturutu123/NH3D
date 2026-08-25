@@ -96,7 +96,7 @@ export default function Home() {
       {/* ── Hero Section ─────────────────────────────────────── */}
       <section className="relative py-16 md:py-32 overflow-hidden border-b border-[#dbe4ec] dark:border-gray-800">
         <div className="absolute inset-0 z-0">
-          <Image src="/portada.jpg" alt="Portada" fill className="object-cover object-center md:object-right pointer-events-none select-none" priority />
+          <img src="/portada.jpg" alt="Portada" className="w-full h-full object-cover object-center md:object-right pointer-events-none select-none" />
         </div>
         <div className="absolute inset-0 z-10 bg-linear-to-r from-white/80 via-white/50 to-transparent dark:from-[#0f172a]/90 dark:via-[#0f172a]/60" />
 
