@@ -10,7 +10,7 @@ import { motion } from 'framer-motion';
 import { api } from '../lib/api';
 import { catalogProducts, catalogCategories } from '../lib/catalog';
 import { useCartStore } from '../store/cartStore';
-import { MapPin, Phone, ShieldCheck, ShoppingCart, Truck, Star, ArrowRight } from 'lucide-react';
+import { MapPin, Phone, ShoppingCart, Truck, Star, ArrowRight, Box, PenTool, Layers } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import ProductCarousel from '../components/ProductCarousel';
 
@@ -49,7 +49,7 @@ export default function Home() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen bg-gray-50 dark:bg-[#0f172a]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#324b3b]"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#154971]"></div>
       </div>
     );
   }
@@ -60,28 +60,31 @@ export default function Home() {
   const getCategoriaImagen = (nombre: string) => {
     const nombreNormalizado = nombre.toLowerCase();
     const mapaImagenes: Record<string, string> = {
-      'mates y accesorios': '/categorias/mates.png',
-      'yerbas': '/categorias/yerba.png',
-      'snacks y golosinas': '/categorias/snacks.png',
-      'snacks': '/categorias/snacks.png',
-      'bebidas': '/categorias/default.svg',
-      'comidas': '/categorias/default.svg',
-      'termos y botellas': '/categorias/default.svg',
-      'semillas y frutos secos': '/categorias/default.svg',
-      'condimentos y especias': '/categorias/default.svg',
-      'bombillas y repuestos': '/categorias/default.svg',
-      'vasos y tazas': '/categorias/default.svg',
+      'llaveros': '/categorias/llaveros.png',
+      'mates y bombillas': '/categorias/mate-arg.jpg',
+      'mates': '/categorias/mate-arg.jpg',
+      'porta sahumerios': '/categorias/sahumerios.png',
+      'dijes y accesorios': '/categorias/dijes.png',
+      'dijes': '/categorias/dijes.png',
+      'soportes y organizadores': '/categorias/soporte-note-mody.jpg',
+      'soportes para notebook': '/categorias/soporte-note-mody.jpg',
+      'juguetes y juegos': '/categorias/juguetes.png',
+      'juguetes': '/categorias/juguetes.png',
+      'personajes y figuras': '/categorias/personajes.png',
+      'personajes': '/categorias/personajes.png',
+      'utilidades del hogar': '/categorias/utilidades.png',
+      'utilidades': '/categorias/utilidades.png',
     };
     return mapaImagenes[nombreNormalizado] || '/categorias/default.svg';
   };
 
   return (
-    <div className="bg-[#faf9f6] dark:bg-[#0f172a] min-h-screen">
+    <div className="bg-[#f4f7fa] dark:bg-[#0f172a] min-h-screen">
 
       {/* ── Hero Section ─────────────────────────────────────── */}
-      <section className="relative py-16 md:py-32 overflow-hidden border-b border-[#e5e2d6] dark:border-gray-800">
+      <section className="relative py-16 md:py-32 overflow-hidden border-b border-[#dbe4ec] dark:border-gray-800">
         <div className="absolute inset-0 z-0">
-          <Image src="/portada.png" alt="Portada" fill className="object-cover object-center md:object-right pointer-events-none select-none" priority />
+          <Image src="/portada.jpg" alt="Portada" fill className="object-cover object-center md:object-right pointer-events-none select-none" priority />
         </div>
         <div className="absolute inset-0 z-10 bg-linear-to-r from-white/80 via-white/50 to-transparent dark:from-[#0f172a]/90 dark:via-[#0f172a]/60" />
 
@@ -92,20 +95,20 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: 'easeOut' }}
           >
-            <h1 className="text-[2rem] sm:text-5xl md:text-7xl font-extrabold text-[#2a3c2e] dark:text-[#a8d5a2] leading-[1.1] mb-4 md:mb-6 tracking-tight">
-              Todo lo que<br />te gusta, en un<br />solo lugar.
+            <h1 className="text-[2rem] sm:text-5xl md:text-7xl font-extrabold text-[#132a45] dark:text-[#67e8f9] leading-[1.1] mb-4 md:mb-6 tracking-tight">
+              Tus ideas,<br />impresas en<br /><span className="text-[#0369a1] dark:text-[#22d3ee]">3D.</span>
             </h1>
             <p className="text-sm sm:text-lg text-gray-800 dark:text-gray-300 mb-6 md:mb-8 font-medium max-w-md">
-              Mates, yerbas, comidas, snacks, bebidas, accesorios y mucho más.
+              Llaveros, mates, porta sahumerios, dijes, soportes, juguetes, figuras y piezas personalizadas. Diseño e impresión 3D en Villa María con envíos a todo el país.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
               <a href="https://wa.me/5493535635221" target="_blank" rel="noopener noreferrer"
-                className="bg-[#25D366] hover:bg-[#1ebd59] text-white font-bold py-3 px-6 md:py-3.5 rounded-full text-center transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-green-900/20 w-full sm:w-auto hover:shadow-xl hover:shadow-green-900/30 hover:scale-[1.02] text-sm md:text-base">
-                <Phone className="h-4 w-4 md:h-5 md:w-5" /> PEDIR POR WHATSAPP
+                className="bg-[#25D366] hover:bg-[#1ebd59] text-white font-bold py-3 px-6 md:py-3.5 rounded-full text-center transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-blue-900/20 w-full sm:w-auto hover:shadow-xl hover:shadow-blue-900/30 hover:scale-[1.02] text-sm md:text-base">
+                <Phone className="h-4 w-4 md:h-5 md:w-5" /> PEDIR PRESUPUESTO
               </a>
               <Link href="/productos"
-                className="border-2 border-[#2a3c2e] dark:border-[#6ba368] bg-[#e5e3d9]/50 dark:bg-gray-800/50 backdrop-blur-sm text-[#2a3c2e] dark:text-[#6ba368] hover:bg-[#2a3c2e] hover:text-white dark:hover:bg-[#6ba368] dark:hover:text-[#0f172a] font-bold py-3 px-6 md:py-3.5 md:px-8 rounded-full text-center transition-all duration-300 w-full sm:w-auto hover:scale-[1.02] text-sm md:text-base">
-                VER PRODUCTOS
+                className="border-2 border-[#132a45] dark:border-[#22d3ee] bg-[#e1ebf3]/50 dark:bg-gray-800/50 backdrop-blur-sm text-[#132a45] dark:text-[#22d3ee] hover:bg-[#132a45] hover:text-white dark:hover:bg-[#22d3ee] dark:hover:text-[#0f172a] font-bold py-3 px-6 md:py-3.5 md:px-8 rounded-full text-center transition-all duration-300 w-full sm:w-auto hover:scale-[1.02] text-sm md:text-base">
+                VER CATÁLOGO
               </Link>
             </div>
           </motion.div>
@@ -114,28 +117,64 @@ export default function Home() {
 
       {/* ── Features Bar ─────────────────────────────────────── */}
       <ScrollReveal>
-        <section className="bg-white dark:bg-[#111827] py-6 md:py-6 border-b border-[#e5e2d6] dark:border-gray-800">
+        <section className="bg-white dark:bg-[#111827] py-6 md:py-6 border-b border-[#dbe4ec] dark:border-gray-800">
           <div className="container mx-auto px-4 max-w-7xl">
             <div className="grid grid-cols-2 gap-x-6 gap-y-5 sm:flex sm:flex-wrap sm:justify-between sm:items-center sm:gap-4 text-sm font-medium text-gray-700 dark:text-gray-300">
               <motion.div className="flex items-center gap-3 stagger-1" whileHover={{ y: -2 }} transition={{ type: 'spring', stiffness: 400 }}>
-                <Truck className="h-5 w-5 text-[#7d6f5f] dark:text-[#6ba368]" />
-                <span>Envíos rápidos<br /><span className="text-xs text-gray-500 font-normal">en Villa Mercedes</span></span>
+                <Truck className="h-5 w-5 text-[#0ea5e9] dark:text-[#22d3ee]" />
+                <span>Envíos a todo<br /><span className="text-xs text-gray-500 font-normal">el país</span></span>
               </motion.div>
               <div className="hidden md:block w-px h-10 bg-gray-200 dark:bg-gray-700" />
               <motion.div className="flex items-center gap-3 stagger-2" whileHover={{ y: -2 }} transition={{ type: 'spring', stiffness: 400 }}>
-                <ShieldCheck className="h-6 w-6 text-[#7d6f5f] dark:text-[#6ba368]" />
-                <span>Pagos seguros<br /><span className="text-xs text-gray-500 font-normal">y protegidos</span></span>
+                <PenTool className="h-6 w-6 text-[#0ea5e9] dark:text-[#22d3ee]" />
+                <span>Diseño<br /><span className="text-xs text-gray-500 font-normal">personalizado</span></span>
               </motion.div>
               <div className="hidden md:block w-px h-10 bg-gray-200 dark:bg-gray-700" />
               <motion.div className="flex items-center gap-3 stagger-3" whileHover={{ y: -2 }} transition={{ type: 'spring', stiffness: 400 }}>
-                <Star className="h-6 w-6 text-[#7d6f5f] dark:text-[#6ba368]" />
-                <span>Productos<br /><span className="text-xs text-gray-500 font-normal">de calidad</span></span>
+                <Layers className="h-6 w-6 text-[#0ea5e9] dark:text-[#22d3ee]" />
+                <span>Impresión de<br /><span className="text-xs text-gray-500 font-normal">calidad PLA / PETG</span></span>
               </motion.div>
               <div className="hidden md:block w-px h-10 bg-gray-200 dark:bg-gray-700" />
               <motion.div className="flex items-center gap-3 stagger-4" whileHover={{ y: -2 }} transition={{ type: 'spring', stiffness: 400 }}>
-                <Phone className="h-6 w-6 text-[#7d6f5f] dark:text-[#6ba368]" />
-                <span>Atención<br /><span className="text-xs text-gray-500 font-normal">personalizada</span></span>
+                <Phone className="h-6 w-6 text-[#0ea5e9] dark:text-[#22d3ee]" />
+                <span>Atención por<br /><span className="text-xs text-gray-500 font-normal">WhatsApp</span></span>
               </motion.div>
+            </div>
+          </div>
+        </section>
+      </ScrollReveal>
+
+      {/* ── Servicios ─────────────────────────────────────────── */}
+      <ScrollReveal>
+        <section className="py-14 md:py-16 bg-white dark:bg-[#111827] border-y border-[#dbe4ec] dark:border-gray-800">
+          <div className="container mx-auto px-4 max-w-7xl">
+            <h2 className="text-lg md:text-xl font-bold text-[#132a45] dark:text-[#67e8f9] uppercase tracking-wide mb-2 text-center">Nuestros Servicios</h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400 text-center mb-10">Del archivo al objeto: te acompañamos en todo el proceso.</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              {[
+                { icon: Box, title: 'Impresión 3D', desc: 'Imprimimos tu pieza en PLA, PETG y más. Traé tu modelo o elegí uno de nuestro catálogo.', cta: 'Pedir cotización' },
+                { icon: PenTool, title: 'Diseño 3D', desc: 'Modelamos desde cero la pieza que imaginás: personalizada, funcional y lista para imprimir.', cta: 'Consultar por un diseño' },
+                { icon: Layers, title: 'Producción por Encargo', desc: 'Series y piezas en volumen para regalos, emprendimientos, merchandising y eventos.', cta: 'Pedir presupuesto' },
+              ].map((servicio, i) => (
+                <motion.div
+                  key={i}
+                  className="bg-[#f4f7fa] dark:bg-[#1e293b] border border-[#dbe4ec] dark:border-gray-700 rounded-2xl p-6 md:p-8 flex flex-col items-start hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1, duration: 0.5 }}
+                >
+                  <div className="w-12 h-12 rounded-xl bg-[#154971] dark:bg-[#155e75] flex items-center justify-center mb-4">
+                    <servicio.icon className="h-6 w-6 text-white" />
+                  </div>
+                  <h3 className="font-bold text-lg text-[#132a45] dark:text-gray-100 mb-2">{servicio.title}</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-5 leading-relaxed">{servicio.desc}</p>
+                  <a href="https://wa.me/5493535635221" target="_blank" rel="noopener noreferrer"
+                    className="mt-auto inline-flex items-center gap-2 text-sm font-bold text-[#0369a1] dark:text-[#22d3ee] hover:text-[#132a45] dark:hover:text-white transition-colors">
+                    {servicio.cta} <ArrowRight className="h-4 w-4" />
+                  </a>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
@@ -146,10 +185,10 @@ export default function Home() {
         <section className="py-14 md:py-12">
           <div className="md:container mx-auto px-4 max-w-7xl">
             <div className="flex justify-between items-end mb-6 md:mb-8 px-4 md:px-0">
-              <h2 className="text-lg md:text-xl font-bold text-[#2a3c2e] dark:text-[#a8d5a2] uppercase tracking-wide">Categorías</h2>
+              <h2 className="text-lg md:text-xl font-bold text-[#132a45] dark:text-[#67e8f9] uppercase tracking-wide">Categorías</h2>
               <button
                 onClick={() => { setCatSeleccionada(null); document.getElementById('todos-productos')?.scrollIntoView({ behavior: 'smooth' }); }}
-                className="text-xs md:text-sm font-bold text-[#627653] dark:text-[#6ba368] hover:text-[#2a3c2e] transition-colors"
+                className="text-xs md:text-sm font-bold text-[#0369a1] dark:text-[#22d3ee] hover:text-[#132a45] transition-colors"
               >
                 {catSeleccionada !== null ? 'VER TODAS' : ''}
               </button>
@@ -164,7 +203,7 @@ export default function Home() {
                     onClick={() => { setCatSeleccionada(cat.id); document.getElementById('todos-productos')?.scrollIntoView({ behavior: 'smooth' }); }}
                     className={`flex flex-col items-center gap-2 min-w-[5.5rem] group ${catSeleccionada === cat.id ? 'opacity-100' : 'opacity-100'}`}
                   >
-                    <div className={`w-16 h-16 rounded-xl bg-white dark:bg-gray-800 shadow-sm flex items-center justify-center p-2 transition-all duration-300 overflow-hidden ${catSeleccionada === cat.id ? 'border-2 border-[#324b3b] dark:border-[#6ba368] shadow-md' : 'border border-[#e5e2d6] dark:border-gray-700 group-hover:border-[#324b3b] dark:group-hover:border-[#6ba368]'}`}>
+                    <div className={`w-16 h-16 rounded-xl bg-white dark:bg-gray-800 shadow-sm flex items-center justify-center p-2 transition-all duration-300 overflow-hidden ${catSeleccionada === cat.id ? 'border-2 border-[#154971] dark:border-[#22d3ee] shadow-md' : 'border border-[#dbe4ec] dark:border-gray-700 group-hover:border-[#154971] dark:group-hover:border-[#22d3ee]'}`}>
                       <img
                         src={getCategoriaImagen(cat.nombre)}
                         alt={cat.nombre}
@@ -172,7 +211,7 @@ export default function Home() {
                         onError={(e) => { e.currentTarget.src = '/categorias/default.svg'; }}
                       />
                     </div>
-                    <span className={`font-semibold text-[10px] text-center leading-tight w-20 line-clamp-2 ${catSeleccionada === cat.id ? 'text-[#324b3b] dark:text-[#6ba368] font-bold' : 'text-gray-800 dark:text-gray-300'}`}>{cat.nombre}</span>
+                    <span className={`font-semibold text-[10px] text-center leading-tight w-20 line-clamp-2 ${catSeleccionada === cat.id ? 'text-[#154971] dark:text-[#22d3ee] font-bold' : 'text-gray-800 dark:text-gray-300'}`}>{cat.nombre}</span>
                   </button>
                 ))}
               </div>
@@ -190,7 +229,7 @@ export default function Home() {
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05, duration: 0.4 }}
                 >
-                  <div className={`w-24 h-24 rounded-2xl bg-white dark:bg-gray-800 shadow-sm flex items-center justify-center p-3 transition-all duration-300 overflow-hidden ${catSeleccionada === cat.id ? 'border-2 border-[#324b3b] dark:border-[#6ba368] shadow-md' : 'border border-[#e5e2d6] dark:border-gray-700 group-hover:border-[#324b3b] dark:group-hover:border-[#6ba368] group-hover:shadow-md'}`}>
+                  <div className={`w-24 h-24 rounded-2xl bg-white dark:bg-gray-800 shadow-sm flex items-center justify-center p-3 transition-all duration-300 overflow-hidden ${catSeleccionada === cat.id ? 'border-2 border-[#154971] dark:border-[#22d3ee] shadow-md' : 'border border-[#dbe4ec] dark:border-gray-700 group-hover:border-[#154971] dark:group-hover:border-[#22d3ee] group-hover:shadow-md'}`}>
                     <img
                       src={getCategoriaImagen(cat.nombre)}
                       alt={cat.nombre}
@@ -198,7 +237,7 @@ export default function Home() {
                       onError={(e) => { e.currentTarget.src = '/categorias/default.svg'; }}
                     />
                   </div>
-                  <span className={`font-semibold text-xs text-center leading-tight px-1 line-clamp-2 ${catSeleccionada === cat.id ? 'text-[#324b3b] dark:text-[#6ba368] font-bold' : 'text-gray-800 dark:text-gray-300'}`}>{cat.nombre}</span>
+                  <span className={`font-semibold text-xs text-center leading-tight px-1 line-clamp-2 ${catSeleccionada === cat.id ? 'text-[#154971] dark:text-[#22d3ee] font-bold' : 'text-gray-800 dark:text-gray-300'}`}>{cat.nombre}</span>
                 </motion.button>
               ))}
             </div>
@@ -211,15 +250,15 @@ export default function Home() {
         <section className="py-10 md:py-8" id="ofertas">
           <div className="container mx-auto px-4 max-w-7xl">
             <div className="flex justify-between items-end mb-5 md:mb-6">
-              <h2 className="text-lg md:text-xl font-bold text-[#2a3c2e] dark:text-[#a8d5a2] uppercase tracking-wide">Ofertas Destacadas</h2>
-              <Link href="/productos" className="text-xs md:text-sm font-bold text-[#627653] dark:text-[#6ba368] hover:text-[#2a3c2e] flex items-center gap-1">VER TODAS <ArrowRight className="h-4 w-4" /></Link>
+              <h2 className="text-lg md:text-xl font-bold text-[#132a45] dark:text-[#67e8f9] uppercase tracking-wide">Ofertas Destacadas</h2>
+              <Link href="/productos" className="text-xs md:text-sm font-bold text-[#0369a1] dark:text-[#22d3ee] hover:text-[#132a45] flex items-center gap-1">VER TODAS <ArrowRight className="h-4 w-4" /></Link>
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
               {[
-                { title: 'Combo\nMateador', sub: 'Mate + Yerba + Bombilla', price: '$15.990', bg: 'bg-[#5a6b5a] dark:bg-[#2d4a35]', text: 'text-white', priceColor: '' },
-                { title: '2 Yerbas\nCBSé 500g', sub: 'Tradicional o Silueta', price: '$7.990', bg: 'bg-[#f0ece1] dark:bg-[#1e293b]', text: 'text-[#2a3c2e] dark:text-gray-100', priceColor: 'text-[#b4483a]', border: 'border border-[#e5e2d6] dark:border-gray-700' },
-                { title: 'Termo\nStanley 1L', sub: 'Clásico verde', price: '$32.990', bg: 'bg-[#f8f4e6] dark:bg-[#1e293b]', text: 'text-[#2a3c2e] dark:text-gray-100', priceColor: '', border: 'border border-[#e5e2d6] dark:border-gray-700' },
-                { title: 'Snacks\nFavoritos', sub: 'Llevando 3 pagás 2', price: '-33% OFF', bg: 'bg-[#f7eedd] dark:bg-[#1e293b]', text: 'text-[#2a3c2e] dark:text-gray-100', priceColor: 'text-[#b4483a]', border: 'border border-[#e5e2d6] dark:border-gray-700' },
+                { title: 'Llaveros\nPersonalizados', sub: 'Con el nombre que quieras', price: '$2.500', bg: 'bg-[#155e75] dark:bg-[#164e63]', text: 'text-white', priceColor: '' },
+                { title: 'Porta Sahumerios\nLuna y Estrellas', sub: 'Modelo exclusivo NH3D', price: '$3.500', bg: 'bg-[#eef4f9] dark:bg-[#1e293b]', text: 'text-[#132a45] dark:text-gray-100', priceColor: 'text-[#b4483a]', border: 'border border-[#dbe4ec] dark:border-gray-700' },
+                { title: 'Soporte Notebook\nErgonómico', sub: 'Ajustable y plegable', price: '$15.000', bg: 'bg-[#eaf3fa] dark:bg-[#1e293b]', text: 'text-[#132a45] dark:text-gray-100', priceColor: '', border: 'border border-[#dbe4ec] dark:border-gray-700' },
+                { title: 'Figuras\nFlexi', sub: 'Animales articulados', price: '-20% OFF', bg: 'bg-[#eff6fb] dark:bg-[#1e293b]', text: 'text-[#132a45] dark:text-gray-100', priceColor: 'text-[#b4483a]', border: 'border border-[#dbe4ec] dark:border-gray-700' },
               ].map((oferta, i) => (
                 <motion.div
                   key={i}
@@ -246,8 +285,8 @@ export default function Home() {
           <section className="py-10 md:py-12" id="productos">
             <div className="container mx-auto px-4 max-w-7xl">
               <div className="flex justify-between items-end mb-5 md:mb-6">
-                <h2 className="text-lg md:text-xl font-bold text-[#2a3c2e] dark:text-[#a8d5a2] uppercase tracking-wide">Productos Destacados</h2>
-                <Link href="/productos" className="text-xs md:text-sm font-bold text-[#627653] dark:text-[#6ba368] hover:text-[#2a3c2e] flex items-center gap-1">VER TODOS <ArrowRight className="h-4 w-4" /></Link>
+                <h2 className="text-lg md:text-xl font-bold text-[#132a45] dark:text-[#67e8f9] uppercase tracking-wide">Productos Destacados</h2>
+                <Link href="/productos" className="text-xs md:text-sm font-bold text-[#0369a1] dark:text-[#22d3ee] hover:text-[#132a45] flex items-center gap-1">VER TODOS <ArrowRight className="h-4 w-4" /></Link>
               </div>
             </div>
             <ProductCarousel>
@@ -263,10 +302,10 @@ export default function Home() {
 
       {/* ── Todos los Productos ──────────────────────────────── */}
       <ScrollReveal>
-        <section className="py-10 md:py-12 bg-white dark:bg-[#111827] border-t border-[#e5e2d6] dark:border-gray-800" id="todos-productos">
+        <section className="py-10 md:py-12 bg-white dark:bg-[#111827] border-t border-[#dbe4ec] dark:border-gray-800" id="todos-productos">
           <div className="container mx-auto px-4 max-w-7xl">
             <div className="flex items-center justify-between mb-5 md:mb-8">
-              <h2 className="text-lg md:text-xl font-bold text-[#2a3c2e] dark:text-[#a8d5a2] uppercase tracking-wide">
+              <h2 className="text-lg md:text-xl font-bold text-[#132a45] dark:text-[#67e8f9] uppercase tracking-wide">
                 {catSeleccionada !== null
                   ? categorias.find(c => c.id === catSeleccionada)?.nombre || 'Productos'
                   : 'Todos los Productos'}
@@ -274,7 +313,7 @@ export default function Home() {
               {catSeleccionada !== null && (
                 <button
                   onClick={() => setCatSeleccionada(null)}
-                  className="text-[10px] sm:text-xs font-bold text-[#627653] dark:text-[#6ba368] hover:text-[#2a3c2e] dark:hover:text-[#a8d5a2] bg-[#d8eed9]/50 dark:bg-[#1a4d24]/30 px-3 py-1.5 rounded-full transition-colors"
+                  className="text-[10px] sm:text-xs font-bold text-[#0369a1] dark:text-[#22d3ee] hover:text-[#132a45] dark:hover:text-[#67e8f9] bg-[#cffafe]/50 dark:bg-[#155e75]/30 px-3 py-1.5 rounded-full transition-colors"
                 >
                   VER TODAS
                 </button>
@@ -331,10 +370,10 @@ function ProductoCard({ producto, backendUrl, onAdd }: { producto: Producto, bac
     : producto.imagenUrl || '';
 
   return (
-    <div className="bg-white dark:bg-[#1e293b] border border-[#eae6db] dark:border-gray-700 rounded-xl md:rounded-2xl p-2 sm:p-3 md:p-4 flex flex-col justify-between hover:shadow-lg transition-all duration-300 group h-full">
-      <div className="relative aspect-square w-full mb-2 md:mb-4 bg-[#fcfbf9] dark:bg-gray-800 rounded-lg md:rounded-xl overflow-hidden flex items-center justify-center p-1.5 md:p-2">
+    <div className="bg-white dark:bg-[#1e293b] border border-[#dce5ee] dark:border-gray-700 rounded-xl md:rounded-2xl p-2 sm:p-3 md:p-4 flex flex-col justify-between hover:shadow-lg transition-all duration-300 group h-full">
+      <div className="relative aspect-square w-full mb-2 md:mb-4 bg-[#f4f8fb] dark:bg-gray-800 rounded-lg md:rounded-xl overflow-hidden flex items-center justify-center p-1.5 md:p-2">
         {producto.oferta && (
-          <span className="absolute top-1 right-1 md:top-2 md:right-2 bg-[#d8eed9] dark:bg-[#1a4d24] text-[#2e6b36] dark:text-[#6ba368] text-[8px] md:text-[10px] font-bold px-1 py-px md:px-1.5 md:py-0.5 rounded z-10 animate-fade-in">
+          <span className="absolute top-1 right-1 md:top-2 md:right-2 bg-[#cffafe] dark:bg-[#155e75] text-[#0e7490] dark:text-[#22d3ee] text-[8px] md:text-[10px] font-bold px-1 py-px md:px-1.5 md:py-0.5 rounded z-10 animate-fade-in">
             OFERTA
           </span>
         )}
@@ -354,7 +393,7 @@ function ProductoCard({ producto, backendUrl, onAdd }: { producto: Producto, bac
         <h3 className="text-[11px] sm:text-[13px] md:text-sm font-semibold text-gray-900 dark:text-gray-100 line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem] md:min-h-[2.5rem] leading-tight mb-1 md:mb-2">
           {producto.nombre}
         </h3>
-        <p className="text-sm sm:text-base md:text-lg font-bold text-[#2a3c2e] dark:text-[#6ba368] mb-1 md:mb-2">
+        <p className="text-sm sm:text-base md:text-lg font-bold text-[#132a45] dark:text-[#22d3ee] mb-1 md:mb-2">
           ${producto.precio.toLocaleString('es-AR')}
         </p>
 
@@ -373,8 +412,8 @@ function ProductoCard({ producto, backendUrl, onAdd }: { producto: Producto, bac
           producto.stock <= 0
             ? 'bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
             : agregado
-              ? 'bg-[#324b3b] text-white border border-[#324b3b] scale-[0.97]'
-              : 'bg-white dark:bg-transparent border border-[#324b3b] dark:border-[#6ba368] text-[#324b3b] dark:text-[#6ba368] hover:bg-[#324b3b] hover:text-white dark:hover:bg-[#6ba368] dark:hover:text-[#0f172a] hover:shadow-md'
+              ? 'bg-[#154971] text-white border border-[#154971] scale-[0.97]'
+              : 'bg-white dark:bg-transparent border border-[#154971] dark:border-[#22d3ee] text-[#154971] dark:text-[#22d3ee] hover:bg-[#154971] hover:text-white dark:hover:bg-[#22d3ee] dark:hover:text-[#0f172a] hover:shadow-md'
         }`}
       >
         <ShoppingCart className={`h-4 w-4 ${agregado ? 'animate-bounce-subtle' : ''}`} />

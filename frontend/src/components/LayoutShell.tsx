@@ -28,7 +28,7 @@ export default function LayoutShell({ children }: { children: React.ReactNode })
       {!isAdmin && (
         <motion.button
           onClick={openCart}
-          className="fixed bottom-6 right-6 bg-[#324b3b] dark:bg-[#6ba368] text-white p-4 rounded-full shadow-lg z-50 flex items-center justify-center hover:scale-110 transition-transform"
+          className="fixed bottom-6 right-6 bg-[#154971] dark:bg-[#22d3ee] text-white p-4 rounded-full shadow-lg z-50 flex items-center justify-center hover:scale-110 transition-transform"
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ type: 'spring', stiffness: 260, damping: 20, delay: 0.5 }}

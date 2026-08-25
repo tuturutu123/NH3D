@@ -61,7 +61,7 @@ export default function AdminCategoriasPage() {
   };
 
   if (loading) {
-    return <div className="p-8 flex justify-center"><div className="animate-spin h-8 w-8 border-b-2 border-[#324b3b]"></div></div>;
+    return <div className="p-8 flex justify-center"><div className="animate-spin h-8 w-8 border-b-2 border-[#154971]"></div></div>;
   }
 
   return (
@@ -83,7 +83,7 @@ export default function AdminCategoriasPage() {
         {/* Formulario de Creación */}
         <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm h-fit">
           <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-            <FolderPlus className="h-5 w-5 text-[#324b3b]" /> Nueva Categoría
+            <FolderPlus className="h-5 w-5 text-[#154971]" /> Nueva Categoría
           </h2>
           <form onSubmit={handleCrearCategoria} className="space-y-4">
             <div>
@@ -93,13 +93,13 @@ export default function AdminCategoriasPage() {
                 required
                 value={nuevoNombre}
                 onChange={(e) => setNuevoNombre(e.target.value)}
-                placeholder="Ej: Yerbas, Termos..."
-                className="w-full rounded-xl border border-gray-200 py-2.5 px-3.5 focus:outline-none focus:border-[#324b3b] text-sm bg-gray-50/50"
+                placeholder="Ej: Llaveros, Porta Sahumerios..."
+                className="w-full rounded-xl border border-gray-200 py-2.5 px-3.5 focus:outline-none focus:border-[#154971] text-sm bg-gray-50/50"
               />
             </div>
             <button
               type="submit"
-              className="w-full bg-[#283d2d] hover:bg-[#1e2e22] text-white py-2.5 px-4 rounded-xl text-sm font-medium flex items-center justify-center gap-2 transition-colors shadow-sm"
+              className="w-full bg-[#122a42] hover:bg-[#0c1c30] text-white py-2.5 px-4 rounded-xl text-sm font-medium flex items-center justify-center gap-2 transition-colors shadow-sm"
             >
               <Plus className="h-4 w-4" /> Guardar Categoría
             </button>
@@ -126,7 +126,7 @@ export default function AdminCategoriasPage() {
                   <tr key={cat.id} className="hover:bg-gray-50/50 transition-colors">
                     <td className="px-6 py-4 font-mono text-gray-400">#{cat.id}</td>
                     <td className="px-6 py-4 font-semibold text-gray-900 flex items-center gap-2">
-                      <Tag className="h-4 w-4 text-[#324b3b]" /> {cat.nombre}
+                      <Tag className="h-4 w-4 text-[#154971]" /> {cat.nombre}
                     </td>
                     <td className="px-6 py-4">
                       <span className="bg-emerald-50 text-emerald-700 font-bold px-2.5 py-1 rounded-full text-xs">

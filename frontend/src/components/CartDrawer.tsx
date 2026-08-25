@@ -30,7 +30,7 @@ export default function CartDrawer() {
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
           >
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold text-[#2a3c2e] dark:text-[#6ba368]">Tu carrito</h3>
+              <h3 className="text-lg font-bold text-[#132a45] dark:text-[#22d3ee]">Tu carrito</h3>
               <button onClick={closeCart} aria-label="Cerrar carrito" className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                 <X className="h-5 w-5" />
               </button>
@@ -77,7 +77,7 @@ export default function CartDrawer() {
                 <div className="border-t border-gray-200 dark:border-gray-700 pt-4 flex items-center justify-between">
                   <div>
                     <div className="text-xs text-gray-500 dark:text-gray-400">Total estimado</div>
-                    <div className="text-lg font-extrabold text-[#2a3c2e] dark:text-[#6ba368]">${total.toLocaleString('es-AR')}</div>
+                    <div className="text-lg font-extrabold text-[#132a45] dark:text-[#22d3ee]">${total.toLocaleString('es-AR')}</div>
                   </div>
                   <div className="flex flex-col items-end gap-2">
                     <a

@@ -22,7 +22,7 @@ export default function CartButton() {
 
   return (
     <button onClick={toggleCart} className="relative p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full transition-colors" aria-label="Abrir carrito">
-      <ShoppingCart className="h-6 w-6 text-[#2a3c2e] dark:text-[#6ba368]" />
+      <ShoppingCart className="h-6 w-6 text-[#132a45] dark:text-[#22d3ee]" />
       {totalItems > 0 && (
         <span
           ref={badgeRef}

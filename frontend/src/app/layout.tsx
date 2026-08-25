@@ -7,8 +7,8 @@ import ThemeInitializer from '../components/ThemeInitializer';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Kiosco 24HS | Todo lo que necesitás',
-  description: 'Catálogo online de Kiosco 24HS. Pedí por WhatsApp, abierto las 24 horas.',
+  title: 'NH3D | Diseño e Impresión 3D en Villa María',
+  description: 'NHproducciones · NH3D. Diseño e impresión 3D en Villa María, Córdoba. Llaveros, mates, figuras, utilidades y piezas personalizadas. Envíos a todo el país.',
 };
 
 export default function RootLayout({

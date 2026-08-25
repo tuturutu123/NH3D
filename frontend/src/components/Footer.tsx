@@ -1,22 +1,22 @@
 import Link from 'next/link';
-import { Phone, MapPin, Mail, Leaf, Clock, ArrowRight } from 'lucide-react';
+import { Phone, MapPin, Mail, Box, Clock, ArrowRight } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="bg-[#2c4033] dark:bg-[#0c1520] text-gray-300 pt-16 pb-8">
+    <footer className="bg-[#0e2233] dark:bg-[#0c1520] text-gray-300 pt-16 pb-8">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-12">
-          
+
           <div className="col-span-1 md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <Leaf className="h-8 w-8 text-[#e3e8d8]" />
-              <div className="flex flex-col text-[#e3e8d8]">
-                <span className="text-xl font-bold tracking-tight leading-none">NATURA</span>
-                <span className="text-[9px] uppercase tracking-[0.2em] mt-0.5">Tienda de Productos</span>
+              <Box className="h-8 w-8 text-[#a5dcf0]" />
+              <div className="flex flex-col text-[#a5dcf0]">
+                <span className="text-xl font-bold tracking-tight leading-none">NH3D</span>
+                <span className="text-[9px] uppercase tracking-[0.2em] mt-0.5">NHproducciones · Impresión 3D</span>
               </div>
             </div>
             <p className="text-sm text-gray-400 mb-6">
-              Todo lo que necesitás, en un solo lugar. Calidad, variedad y buenos precios.
+              Diseño e impresión 3D en Villa María, Córdoba. Convertimos tus ideas en piezas únicas.
             </p>
             <div className="flex gap-4">
               <a href="https://www.instagram.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors" aria-label="Instagram">
@@ -49,11 +49,11 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-semibold text-sm mb-4 tracking-wider">CATEGORÍAS</h3>
             <ul className="space-y-3 text-sm text-gray-400">
-              <li><Link href="/productos" className="hover:text-white transition-colors">Mates y Accesorios</Link></li>
-              <li><Link href="/productos" className="hover:text-white transition-colors">Yerbas</Link></li>
-              <li><Link href="/productos" className="hover:text-white transition-colors">Snacks y Golosinas</Link></li>
-              <li><Link href="/productos" className="hover:text-white transition-colors">Bebidas</Link></li>
-              <li><Link href="/productos" className="hover:text-white transition-colors">Comidas</Link></li>
+              <li><Link href="/productos" className="hover:text-white transition-colors">Llaveros</Link></li>
+              <li><Link href="/productos" className="hover:text-white transition-colors">Mates y Bombillas</Link></li>
+              <li><Link href="/productos" className="hover:text-white transition-colors">Porta Sahumerios</Link></li>
+              <li><Link href="/productos" className="hover:text-white transition-colors">Dijes y Accesorios</Link></li>
+              <li><Link href="/productos" className="hover:text-white transition-colors">Juguetes y Figuras</Link></li>
               <li><Link href="/productos" className="text-white hover:underline transition-colors">Ver todas</Link></li>
             </ul>
           </div>
@@ -63,33 +63,33 @@ export default function Footer() {
             <ul className="space-y-3 text-sm text-gray-400">
               <li className="flex items-start gap-3">
                 <MapPin className="h-4 w-4 mt-0.5 shrink-0" />
-                <span>Villa Mercedes, San Luis</span>
+                <span>25 de Mayo 187, Villa María, Córdoba</span>
               </li>
               <li className="flex items-start gap-3">
                 <Phone className="h-4 w-4 mt-0.5 shrink-0" />
-                <span>266 123-4567</span>
+                <span>+54 9 353 563-5221</span>
               </li>
               <li className="flex items-start gap-3">
                 <Mail className="h-4 w-4 mt-0.5 shrink-0" />
-                <span>hola@naturatienda.com.ar</span>
+                <span>contacto@nhproducciones.com.ar</span>
               </li>
               <li className="flex items-start gap-3">
                 <Clock className="h-4 w-4 mt-0.5 shrink-0" />
-                <span>Lunes a Domingos de 9 a 21 hs</span>
+                <span>Lunes a Viernes de 9 a 18 hs · Sábados de 9 a 13 hs</span>
               </li>
             </ul>
           </div>
 
           <div className="col-span-1 md:col-span-1">
-            <h3 className="text-white font-semibold text-sm mb-2 tracking-wider">RECIBÍ OFERTAS Y NOVEDADES</h3>
+            <h3 className="text-white font-semibold text-sm mb-2 tracking-wider">RECIBÍ NOVEDADES Y OFERTAS</h3>
             <p className="text-xs text-gray-400 mb-4">Suscribite y enterate antes que nadie.</p>
             <div className="relative">
-              <input 
-                type="email" 
-                placeholder="Tu email" 
+              <input
+                type="email"
+                placeholder="Tu email"
                 className="w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-full py-2.5 pl-4 pr-10 text-sm focus:outline-none"
               />
-              <button className="absolute right-1 top-1 bottom-1 text-[#2c4033] dark:text-[#6ba368] p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors">
+              <button className="absolute right-1 top-1 bottom-1 text-[#0e2233] dark:text-[#22d3ee] p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors">
                 <ArrowRight className="h-4 w-4" />
               </button>
             </div>
@@ -98,7 +98,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-600/50 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-400 gap-4">
-          <p>&copy; {new Date().getFullYear()} Natura Tienda de Productos. Todos los derechos reservados.</p>
+          <p>&copy; {new Date().getFullYear()} NHproducciones · NH3D. Todos los derechos reservados.</p>
           <div className="flex items-center gap-3">
             <span className="font-bold text-white tracking-widest italic">VISA</span>
             <span className="font-bold text-orange-500 tracking-widest italic">mastercard</span>

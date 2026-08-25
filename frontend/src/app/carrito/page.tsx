@@ -15,16 +15,16 @@ export default function CarritoPage() {
   if (items.length === 0) {
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center container mx-auto px-4 text-center">
-        <div className="bg-[#f5f4ef] dark:bg-[#1e293b] p-6 rounded-full text-[#324b3b] dark:text-[#6ba368] mb-4">
+        <div className="bg-[#edf3f9] dark:bg-[#1e293b] p-6 rounded-full text-[#154971] dark:text-[#22d3ee] mb-4">
           <ShoppingBag className="h-12 w-12" />
         </div>
-        <h2 className="text-2xl font-bold text-[#2a3c2e] dark:text-[#a8d5a2] mb-2">Tu carrito está vacío</h2>
+        <h2 className="text-2xl font-bold text-[#132a45] dark:text-[#67e8f9] mb-2">Tu carrito está vacío</h2>
         <p className="text-gray-500 dark:text-gray-400 mb-6 text-sm max-w-sm">
           Parece que aún no elegiste ningún producto. Explora nuestro catálogo y arma tu pedido.
         </p>
         <Link 
           href="/" 
-          className="bg-[#324b3b] dark:bg-[#6ba368] hover:bg-[#233328] dark:hover:bg-[#5a9455] text-white font-bold py-3 px-8 rounded-full transition-colors flex items-center gap-2 text-sm shadow-md"
+          className="bg-[#154971] dark:bg-[#22d3ee] hover:bg-[#0f3556] dark:hover:bg-[#0891b2] text-white font-bold py-3 px-8 rounded-full transition-colors flex items-center gap-2 text-sm shadow-md"
         >
           <ArrowLeft className="h-4 w-4" /> VOLVER AL INICIO
         </Link>
@@ -33,11 +33,11 @@ export default function CarritoPage() {
   }
 
   return (
-    <div className="bg-[#faf9f6] dark:bg-[#0f172a] min-h-screen py-10">
+    <div className="bg-[#f4f7fa] dark:bg-[#0f172a] min-h-screen py-10">
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-extrabold text-[#2a3c2e] dark:text-[#a8d5a2] tracking-tight">Carrito de Compras</h1>
-          <Link href="/" className="text-sm font-semibold text-[#627653] dark:text-[#6ba368] hover:text-[#2a3c2e] flex items-center gap-1 transition-colors">
+          <h1 className="text-3xl font-extrabold text-[#132a45] dark:text-[#67e8f9] tracking-tight">Carrito de Compras</h1>
+          <Link href="/" className="text-sm font-semibold text-[#0369a1] dark:text-[#22d3ee] hover:text-[#132a45] flex items-center gap-1 transition-colors">
             <ArrowLeft className="h-4 w-4" /> Seguir comprando
           </Link>
         </div>
@@ -53,9 +53,9 @@ export default function CarritoPage() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -30, scale: 0.95 }}
                   transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-                  className="bg-white dark:bg-[#1e293b] border border-[#eae6db] dark:border-gray-700 rounded-2xl p-4 flex items-center gap-4 shadow-sm"
+                  className="bg-white dark:bg-[#1e293b] border border-[#dce5ee] dark:border-gray-700 rounded-2xl p-4 flex items-center gap-4 shadow-sm"
                 >
-                <div className="h-20 w-20 rounded-xl bg-[#fcfbf9] dark:bg-gray-800 border border-gray-100 dark:border-gray-700 overflow-hidden shrink-0 flex items-center justify-center p-2">
+                <div className="h-20 w-20 rounded-xl bg-[#f4f8fb] dark:bg-gray-800 border border-gray-100 dark:border-gray-700 overflow-hidden shrink-0 flex items-center justify-center p-2">
                   {item.imagenUrl ? (
                     <img src={item.imagenUrl} alt={item.nombre} className="h-full w-full object-contain" />
                   ) : (
@@ -65,7 +65,7 @@ export default function CarritoPage() {
 
                 <div className="flex-1 min-w-0">
                   <h3 className="font-semibold text-gray-900 dark:text-gray-100 text-sm truncate mb-1">{item.nombre}</h3>
-                  <p className="text-sm font-bold text-[#2a3c2e] dark:text-[#6ba368]">${item.precio.toLocaleString('es-AR')}</p>
+                  <p className="text-sm font-bold text-[#132a45] dark:text-[#22d3ee]">${item.precio.toLocaleString('es-AR')}</p>
                 </div>
 
                 <div className="flex items-center border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-800">
@@ -107,8 +107,8 @@ export default function CarritoPage() {
           </div>
 
           <div className="lg:col-span-1">
-            <div className="bg-white dark:bg-[#1e293b] border border-[#eae6db] dark:border-gray-700 rounded-2xl p-6 shadow-sm sticky top-28">
-              <h2 className="text-lg font-bold text-[#2a3c2e] dark:text-[#a8d5a2] mb-4 border-b border-gray-100 dark:border-gray-700 pb-3">Resumen del pedido</h2>
+            <div className="bg-white dark:bg-[#1e293b] border border-[#dce5ee] dark:border-gray-700 rounded-2xl p-6 shadow-sm sticky top-28">
+              <h2 className="text-lg font-bold text-[#132a45] dark:text-[#67e8f9] mb-4 border-b border-gray-100 dark:border-gray-700 pb-3">Resumen del pedido</h2>
               
               <div className="space-y-3 mb-6 text-sm">
                 <div className="flex justify-between text-gray-600 dark:text-gray-400">
@@ -116,12 +116,12 @@ export default function CarritoPage() {
                   <span>${totalGeneral.toLocaleString('es-AR')}</span>
                 </div>
                 <div className="flex justify-between text-gray-600 dark:text-gray-400">
-                  <span>Envío en Villa Mercedes</span>
+                  <span>Envíos a todo el país</span>
                   <span className="text-green-600 dark:text-green-400 font-medium">A coordinar</span>
                 </div>
                 <div className="border-t border-gray-100 dark:border-gray-700 pt-3 flex justify-between text-base font-extrabold text-gray-900 dark:text-gray-100">
                   <span>Total</span>
-                  <span className="text-[#2a3c2e] dark:text-[#6ba368]">${totalGeneral.toLocaleString('es-AR')}</span>
+                  <span className="text-[#132a45] dark:text-[#22d3ee]">${totalGeneral.toLocaleString('es-AR')}</span>
                 </div>
               </div>
 

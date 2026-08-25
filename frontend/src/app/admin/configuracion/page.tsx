@@ -12,15 +12,15 @@ export default function ConfiguracionPage() {
           <div className="space-y-4 text-sm text-gray-600">
             <div>
               <label className="block text-gray-700 font-medium mb-1">Nombre</label>
-              <input defaultValue="Natura Tienda" className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:outline-none focus:border-[#324b3b]" />
+              <input defaultValue="NH3D · NHproducciones" className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:outline-none focus:border-[#154971]" />
             </div>
             <div>
               <label className="block text-gray-700 font-medium mb-1">WhatsApp</label>
-              <input defaultValue="+54 9 3535 635221" className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:outline-none focus:border-[#324b3b]" />
+              <input defaultValue="+54 9 3535 635221" className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:outline-none focus:border-[#154971]" />
             </div>
             <div>
               <label className="block text-gray-700 font-medium mb-1">Email</label>
-              <input defaultValue="hola@naturatienda.com.ar" className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:outline-none focus:border-[#324b3b]" />
+              <input defaultValue="contacto@nhproducciones.com.ar" className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:outline-none focus:border-[#154971]" />
             </div>
           </div>
         </div>
@@ -30,15 +30,15 @@ export default function ConfiguracionPage() {
           <div className="space-y-4 text-sm text-gray-600">
             <label className="flex items-center justify-between gap-4">
               <span>Productos destacados visibles</span>
-              <input type="checkbox" defaultChecked className="h-4 w-4 text-[#324b3b]" />
+              <input type="checkbox" defaultChecked className="h-4 w-4 text-[#154971]" />
             </label>
             <label className="flex items-center justify-between gap-4">
               <span>Ofertas activas</span>
-              <input type="checkbox" defaultChecked className="h-4 w-4 text-[#324b3b]" />
+              <input type="checkbox" defaultChecked className="h-4 w-4 text-[#154971]" />
             </label>
             <label className="flex items-center justify-between gap-4">
               <span>Newsletter habilitado</span>
-              <input type="checkbox" defaultChecked className="h-4 w-4 text-[#324b3b]" />
+              <input type="checkbox" defaultChecked className="h-4 w-4 text-[#154971]" />
             </label>
           </div>
         </div>

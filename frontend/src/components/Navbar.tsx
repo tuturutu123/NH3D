@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Search, Leaf, MapPin, Menu, X } from 'lucide-react';
+import { Search, Box, MapPin, Menu, X } from 'lucide-react';
 import CartButton from './CartButton';
 import ThemeToggle from './ThemeToggle';
 
@@ -12,11 +12,11 @@ export default function Navbar() {
   return (
     <header className="w-full">
       {/* Topbar */}
-      <div className="bg-[#f5f4ef] dark:bg-[#1a2332] text-[#4a4a4a] dark:text-gray-400 text-xs py-2 border-b border-[#e5e5e5] dark:border-gray-700 hidden md:block">
+      <div className="bg-[#edf3f9] dark:bg-[#1a2332] text-[#4a4a4a] dark:text-gray-400 text-xs py-2 border-b border-[#e5e5e5] dark:border-gray-700 hidden md:block">
         <div className="container mx-auto px-4 flex justify-between items-center max-w-7xl">
           <div className="flex items-center gap-2">
             <MapPin className="h-3.5 w-3.5" />
-            <span>Envíos a Villa Mercedes y zonas cercanas</span>
+            <span>Envíos a todo el país · Retiro en local: 25 de Mayo 187, Villa María</span>
           </div>
         </div>
       </div>
@@ -27,28 +27,28 @@ export default function Navbar() {
           
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="text-[#324b3b] dark:text-[#6ba368]">
-              <Leaf className="h-7 w-7 md:h-8 md:w-8" />
+            <div className="text-[#154971] dark:text-[#22d3ee]">
+              <Box className="h-7 w-7 md:h-8 md:w-8" />
             </div>
             <div className="flex flex-col">
-              <span className="text-xl md:text-2xl font-bold tracking-tight text-[#324b3b] dark:text-[#6ba368] leading-none">NATURA</span>
-              <span className="text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-[#324b3b] dark:text-[#6ba368] mt-0.5">Tienda de Productos</span>
+              <span className="text-xl md:text-2xl font-bold tracking-tight text-[#154971] dark:text-[#22d3ee] leading-none">NH3D</span>
+              <span className="text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-[#154971] dark:text-[#22d3ee] mt-0.5">NHproducciones · Diseño e Impresión 3D</span>
             </div>
           </Link>
 
           {/* Nav Desktop */}
           <nav className="hidden md:flex items-center gap-8 font-medium text-sm text-gray-700 dark:text-gray-300">
-            <Link href="/" className="text-[#324b3b] dark:text-[#6ba368] font-semibold">Inicio</Link>
-            <Link href="/productos" className="hover:text-[#324b3b] dark:hover:text-[#6ba368] transition-colors">Productos</Link>
-            <Link href="/ofertas" className="hover:text-[#324b3b] dark:hover:text-[#6ba368] transition-colors">Ofertas</Link>
-            <Link href="/novedades" className="hover:text-[#324b3b] dark:hover:text-[#6ba368] transition-colors">Novedades</Link>
-            <Link href="/quienes-somos" className="hover:text-[#324b3b] dark:hover:text-[#6ba368] transition-colors">Quiénes somos</Link>
-            <Link href="/contacto" className="hover:text-[#324b3b] dark:hover:text-[#6ba368] transition-colors">Contacto</Link>
+            <Link href="/" className="text-[#154971] dark:text-[#22d3ee] font-semibold">Inicio</Link>
+            <Link href="/productos" className="hover:text-[#154971] dark:hover:text-[#22d3ee] transition-colors">Productos</Link>
+            <Link href="/ofertas" className="hover:text-[#154971] dark:hover:text-[#22d3ee] transition-colors">Ofertas</Link>
+            <Link href="/novedades" className="hover:text-[#154971] dark:hover:text-[#22d3ee] transition-colors">Novedades</Link>
+            <Link href="/quienes-somos" className="hover:text-[#154971] dark:hover:text-[#22d3ee] transition-colors">Quiénes somos</Link>
+            <Link href="/contacto" className="hover:text-[#154971] dark:hover:text-[#22d3ee] transition-colors">Contacto</Link>
           </nav>
 
           {/* Icons */}
           <div className="flex items-center gap-1.5 md:gap-2 text-gray-700 dark:text-gray-300">
-            <Link href="/productos" aria-label="Buscar" className="p-2 hover:text-[#324b3b] dark:hover:text-[#6ba368] transition-colors">
+            <Link href="/productos" aria-label="Buscar" className="p-2 hover:text-[#154971] dark:hover:text-[#22d3ee] transition-colors">
               <Search className="h-5 w-5" />
             </Link>
             <ThemeToggle />
