@@ -165,8 +165,8 @@ export default function ProductoModal({ isOpen, onClose, producto, onSuccess }: 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm p-4 overflow-y-auto">
-      <div className="bg-white dark:bg-[#1e293b] rounded-xl shadow-xl w-full max-w-2xl my-8">
-        <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700 sticky top-0 bg-white dark:bg-[#1e293b] rounded-t-xl z-10">
+      <div className="bg-white dark:bg-[#0a0a0a] rounded-xl shadow-xl w-full max-w-2xl my-8">
+        <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700 sticky top-0 bg-white dark:bg-[#0a0a0a] rounded-t-xl z-10">
           <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
             {producto ? 'Editar Producto' : 'Nuevo Producto'}
           </h2>
@@ -302,7 +302,7 @@ export default function ProductoModal({ isOpen, onClose, producto, onSuccess }: 
             </div>
           </div>
 
-          <div className="mt-8 flex justify-end gap-3 sticky bottom-0 bg-white dark:bg-[#1e293b] pt-4">
+          <div className="mt-8 flex justify-end gap-3 sticky bottom-0 bg-white dark:bg-[#0a0a0a] pt-4">
             <button
               type="button"
               onClick={onClose}

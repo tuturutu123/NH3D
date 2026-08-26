@@ -61,45 +61,45 @@ export default function AdminCategoriasPage() {
   };
 
   if (loading) {
-    return <div className="p-8 flex justify-center"><div className="animate-spin h-8 w-8 border-b-2 border-[#154971]"></div></div>;
+    return <div className="p-8 flex justify-center"><div className="animate-spin h-8 w-8 border-b-2 border-[#0891b2]"></div></div>;
   }
 
   return (
     <div className="max-w-350 mx-auto">
       <div className="flex justify-between items-start mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Categorías</h1>
-          <p className="text-gray-500 mt-1 text-sm">Gestioná las agrupaciones de productos de tu tienda</p>
+          <h1 className="text-3xl font-bold text-[#0a0a0a] dark:text-[#fafafa] tracking-tight">Categorías</h1>
+          <p className="text-[#71717a] dark:text-[#52525b] mt-1 text-sm">Gestioná las agrupaciones de productos de tu tienda</p>
         </div>
       </div>
 
       {error && (
-        <div className="mb-6 bg-red-50 text-red-700 p-3 rounded-xl text-sm font-medium border border-red-200">
+        <div className="mb-6 bg-[#ef4444]/10 dark:bg-[#ef4444]/20 text-[#ef4444] p-3 rounded-xl text-sm font-medium border border-[#ef4444]/20">
           {error}
         </div>
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Formulario de Creación */}
-        <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm h-fit">
-          <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-            <FolderPlus className="h-5 w-5 text-[#154971]" /> Nueva Categoría
+        <div className="bg-white dark:bg-[#0a0a0a] p-6 rounded-2xl border border-black/[0.06] dark:border-white/[0.06] shadow-sm h-fit">
+          <h2 className="text-lg font-bold text-[#0a0a0a] dark:text-[#fafafa] mb-4 flex items-center gap-2">
+            <FolderPlus className="h-5 w-5 text-[#0891b2] dark:text-[#22d3ee]" /> Nueva Categoría
           </h2>
           <form onSubmit={handleCrearCategoria} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Nombre de la categoría</label>
+              <label className="block text-sm font-medium text-[#52525b] dark:text-[#a1a1aa] mb-1">Nombre de la categoría</label>
               <input
                 type="text"
                 required
                 value={nuevoNombre}
                 onChange={(e) => setNuevoNombre(e.target.value)}
                 placeholder="Ej: Llaveros, Porta Sahumerios..."
-                className="w-full rounded-xl border border-gray-200 py-2.5 px-3.5 focus:outline-none focus:border-[#154971] text-sm bg-gray-50/50"
+                className="w-full rounded-xl border border-black/[0.06] dark:border-white/[0.06] py-2.5 px-3.5 focus:outline-none focus:border-[#0891b2] dark:focus:border-[#22d3ee] text-sm bg-[#fafafa] dark:bg-white/[0.03] text-[#0a0a0a] dark:text-[#fafafa] transition-colors"
               />
             </div>
             <button
               type="submit"
-              className="w-full bg-[#122a42] hover:bg-[#0c1c30] text-white py-2.5 px-4 rounded-xl text-sm font-medium flex items-center justify-center gap-2 transition-colors shadow-sm"
+              className="w-full bg-[#0891b2] hover:bg-[#0e7490] dark:bg-[#22d3ee] dark:hover:bg-[#0891b2] text-white dark:text-[#050505] py-2.5 px-4 rounded-xl text-sm font-medium flex items-center justify-center gap-2 transition-colors shadow-sm"
             >
               <Plus className="h-4 w-4" /> Guardar Categoría
             </button>
@@ -107,13 +107,13 @@ export default function AdminCategoriasPage() {
         </div>
 
         {/* Listado de Categorías */}
-        <div className="lg:col-span-2 bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
-          <div className="p-6 border-b border-gray-100">
-            <h2 className="text-lg font-bold text-gray-900">Categorías Existentes ({categorias.length})</h2>
+        <div className="lg:col-span-2 bg-white dark:bg-[#0a0a0a] border border-black/[0.06] dark:border-white/[0.06] rounded-2xl shadow-sm overflow-hidden">
+          <div className="p-6 border-b border-black/[0.04] dark:border-white/[0.04]">
+            <h2 className="text-lg font-bold text-[#0a0a0a] dark:text-[#fafafa]">Categorías Existentes ({categorias.length})</h2>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left">
-              <thead className="bg-gray-50/50 text-gray-500 font-semibold border-b border-gray-100 text-xs uppercase tracking-wider">
+              <thead className="text-[#71717a] dark:text-[#52525b] font-semibold border-b border-black/[0.04] dark:border-white/[0.04] text-[10px] uppercase tracking-[0.15em] font-mono">
                 <tr>
                   <th className="px-6 py-4">ID</th>
                   <th className="px-6 py-4">Nombre</th>
@@ -121,22 +121,22 @@ export default function AdminCategoriasPage() {
                   <th className="px-6 py-4 text-right">Acciones</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-black/[0.04] dark:divide-white/[0.04]">
                 {categorias.map((cat) => (
-                  <tr key={cat.id} className="hover:bg-gray-50/50 transition-colors">
-                    <td className="px-6 py-4 font-mono text-gray-400">#{cat.id}</td>
-                    <td className="px-6 py-4 font-semibold text-gray-900 flex items-center gap-2">
-                      <Tag className="h-4 w-4 text-[#154971]" /> {cat.nombre}
+                  <tr key={cat.id} className="hover:bg-black/[0.01] dark:hover:bg-white/[0.02] transition-colors">
+                    <td className="px-6 py-4 font-mono text-[#a1a1aa]">#{cat.id}</td>
+                    <td className="px-6 py-4 font-semibold text-[#0a0a0a] dark:text-[#fafafa] flex items-center gap-2">
+                      <Tag className="h-4 w-4 text-[#0891b2] dark:text-[#22d3ee]" /> {cat.nombre}
                     </td>
                     <td className="px-6 py-4">
-                      <span className="bg-emerald-50 text-emerald-700 font-bold px-2.5 py-1 rounded-full text-xs">
+                      <span className="bg-[#22c55e]/10 text-[#22c55e] dark:text-[#4ade80] font-bold px-2.5 py-1 rounded-full text-xs font-mono">
                         {cat._count?.productos || 0} productos
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right">
                       <button
                         onClick={() => handleEliminar(cat.id)}
-                        className="p-1.5 text-red-400 hover:text-red-600 border border-red-100 hover:bg-red-50 rounded-lg transition-colors inline-flex items-center justify-center"
+                        className="p-1.5 text-[#a1a1aa] hover:text-[#ef4444] border border-black/[0.04] dark:border-white/[0.06] hover:bg-[#ef4444]/10 rounded-xl transition-all duration-200 inline-flex items-center justify-center"
                         title="Eliminar categoría"
                       >
                         <Trash2 className="h-4 w-4" />
@@ -146,7 +146,7 @@ export default function AdminCategoriasPage() {
                 ))}
                 {categorias.length === 0 && (
                   <tr>
-                    <td colSpan={4} className="text-center py-8 text-gray-400">No hay categorías registradas.</td>
+                    <td colSpan={4} className="text-center py-8 text-[#a1a1aa]">No hay categorías registradas.</td>
                   </tr>
                 )}
               </tbody>

@@ -54,16 +54,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   ];
 
   return (
-    <div className="flex h-screen bg-[#f8f9fa] dark:bg-[#0f172a] overflow-hidden font-sans">
+    <div className="flex h-screen bg-[#fafafa] dark:bg-[#050505] overflow-hidden font-sans">
 
       {/* Sidebar */}
-      <aside className="w-64 bg-[#122a42] dark:bg-[#0c1520] text-gray-300 flex flex-col shrink-0">
+      <aside className="w-64 bg-[#050505] dark:bg-[#0a0a0a] text-[#a1a1aa] flex flex-col shrink-0 border-r border-white/[0.06]">
         <div className="h-20 flex items-center px-6 pt-2">
-          <Link href="/admin" className="flex items-center gap-3 text-white">
-            <Box className="h-8 w-8 text-white" />
+          <Link href="/admin" className="flex items-center gap-3 text-[#fafafa]">
+            <div className="w-9 h-9 rounded-xl bg-[#0891b2] dark:bg-[#22d3ee] flex items-center justify-center">
+              <Box className="h-4.5 w-4.5 text-white dark:text-[#050505]" />
+            </div>
             <div className="flex flex-col">
               <span className="text-xl font-bold tracking-wide leading-none">NH3D</span>
-              <span className="text-[9px] uppercase tracking-widest mt-1 text-gray-300">NHproducciones · Impresión 3D</span>
+              <span className="text-[9px] uppercase tracking-widest mt-1 text-[#71717a]">NHproducciones · Impresión 3D</span>
             </div>
           </Link>
         </div>
@@ -75,10 +77,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <Link
                 key={idx}
                 href={item.href}
-                className={`flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors font-medium text-sm ${
+                className={`flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-200 font-medium text-sm ${
                   item.active
-                    ? 'bg-[#1c4265] text-white shadow-sm'
-                    : 'hover:bg-[#173754] text-[#c7d8e8] hover:text-white'
+                    ? 'bg-[#0891b2]/10 dark:bg-[#22d3ee]/10 text-[#0891b2] dark:text-[#22d3ee]'
+                    : 'hover:bg-white/[0.04] text-[#71717a] hover:text-[#fafafa]'
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -91,18 +93,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </nav>
 
         {/* User Profile Bottom */}
-        <div className="p-4 m-3 mt-0 bg-[#173754] rounded-xl flex flex-col gap-3">
+        <div className="p-4 m-3 mt-0 bg-white/[0.04] rounded-xl flex flex-col gap-3 border border-white/[0.04]">
            <div className="flex items-center justify-between cursor-pointer">
               <div className="flex items-center gap-2">
-                <div className="bg-[#a5dcf0] p-1.5 rounded-full text-[#122a42]"><Box className="h-5 w-5"/></div>
+                <div className="bg-[#0891b2] dark:bg-[#22d3ee] p-1.5 rounded-xl text-white dark:text-[#050505]"><Box className="h-5 w-5"/></div>
                 <div className="flex flex-col text-left">
-                  <span className="text-sm font-semibold text-white leading-tight">NH3D</span>
-                  <span className="text-[11px] text-[#8fb0cc]">Administrador</span>
+                  <span className="text-sm font-semibold text-[#fafafa] leading-tight">NH3D</span>
+                  <span className="text-[11px] text-[#71717a]">Administrador</span>
                 </div>
               </div>
            </div>
-           <button onClick={handleLogout} className="text-xs text-center text-[#c7d8e8] hover:text-white border border-[#2e567c] rounded-lg py-1.5 transition-colors">
-              Cerrar sesión
+           <button onClick={handleLogout} className="text-xs text-center text-[#71717a] hover:text-[#fafafa] border border-white/[0.06] rounded-xl py-1.5 transition-colors">
+             Cerrar sesión
            </button>
         </div>
       </aside>

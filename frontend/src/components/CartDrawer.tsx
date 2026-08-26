@@ -23,14 +23,14 @@ export default function CartDrawer() {
           />
 
           <motion.aside
-            className="absolute right-0 top-0 h-full w-full sm:w-96 bg-white dark:bg-[#1e293b] shadow-2xl p-6 overflow-auto"
+            className="absolute right-0 top-0 h-full w-full sm:w-96 bg-white dark:bg-[#0a0a0a] shadow-2xl p-6 overflow-auto"
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
           >
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold text-[#132a45] dark:text-[#22d3ee]">Tu carrito</h3>
+              <h3 className="text-lg font-bold text-[#0a0a0a] dark:text-[#fafafa]">Tu carrito</h3>
               <button onClick={closeCart} aria-label="Cerrar carrito" className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                 <X className="h-5 w-5" />
               </button>
@@ -49,7 +49,7 @@ export default function CartDrawer() {
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -40, scale: 0.9 }}
                       transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-                      className="flex items-center gap-3 bg-white dark:bg-[#0f172a] rounded-2xl p-3 border border-gray-100 dark:border-gray-700 shadow-sm"
+                      className="flex items-center gap-3 bg-white dark:bg-[#0a0a0a] rounded-2xl p-3 border border-black/[0.04] dark:border-white/[0.06] shadow-sm"
                     >
                       <div className="h-16 w-16 rounded-xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center overflow-hidden shrink-0">
                         {item.imagenUrl ? (
@@ -77,7 +77,7 @@ export default function CartDrawer() {
                 <div className="border-t border-gray-200 dark:border-gray-700 pt-4 flex items-center justify-between">
                   <div>
                     <div className="text-xs text-gray-500 dark:text-gray-400">Total estimado</div>
-                    <div className="text-lg font-extrabold text-[#132a45] dark:text-[#22d3ee]">${total.toLocaleString('es-AR')}</div>
+                    <div className="text-lg font-extrabold text-[#0a0a0a] dark:text-[#fafafa]">${total.toLocaleString('es-AR')}</div>
                   </div>
                   <div className="flex flex-col items-end gap-2">
                     <a

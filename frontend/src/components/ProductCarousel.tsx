@@ -16,8 +16,8 @@ export default function ProductCarousel({ children, speed = 'normal' }: ProductC
         {children}
         {children}
       </div>
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-10 md:w-20 bg-linear-to-r from-[#f4f7fa] dark:from-[#0f172a] to-transparent z-10" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-10 md:w-20 bg-linear-to-l from-[#f4f7fa] dark:from-[#0f172a] to-transparent z-10" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-10 md:w-20 bg-linear-to-r from-[#fafafa] dark:from-[#050505] to-transparent z-10" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-10 md:w-20 bg-linear-to-l from-[#fafafa] dark:from-[#050505] to-transparent z-10" />
     </div>
   );
 }

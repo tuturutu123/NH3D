@@ -6,11 +6,11 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { api } from '../lib/api';
 import { catalogProducts, catalogCategories } from '../lib/catalog';
 import { useCartStore } from '../store/cartStore';
-import { MapPin, Phone, ShoppingCart, Truck, Star, ArrowRight, Box, PenTool, Layers } from 'lucide-react';
+import { MapPin, Phone, ShoppingCart, Truck, Star, ArrowRight, Box, PenTool, Layers, Package, ChevronRight } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import ProductCarousel from '../components/ProductCarousel';
 import SmartImage from '../components/SmartImage';
@@ -47,17 +47,17 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="bg-[#f4f7fa] dark:bg-[#0f172a] min-h-screen py-16 animate-fade-in">
+      <div className="min-h-screen py-16">
         <div className="container mx-auto px-4 max-w-7xl">
-          <div className="shimmer-bg h-10 w-56 md:w-72 rounded-xl mb-3" />
-          <div className="shimmer-bg h-4 w-80 max-w-full rounded-lg mb-10" />
+          <div className="shimmer-bg h-12 w-72 rounded-xl mb-3" />
+          <div className="shimmer-bg h-4 w-96 max-w-full rounded-lg mb-10" />
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
             {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="bg-white dark:bg-[#1e293b] border border-[#dce5ee] dark:border-gray-700 rounded-2xl p-3 md:p-4">
+              <div key={i} className="bg-white/[0.04] dark:bg-white/[0.02] border border-white/[0.04] rounded-2xl p-3 md:p-4">
                 <div className="shimmer-bg aspect-square w-full rounded-xl mb-3" />
                 <div className="shimmer-bg h-3 w-3/4 rounded mb-2" />
                 <div className="shimmer-bg h-3 w-1/2 rounded mb-4" />
-                <div className="shimmer-bg h-8 w-full rounded-lg" />
+                <div className="shimmer-bg h-9 w-full rounded-xl" />
               </div>
             ))}
           </div>
@@ -91,99 +91,154 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-[#f4f7fa] dark:bg-[#0f172a] min-h-screen">
+    <div className="min-h-screen">
 
-      {/* ── Hero Section ─────────────────────────────────────── */}
-      <section className="relative py-16 md:py-32 overflow-hidden border-b border-[#dbe4ec] dark:border-gray-800">
+      {/* ── Hero Section (Asymmetric 60/40) ────────────────────── */}
+      <section className="relative min-h-[85vh] md:min-h-[90vh] flex items-center overflow-hidden">
+        {/* Background Image */}
         <div className="absolute inset-0 z-0">
-          <img src="/portada.jpg" alt="Portada" className="w-full h-full object-cover object-center md:object-right pointer-events-none select-none" />
+          <img src="/portada.jpg" alt="Portada" className="w-full h-full object-cover object-center md:object-right" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#fafafa] via-[#fafafa]/80 to-transparent dark:from-[#050505] dark:via-[#050505]/80" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#fafafa] via-transparent to-transparent dark:from-[#050505] dark:via-transparent" />
         </div>
-        <div className="absolute inset-0 z-10 bg-linear-to-r from-white/80 via-white/50 to-transparent dark:from-[#0f172a]/90 dark:via-[#0f172a]/60" />
 
-        <div className="container mx-auto px-4 max-w-7xl relative z-20">
-          <motion.div
-            className="max-w-2xl"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: 'easeOut' }}
-          >
-            <h1 className="text-[2rem] sm:text-5xl md:text-7xl font-extrabold text-[#132a45] dark:text-[#67e8f9] leading-[1.1] mb-4 md:mb-6 tracking-tight">
-              Tus ideas,<br />impresas en<br /><span className="text-[#0369a1] dark:text-[#22d3ee]">3D.</span>
-            </h1>
-            <p className="text-sm sm:text-lg text-gray-800 dark:text-gray-300 mb-6 md:mb-8 font-medium max-w-md">
-              Llaveros, mates, porta sahumerios, dijes, soportes, juguetes, figuras y piezas personalizadas. Diseño e impresión 3D en Villa María con envíos a todo el país.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
-              <a href="https://wa.me/5493535635221" target="_blank" rel="noopener noreferrer"
-                className="bg-[#25D366] hover:bg-[#1ebd59] text-white font-bold py-3 px-6 md:py-3.5 rounded-full text-center transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-blue-900/20 w-full sm:w-auto hover:shadow-xl hover:shadow-blue-900/30 hover:scale-[1.02] active:scale-[0.98] text-sm md:text-base">
-                <Phone className="h-4 w-4 md:h-5 md:w-5" /> PEDIR PRESUPUESTO
-              </a>
-              <Link href="/productos"
-                className="border-2 border-[#132a45] dark:border-[#22d3ee] bg-[#e1ebf3]/50 dark:bg-gray-800/50 backdrop-blur-sm text-[#132a45] dark:text-[#22d3ee] hover:bg-[#132a45] hover:text-white dark:hover:bg-[#22d3ee] dark:hover:text-[#0f172a] font-bold py-3 px-6 md:py-3.5 md:px-8 rounded-full text-center transition-all duration-300 w-full sm:w-auto hover:scale-[1.02] active:scale-[0.98] text-sm md:text-base">
-                VER CATÁLOGO
-              </Link>
-            </div>
-          </motion.div>
+        <div className="container mx-auto px-4 max-w-7xl relative z-10 py-20 md:py-0">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+            {/* Text Content - 7 cols */}
+            <motion.div
+              className="md:col-span-7"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2, duration: 0.6 }}
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#0891b2]/10 dark:bg-[#22d3ee]/10 border border-[#0891b2]/20 dark:border-[#22d3ee]/20 mb-6"
+              >
+                <div className="w-1.5 h-1.5 rounded-full bg-[#0891b2] dark:bg-[#22d3ee] animate-pulse" />
+                <span className="text-[11px] font-mono uppercase tracking-[0.15em] text-[#0891b2] dark:text-[#22d3ee]">Diseño e Impresión 3D</span>
+              </motion.div>
+
+              <h1 className="text-[2.5rem] sm:text-6xl md:text-7xl lg:text-[5.5rem] font-bold text-[#0a0a0a] dark:text-[#fafafa] leading-[0.95] tracking-tighter mb-6">
+                Tus ideas,<br />
+                <span className="text-[#0891b2] dark:text-[#22d3ee]">impresas</span><br />
+                en 3D.
+              </h1>
+
+              <p className="text-base md:text-lg text-[#52525b] dark:text-[#a1a1aa] mb-8 max-w-md leading-relaxed">
+                Llaveros, mates, porta sahumerios, dijes, soportes, juguetes, figuras y piezas personalizadas. Envíos a todo el país.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-3">
+                <a href="https://wa.me/5493535635221" target="_blank" rel="noopener noreferrer"
+                  className="bg-[#0891b2] hover:bg-[#0e7490] dark:bg-[#22d3ee] dark:hover:bg-[#06b6d4] text-white dark:text-[#050505] font-semibold py-3.5 px-7 rounded-xl text-sm text-center transition-all duration-300 flex items-center justify-center gap-2 w-full sm:w-auto hover:shadow-[0_4px_20px_-2px_rgba(8,145,178,0.4)] active:scale-[0.98]">
+                  <Phone className="h-4 w-4" /> PEDIR PRESUPUESTO
+                </a>
+                <Link href="/productos"
+                  className="border border-black/10 dark:border-white/10 bg-white/50 dark:bg-white/[0.03] backdrop-blur-sm text-[#0a0a0a] dark:text-[#fafafa] hover:bg-[#0a0a0a] hover:text-white dark:hover:bg-[#fafafa] dark:hover:text-[#050505] font-semibold py-3.5 px-7 rounded-xl text-center transition-all duration-300 w-full sm:w-auto active:scale-[0.98] text-sm">
+                  VER CATÁLOGO
+                </Link>
+              </div>
+            </motion.div>
+
+            {/* Floating Stats - 5 cols */}
+            <motion.div
+              className="hidden md:flex md:col-span-5 justify-end"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <div className="grid grid-cols-2 gap-3 w-full max-w-sm">
+                {[
+                  { value: '500+', label: 'Productos', icon: Package },
+                  { value: '100%', label: 'Personalizado', icon: PenTool },
+                  { value: '24hs', label: 'Respuesta', icon: Phone },
+                  { value: '★ 4.8', label: 'Satisfacción', icon: Star },
+                ].map((stat, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 + i * 0.1, duration: 0.5 }}
+                    className="bg-white/60 dark:bg-white/[0.04] backdrop-blur-md border border-black/[0.04] dark:border-white/[0.06] rounded-2xl p-4 hover:bg-white/80 dark:hover:bg-white/[0.08] transition-all duration-300"
+                  >
+                    <stat.icon className="h-4 w-4 text-[#0891b2] dark:text-[#22d3ee] mb-2" />
+                    <p className="text-2xl font-bold text-[#0a0a0a] dark:text-[#fafafa] tracking-tight font-mono">{stat.value}</p>
+                    <p className="text-[11px] text-[#71717a] dark:text-[#52525b] font-mono uppercase tracking-wide">{stat.label}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* ── Features Bar ─────────────────────────────────────── */}
+      {/* ── Features Bar (Glass) ─────────────────────────────── */}
       <ScrollReveal>
-        <section className="bg-white dark:bg-[#111827] py-6 md:py-6 border-b border-[#dbe4ec] dark:border-gray-800">
+        <section className="py-4 border-y border-black/[0.04] dark:border-white/[0.04]">
           <div className="container mx-auto px-4 max-w-7xl">
-            <div className="grid grid-cols-2 gap-x-6 gap-y-5 sm:flex sm:flex-wrap sm:justify-between sm:items-center sm:gap-4 text-sm font-medium text-gray-700 dark:text-gray-300">
-              <motion.div className="flex items-center gap-3 stagger-1" whileHover={{ y: -2 }} transition={{ type: 'spring', stiffness: 400 }}>
-                <Truck className="h-5 w-5 text-[#0ea5e9] dark:text-[#22d3ee]" />
-                <span>Envíos a todo<br /><span className="text-xs text-gray-500 font-normal">el país</span></span>
-              </motion.div>
-              <div className="hidden md:block w-px h-10 bg-gray-200 dark:bg-gray-700" />
-              <motion.div className="flex items-center gap-3 stagger-2" whileHover={{ y: -2 }} transition={{ type: 'spring', stiffness: 400 }}>
-                <PenTool className="h-6 w-6 text-[#0ea5e9] dark:text-[#22d3ee]" />
-                <span>Diseño<br /><span className="text-xs text-gray-500 font-normal">personalizado</span></span>
-              </motion.div>
-              <div className="hidden md:block w-px h-10 bg-gray-200 dark:bg-gray-700" />
-              <motion.div className="flex items-center gap-3 stagger-3" whileHover={{ y: -2 }} transition={{ type: 'spring', stiffness: 400 }}>
-                <Layers className="h-6 w-6 text-[#0ea5e9] dark:text-[#22d3ee]" />
-                <span>Impresión de<br /><span className="text-xs text-gray-500 font-normal">calidad PLA / PETG</span></span>
-              </motion.div>
-              <div className="hidden md:block w-px h-10 bg-gray-200 dark:bg-gray-700" />
-              <motion.div className="flex items-center gap-3 stagger-4" whileHover={{ y: -2 }} transition={{ type: 'spring', stiffness: 400 }}>
-                <Phone className="h-6 w-6 text-[#0ea5e9] dark:text-[#22d3ee]" />
-                <span>Atención por<br /><span className="text-xs text-gray-500 font-normal">WhatsApp</span></span>
-              </motion.div>
+            <div className="grid grid-cols-2 gap-x-6 gap-y-4 sm:flex sm:flex-wrap sm:justify-between sm:items-center sm:gap-4 text-sm font-medium text-[#52525b] dark:text-[#a1a1aa]">
+              {[
+                { icon: Truck, text: 'Envíos a todo el país', sub: 'Sin cargo en CABA' },
+                { icon: PenTool, text: 'Diseño personalizado', sub: 'Modelado 3D a medida' },
+                { icon: Layers, text: 'Impresión PLA / PETG', sub: 'Alta calidad y durabilidad' },
+                { icon: Phone, text: 'Atención por WhatsApp', sub: 'Respuesta en 24hs' },
+              ].map((item, i) => (
+                <motion.div
+                  key={i}
+                  className="flex items-center gap-3 group cursor-default"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.08, duration: 0.4 }}
+                >
+                  <div className="w-9 h-9 rounded-xl bg-[#0891b2]/10 dark:bg-[#22d3ee]/10 flex items-center justify-center group-hover:bg-[#0891b2]/20 dark:group-hover:bg-[#22d3ee]/20 transition-colors duration-300">
+                    <item.icon className="h-4 w-4 text-[#0891b2] dark:text-[#22d3ee]" />
+                  </div>
+                  <div>
+                    <span className="text-[13px] font-semibold text-[#0a0a0a] dark:text-[#fafafa] block leading-tight">{item.text}</span>
+                    <span className="text-[10px] text-[#a1a1aa] dark:text-[#52525b] font-mono">{item.sub}</span>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
       </ScrollReveal>
 
-      {/* ── Servicios ─────────────────────────────────────────── */}
+      {/* ── Servicios (Asymmetric Bento) ─────────────────────── */}
       <ScrollReveal>
-        <section className="py-14 md:py-16 bg-white dark:bg-[#111827] border-y border-[#dbe4ec] dark:border-gray-800">
+        <section className="py-20 md:py-28">
           <div className="container mx-auto px-4 max-w-7xl">
-            <h2 className="text-lg md:text-xl font-bold text-[#132a45] dark:text-[#67e8f9] uppercase tracking-wide mb-2 text-center">Nuestros Servicios</h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400 text-center mb-10">Del archivo al objeto: te acompañamos en todo el proceso.</p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div className="mb-12">
+              <p className="text-[11px] uppercase tracking-[0.2em] text-[#0891b2] dark:text-[#22d3ee] font-mono mb-2">Qué hacemos</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-[#0a0a0a] dark:text-[#fafafa] tracking-tight">Nuestros Servicios</h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {[
-                { icon: Box, title: 'Impresión 3D', desc: 'Imprimimos tu pieza en PLA, PETG y más. Traé tu modelo o elegí uno de nuestro catálogo.', cta: 'Pedir cotización' },
-                { icon: PenTool, title: 'Diseño 3D', desc: 'Modelamos desde cero la pieza que imaginás: personalizada, funcional y lista para imprimir.', cta: 'Consultar por un diseño' },
-                { icon: Layers, title: 'Producción por Encargo', desc: 'Series y piezas en volumen para regalos, emprendimientos, merchandising y eventos.', cta: 'Pedir presupuesto' },
+                { icon: Box, title: 'Impresión 3D', desc: 'Imprimimos tu pieza en PLA, PETG y más. Traé tu modelo o elegí uno de nuestro catálogo.', cta: 'Pedir cotización', accent: 'from-[#0891b2] to-[#06b6d4]' },
+                { icon: PenTool, title: 'Diseño 3D', desc: 'Modelamos desde cero la pieza que imaginás: personalizada, funcional y lista para imprimir.', cta: 'Consultar diseño', accent: 'from-[#0891b2] to-[#0e7490]' },
+                { icon: Layers, title: 'Producción por Encargo', desc: 'Series y piezas en volumen para regalos, emprendimientos, merchandising y eventos.', cta: 'Pedir presupuesto', accent: 'from-[#164e63] to-[#0891b2]' },
               ].map((servicio, i) => (
                 <motion.div
                   key={i}
-                  className="bg-[#f4f7fa] dark:bg-[#1e293b] border border-[#dbe4ec] dark:border-gray-700 rounded-2xl p-6 md:p-8 flex flex-col items-start hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+                  className="group relative bg-white/[0.04] dark:bg-white/[0.02] border border-black/[0.04] dark:border-white/[0.06] rounded-2xl p-7 md:p-8 flex flex-col hover:bg-white/[0.08] dark:hover:bg-white/[0.05] hover:border-[#0891b2]/20 dark:hover:border-[#22d3ee]/20 transition-all duration-500"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1, duration: 0.5 }}
                 >
-                  <div className="w-12 h-12 rounded-xl bg-[#154971] dark:bg-[#155e75] flex items-center justify-center mb-4">
-                    <servicio.icon className="h-6 w-6 text-white" />
+                  <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${servicio.accent} flex items-center justify-center mb-5`}>
+                    <servicio.icon className="h-5 w-5 text-white" />
                   </div>
-                  <h3 className="font-bold text-lg text-[#132a45] dark:text-gray-100 mb-2">{servicio.title}</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-5 leading-relaxed">{servicio.desc}</p>
+                  <h3 className="font-bold text-lg text-[#0a0a0a] dark:text-[#fafafa] mb-2">{servicio.title}</h3>
+                  <p className="text-sm text-[#71717a] dark:text-[#a1a1aa] mb-6 leading-relaxed flex-1">{servicio.desc}</p>
                   <a href="https://wa.me/5493535635221" target="_blank" rel="noopener noreferrer"
-                    className="mt-auto inline-flex items-center gap-2 text-sm font-bold text-[#0369a1] dark:text-[#22d3ee] hover:text-[#132a45] dark:hover:text-white transition-colors">
-                    {servicio.cta} <ArrowRight className="h-4 w-4" />
+                    className="inline-flex items-center gap-2 text-[13px] font-semibold text-[#0891b2] dark:text-[#22d3ee] hover:gap-3 transition-all duration-300">
+                    {servicio.cta} <ArrowRight className="h-3.5 w-3.5" />
                   </a>
                 </motion.div>
               ))}
@@ -192,19 +247,19 @@ export default function Home() {
         </section>
       </ScrollReveal>
 
-      {/* ── Categorías ──────────────────────────────────────── */}
+      {/* ── Categorías (Horizontal Scroll) ──────────────────── */}
       <ScrollReveal>
-        <section className="py-14 md:py-12 overflow-hidden">
+        <section className="py-16 md:py-20 overflow-hidden">
           <div className="container mx-auto px-4 max-w-7xl">
-            <div className="flex justify-between items-end mb-6 md:mb-8">
+            <div className="flex justify-between items-end mb-8">
               <div>
-                <p className="text-[11px] md:text-xs uppercase tracking-[0.25em] text-[#0369a1] dark:text-[#22d3ee] font-semibold mb-1">Encontrá lo tuyo</p>
-                <h2 className="text-lg md:text-xl font-bold text-[#132a45] dark:text-[#67e8f9] uppercase tracking-wide">Categorías</h2>
+                <p className="text-[11px] uppercase tracking-[0.2em] text-[#0891b2] dark:text-[#22d3ee] font-mono mb-2">Encontrá lo tuyo</p>
+                <h2 className="text-2xl md:text-3xl font-bold text-[#0a0a0a] dark:text-[#fafafa] tracking-tight">Categorías</h2>
               </div>
               {catSeleccionada !== null && (
                 <button
                   onClick={() => { setCatSeleccionada(null); document.getElementById('todos-productos')?.scrollIntoView({ behavior: 'smooth' }); }}
-                  className="text-xs md:text-sm font-bold text-[#0369a1] dark:text-[#22d3ee] hover:text-[#132a45] dark:hover:text-white transition-colors"
+                  className="text-[13px] font-semibold text-[#0891b2] dark:text-[#22d3ee] hover:text-[#0a0a0a] dark:hover:text-[#fafafa] transition-colors"
                 >
                   VER TODAS
                 </button>
@@ -217,13 +272,13 @@ export default function Home() {
               <button
                 key={`cat-${cat.id}-${i}`}
                 onClick={() => { setCatSeleccionada(cat.id); document.getElementById('todos-productos')?.scrollIntoView({ behavior: 'smooth' }); }}
-                className="flex flex-col items-center gap-2.5 w-[104px] sm:w-[124px] shrink-0 group focus:outline-none cursor-pointer"
+                className="flex flex-col items-center gap-3 w-[100px] sm:w-[120px] shrink-0 group focus:outline-none cursor-pointer"
               >
                 <div
-                  className={`w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-white dark:bg-gray-800 flex items-center justify-center p-3 transition-all duration-300 group-hover:-translate-y-1 group-active:scale-95 ${
+                  className={`w-18 h-18 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center p-3 transition-all duration-300 group-hover:-translate-y-1 group-active:scale-95 ${
                     catSeleccionada === cat.id
-                      ? 'border-2 border-[#154971] dark:border-[#22d3ee] shadow-md scale-105'
-                      : 'border border-[#dbe4ec] dark:border-gray-700 shadow-sm group-hover:border-[#154971] dark:group-hover:border-[#22d3ee] group-hover:shadow-md'
+                      ? 'bg-[#0891b2]/10 dark:bg-[#22d3ee]/10 border border-[#0891b2]/30 dark:border-[#22d3ee]/30 shadow-[0_4px_20px_-4px_rgba(8,145,178,0.2)]'
+                      : 'bg-white/[0.04] dark:bg-white/[0.02] border border-black/[0.04] dark:border-white/[0.06] group-hover:border-[#0891b2]/20 dark:group-hover:border-[#22d3ee]/20'
                   }`}
                 >
                   <SmartImage
@@ -232,11 +287,9 @@ export default function Home() {
                     className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
                   />
                 </div>
-                <span
-                  className={`font-semibold text-[10px] sm:text-xs text-center leading-tight line-clamp-2 transition-colors ${
-                    catSeleccionada === cat.id ? 'text-[#154971] dark:text-[#22d3ee] font-bold' : 'text-gray-800 dark:text-gray-300'
-                  }`}
-                >
+                <span className={`font-medium text-[11px] text-center leading-tight line-clamp-2 transition-colors ${
+                  catSeleccionada === cat.id ? 'text-[#0891b2] dark:text-[#22d3ee]' : 'text-[#71717a] dark:text-[#a1a1aa]'
+                }`}>
                   {cat.nombre}
                 </span>
               </button>
@@ -245,33 +298,39 @@ export default function Home() {
         </section>
       </ScrollReveal>
 
-      {/* ── Ofertas Destacadas ───────────────────────────────── */}
+      {/* ── Ofertas Destacadas (Bento Asymmetric) ───────────── */}
       <ScrollReveal>
-        <section className="py-10 md:py-8" id="ofertas">
+        <section className="py-16 md:py-20" id="ofertas">
           <div className="container mx-auto px-4 max-w-7xl">
-            <div className="flex justify-between items-end mb-5 md:mb-6">
-              <h2 className="text-lg md:text-xl font-bold text-[#132a45] dark:text-[#67e8f9] uppercase tracking-wide">Ofertas Destacadas</h2>
-              <Link href="/productos" className="text-xs md:text-sm font-bold text-[#0369a1] dark:text-[#22d3ee] hover:text-[#132a45] flex items-center gap-1">VER TODAS <ArrowRight className="h-4 w-4" /></Link>
+            <div className="flex justify-between items-end mb-8">
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.2em] text-[#0891b2] dark:text-[#22d3ee] font-mono mb-2">Promociones</p>
+                <h2 className="text-2xl md:text-3xl font-bold text-[#0a0a0a] dark:text-[#fafafa] tracking-tight">Ofertas Destacadas</h2>
+              </div>
+              <Link href="/productos" className="text-[13px] font-semibold text-[#0891b2] dark:text-[#22d3ee] hover:text-[#0a0a0a] dark:hover:text-[#fafafa] flex items-center gap-1 transition-colors">
+                VER TODAS <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
             </div>
+
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
               {[
-                { title: 'Llaveros\nPersonalizados', sub: 'Con el nombre que quieras', price: '$2.500', bg: 'bg-[#155e75] dark:bg-[#164e63]', text: 'text-white', priceColor: '' },
-                { title: 'Porta Sahumerios\nLuna y Estrellas', sub: 'Modelo exclusivo NH3D', price: '$3.500', bg: 'bg-[#eef4f9] dark:bg-[#1e293b]', text: 'text-[#132a45] dark:text-gray-100', priceColor: 'text-[#b4483a]', border: 'border border-[#dbe4ec] dark:border-gray-700' },
-                { title: 'Soporte Notebook\nErgonómico', sub: 'Ajustable y plegable', price: '$15.000', bg: 'bg-[#eaf3fa] dark:bg-[#1e293b]', text: 'text-[#132a45] dark:text-gray-100', priceColor: '', border: 'border border-[#dbe4ec] dark:border-gray-700' },
-                { title: 'Figuras\nFlexi', sub: 'Animales articulados', price: '-20% OFF', bg: 'bg-[#eff6fb] dark:bg-[#1e293b]', text: 'text-[#132a45] dark:text-gray-100', priceColor: 'text-[#b4483a]', border: 'border border-[#dbe4ec] dark:border-gray-700' },
+                { title: 'Llaveros\nPersonalizados', sub: 'Con el nombre que quieras', price: '$2.500', bg: 'from-[#0891b2] to-[#0e7490]', text: 'text-white', priceColor: '' },
+                { title: 'Porta Sahumerios\nLuna y Estrellas', sub: 'Modelo exclusivo NH3D', price: '$3.500', bg: 'bg-white/[0.04] dark:bg-white/[0.02]', text: 'text-[#0a0a0a] dark:text-[#fafafa]', priceColor: 'text-[#ef4444]', border: 'border border-black/[0.04] dark:border-white/[0.06]' },
+                { title: 'Soporte Notebook\nErgonómico', sub: 'Ajustable y plegable', price: '$15.000', bg: 'bg-white/[0.04] dark:bg-white/[0.02]', text: 'text-[#0a0a0a] dark:text-[#fafafa]', priceColor: '', border: 'border border-black/[0.04] dark:border-white/[0.06]' },
+                { title: 'Figuras\nFlexi', sub: 'Animales articulados', price: '-20% OFF', bg: 'bg-white/[0.04] dark:bg-white/[0.02]', text: 'text-[#0a0a0a] dark:text-[#fafafa]', priceColor: 'text-[#ef4444]', border: 'border border-black/[0.04] dark:border-white/[0.06]' },
               ].map((oferta, i) => (
                 <motion.div
                   key={i}
-                  className={`${oferta.bg} ${oferta.text} ${oferta.border || ''} rounded-2xl p-4 md:p-6 relative overflow-hidden h-36 md:h-48 flex flex-col justify-center cursor-default`}
+                  className={`${oferta.bg} ${oferta.text} ${oferta.border || ''} rounded-2xl p-5 md:p-6 relative overflow-hidden h-40 md:h-52 flex flex-col justify-end cursor-default group hover:shadow-lg transition-all duration-500`}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.1, duration: 0.5 }}
-                  whileHover={{ scale: 1.02, y: -4 }}
+                  transition={{ delay: i * 0.08, duration: 0.5 }}
+                  whileHover={{ y: -4 }}
                 >
-                  <h3 className="font-bold text-base md:text-xl uppercase leading-tight mb-1 whitespace-pre-line">{oferta.title}</h3>
-                  <p className="text-[11px] md:text-xs opacity-90 mb-2 md:mb-3">{oferta.sub}</p>
-                  <p className={`font-bold text-lg md:text-2xl ${oferta.priceColor}`}>{oferta.price}</p>
+                  <h3 className="font-bold text-base md:text-lg uppercase leading-tight mb-1 whitespace-pre-line tracking-tight">{oferta.title}</h3>
+                  <p className="text-[11px] opacity-70 mb-3 font-mono">{oferta.sub}</p>
+                  <p className={`font-bold text-xl md:text-2xl font-mono ${oferta.priceColor}`}>{oferta.price}</p>
                 </motion.div>
               ))}
             </div>
@@ -279,19 +338,24 @@ export default function Home() {
         </section>
       </ScrollReveal>
 
-      {/* ── Productos Destacados (Carrusel infinito) ──────────── */}
+      {/* ── Productos Destacados (Carrusel) ──────────────────── */}
       {productosDestacados.length > 0 && (
         <ScrollReveal>
-          <section className="py-10 md:py-12" id="productos">
+          <section className="py-16 md:py-20" id="productos">
             <div className="container mx-auto px-4 max-w-7xl">
-              <div className="flex justify-between items-end mb-5 md:mb-6">
-                <h2 className="text-lg md:text-xl font-bold text-[#132a45] dark:text-[#67e8f9] uppercase tracking-wide">Productos Destacados</h2>
-                <Link href="/productos" className="text-xs md:text-sm font-bold text-[#0369a1] dark:text-[#22d3ee] hover:text-[#132a45] flex items-center gap-1">VER TODOS <ArrowRight className="h-4 w-4" /></Link>
+              <div className="flex justify-between items-end mb-8">
+                <div>
+                  <p className="text-[11px] uppercase tracking-[0.2em] text-[#0891b2] dark:text-[#22d3ee] font-mono mb-2">Selección</p>
+                  <h2 className="text-2xl md:text-3xl font-bold text-[#0a0a0a] dark:text-[#fafafa] tracking-tight">Productos Destacados</h2>
+                </div>
+                <Link href="/productos" className="text-[13px] font-semibold text-[#0891b2] dark:text-[#22d3ee] hover:text-[#0a0a0a] dark:hover:text-[#fafafa] flex items-center gap-1 transition-colors">
+                  VER TODOS <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
               </div>
             </div>
             <ProductCarousel>
               {[...productosDestacados, ...productosDestacados].map((producto, i) => (
-                <div key={`${producto.id}-${i}`} className="w-[150px] sm:w-[200px] md:w-[240px] shrink-0">
+                <div key={`${producto.id}-${i}`} className="w-[160px] sm:w-[200px] md:w-[240px] shrink-0">
                   <ProductoCard producto={producto} onAdd={addItem} />
                 </div>
               ))}
@@ -300,20 +364,23 @@ export default function Home() {
         </ScrollReveal>
       )}
 
-      {/* ── Todos los Productos ──────────────────────────────── */}
+      {/* ── Todos los Productos (Grid) ──────────────────────── */}
       <ScrollReveal>
-        <section className="py-10 md:py-12 bg-white dark:bg-[#111827] border-t border-[#dbe4ec] dark:border-gray-800" id="todos-productos">
+        <section className="py-16 md:py-20 border-t border-black/[0.04] dark:border-white/[0.04]" id="todos-productos">
           <div className="container mx-auto px-4 max-w-7xl">
-            <div className="flex items-center justify-between mb-5 md:mb-8">
-              <h2 className="text-lg md:text-xl font-bold text-[#132a45] dark:text-[#67e8f9] uppercase tracking-wide">
-                {catSeleccionada !== null
-                  ? categorias.find(c => c.id === catSeleccionada)?.nombre || 'Productos'
-                  : 'Todos los Productos'}
-              </h2>
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.2em] text-[#0891b2] dark:text-[#22d3ee] font-mono mb-2">Catálogo</p>
+                <h2 className="text-2xl md:text-3xl font-bold text-[#0a0a0a] dark:text-[#fafafa] tracking-tight">
+                  {catSeleccionada !== null
+                    ? categorias.find(c => c.id === catSeleccionada)?.nombre || 'Productos'
+                    : 'Todos los Productos'}
+                </h2>
+              </div>
               {catSeleccionada !== null && (
                 <button
                   onClick={() => setCatSeleccionada(null)}
-                  className="text-[10px] sm:text-xs font-bold text-[#0369a1] dark:text-[#22d3ee] hover:text-[#132a45] dark:hover:text-[#67e8f9] bg-[#cffafe]/50 dark:bg-[#155e75]/30 px-3 py-1.5 rounded-full transition-colors"
+                  className="text-[11px] font-mono uppercase tracking-wide font-semibold text-[#0891b2] dark:text-[#22d3ee] hover:text-[#0a0a0a] dark:hover:text-[#fafafa] bg-[#0891b2]/10 dark:bg-[#22d3ee]/10 px-3 py-1.5 rounded-lg transition-colors"
                 >
                   VER TODAS
                 </button>
@@ -325,20 +392,20 @@ export default function Home() {
                 : todosLosProductos;
               if (filtrados.length === 0) {
                 return (
-                  <p className="text-center text-gray-400 dark:text-gray-500 py-12 text-sm">
+                  <p className="text-center text-[#a1a1aa] dark:text-[#52525b] py-16 text-sm font-mono">
                     No hay productos en esta categoría.
                   </p>
                 );
               }
               return (
-                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2.5 sm:gap-3 md:gap-6">
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2.5 sm:gap-3 md:gap-4">
                   {filtrados.map((producto, i) => (
                     <motion.div
                       key={producto.id}
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true, margin: '-50px' }}
-                      transition={{ delay: (i % 5) * 0.07, duration: 0.4 }}
+                      transition={{ delay: (i % 5) * 0.06, duration: 0.4 }}
                     >
                       <ProductoCard producto={producto} onAdd={addItem} />
                     </motion.div>
@@ -353,7 +420,7 @@ export default function Home() {
   );
 }
 
-/* ── ProductoCard ───────────────────────────────────────────── */
+/* ── ProductoCard (Premium Design) ────────────────────────────── */
 
 function ProductoCard({ producto, onAdd }: { producto: Producto, onAdd: any }) {
   const [agregado, setAgregado] = useState(false);
@@ -366,10 +433,10 @@ function ProductoCard({ producto, onAdd }: { producto: Producto, onAdd: any }) {
   }, [onAdd, producto]);
 
   return (
-    <div className="bg-white dark:bg-[#1e293b] border border-[#dce5ee] dark:border-gray-700 rounded-xl md:rounded-2xl p-2 sm:p-3 md:p-4 flex flex-col justify-between hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group h-full">
-      <div className="relative aspect-square w-full mb-2 md:mb-4 bg-[#f4f8fb] dark:bg-gray-800 rounded-lg md:rounded-xl overflow-hidden flex items-center justify-center p-1.5 md:p-2">
+    <div className="bg-white/[0.04] dark:bg-white/[0.02] border border-black/[0.04] dark:border-white/[0.06] rounded-2xl p-3 md:p-4 flex flex-col justify-between hover:border-[#0891b2]/20 dark:hover:border-[#22d3ee]/20 hover:shadow-[0_4px_20px_-4px_rgba(8,145,178,0.1)] transition-all duration-500 group h-full">
+      <div className="relative aspect-square w-full mb-3 md:mb-4 bg-[#f5f5f5] dark:bg-white/[0.03] rounded-xl overflow-hidden flex items-center justify-center p-2">
         {producto.oferta && (
-          <span className="absolute top-1 right-1 md:top-2 md:right-2 bg-[#cffafe] dark:bg-[#155e75] text-[#0e7490] dark:text-[#22d3ee] text-[8px] md:text-[10px] font-bold px-1 py-px md:px-1.5 md:py-0.5 rounded z-10 animate-fade-in">
+          <span className="absolute top-2 right-2 bg-[#ef4444] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md z-10 font-mono tracking-wide">
             OFERTA
           </span>
         )}
@@ -377,29 +444,29 @@ function ProductoCard({ producto, onAdd }: { producto: Producto, onAdd: any }) {
           <SmartImage
             src={producto.imagenUrl}
             alt={producto.nombre}
-            className="object-contain w-full h-full group-hover:scale-105 transition-transform duration-300"
+            className="object-contain w-full h-full group-hover:scale-105 transition-transform duration-500"
           />
         ) : (
           <SmartImage
             src="/categorias/default.svg"
             alt={producto.nombre}
-            className="object-contain w-full h-full opacity-60"
+            className="object-contain w-full h-full opacity-40"
           />
         )}
       </div>
 
       <div className="flex-1 flex flex-col">
-        <h3 className="text-[11px] sm:text-[13px] md:text-sm font-semibold text-gray-900 dark:text-gray-100 line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem] md:min-h-[2.5rem] leading-tight mb-1 md:mb-2">
+        <h3 className="text-[12px] sm:text-[13px] md:text-sm font-medium text-[#0a0a0a] dark:text-[#fafafa] line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem] leading-tight mb-2">
           {producto.nombre}
         </h3>
-        <p className="text-sm sm:text-base md:text-lg font-bold text-[#132a45] dark:text-[#22d3ee] mb-1 md:mb-2">
+        <p className="text-sm sm:text-base md:text-lg font-bold text-[#0891b2] dark:text-[#22d3ee] mb-2 font-mono">
           ${producto.precio.toLocaleString('es-AR')}
         </p>
 
-        <div className="hidden sm:flex items-center gap-1 mb-2 md:mb-4 text-[11px] md:text-xs font-medium text-gray-500 dark:text-gray-400">
-          <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
-          <span className="text-gray-800 dark:text-gray-200">4.8</span>
-          <span>(125)</span>
+        <div className="hidden sm:flex items-center gap-1 mb-3 text-[11px] font-medium text-[#a1a1aa] dark:text-[#52525b]">
+          <Star className="h-3 w-3 fill-[#fbbf24] text-[#fbbf24]" />
+          <span className="text-[#52525b] dark:text-[#a1a1aa]">4.8</span>
+          <span className="font-mono">(125)</span>
         </div>
       </div>
 
@@ -407,15 +474,15 @@ function ProductoCard({ producto, onAdd }: { producto: Producto, onAdd: any }) {
         ref={btnRef}
         onClick={handleAgregar}
         disabled={producto.stock <= 0}
-        className={`w-full py-1.5 sm:py-2 md:py-2.5 rounded-lg md:rounded-xl font-bold text-[10px] sm:text-[11px] md:text-xs flex items-center justify-center gap-1 md:gap-2 transition-all duration-300 active:scale-[0.97] ${
+        className={`w-full py-2 md:py-2.5 rounded-xl font-semibold text-[11px] md:text-xs flex items-center justify-center gap-2 transition-all duration-300 active:scale-[0.97] ${
           producto.stock <= 0
-            ? 'bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+            ? 'bg-white/[0.04] dark:bg-white/[0.02] text-[#a1a1aa] dark:text-[#52525b] cursor-not-allowed border border-black/[0.04] dark:border-white/[0.06]'
             : agregado
-              ? 'bg-[#154971] text-white border border-[#154971] scale-[0.97]'
-              : 'bg-white dark:bg-transparent border border-[#154971] dark:border-[#22d3ee] text-[#154971] dark:text-[#22d3ee] hover:bg-[#154971] hover:text-white dark:hover:bg-[#22d3ee] dark:hover:text-[#0f172a] hover:shadow-md'
+              ? 'bg-[#0891b2] dark:bg-[#22d3ee] text-white dark:text-[#050505] border border-[#0891b2] dark:border-[#22d3ee]'
+              : 'border border-black/[0.08] dark:border-white/[0.1] text-[#0a0a0a] dark:text-[#fafafa] hover:bg-[#0891b2] hover:text-white dark:hover:bg-[#22d3ee] dark:hover:text-[#050505] hover:border-[#0891b2] dark:hover:border-[#22d3ee]'
         }`}
       >
-        <ShoppingCart className={`h-4 w-4 ${agregado ? 'animate-bounce-subtle' : ''}`} />
+        <ShoppingCart className={`h-3.5 w-3.5 ${agregado ? 'animate-bounce-subtle' : ''}`} />
         {producto.stock <= 0 ? 'SIN STOCK' : agregado ? '¡AGREGADO!' : 'AGREGAR'}
       </button>
     </div>

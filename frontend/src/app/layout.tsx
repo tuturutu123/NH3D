@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { GeistSans } from 'geist/font/sans';
+import { GeistMono } from 'geist/font/mono';
 import './globals.css';
 import LayoutShell from '../components/LayoutShell';
 import ThemeInitializer from '../components/ThemeInitializer';
-
-const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'NH3D | Diseño e Impresión 3D en Villa María',
@@ -18,8 +17,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className="scroll-smooth" suppressHydrationWarning>
-      <body className={`${inter.className} bg-gray-50 dark:bg-[#0f172a] text-gray-900 dark:text-gray-100 antialiased min-h-screen flex flex-col`}>
+      <body className={`${GeistSans.className} ${GeistMono.className} bg-[#fafafa] dark:bg-[#050505] text-[#0a0a0a] dark:text-[#fafafa] antialiased min-h-screen flex flex-col`}>
         <ThemeInitializer />
+        <div className="grain-overlay" />
         <LayoutShell>{children}</LayoutShell>
       </body>
     </html>
