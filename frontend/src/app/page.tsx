@@ -102,72 +102,42 @@ export default function Home() {
         </div>
 
         <div className="container mx-auto px-4 max-w-7xl relative z-10 py-16 md:py-0">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+          <motion.div
+            className="max-w-2xl"
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          >
             <motion.div
-              className="md:col-span-7"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0891b2]/8 dark:bg-[#22d3ee]/8 border border-[#0891b2]/15 dark:border-[#22d3ee]/15 mb-5"
-              >
-                <div className="w-1.5 h-1.5 rounded-full bg-[#0891b2] dark:bg-[#22d3ee] animate-pulse" />
-                <span className="text-[10px] font-mono uppercase tracking-[0.18em] text-[#0891b2] dark:text-[#22d3ee]">Impresión 3D</span>
-              </motion.div>
-
-              <h1 className="text-[2.2rem] sm:text-5xl md:text-6xl lg:text-[4.5rem] font-bold text-[#0a0a0a] dark:text-[#fafafa] leading-[1.02] tracking-tighter mb-5">
-                Tus ideas,<br />
-                <span className="text-[#0891b2] dark:text-[#22d3ee]">impresas</span> en 3D.
-              </h1>
-
-              <p className="text-[15px] md:text-base text-[#71717a] dark:text-[#a1a1aa] mb-7 max-w-md leading-relaxed">
-                Llaveros, mates, porta sahumerios, dijes, soportes, juguetes y piezas personalizadas. Envíos a todo el país.
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-3">
-                <a href="https://wa.me/5493535635221" target="_blank" rel="noopener noreferrer"
-                  className="bg-[#0891b2] hover:bg-[#0e7490] dark:bg-[#22d3ee] dark:hover:bg-[#06b6d4] text-white dark:text-[#050505] font-semibold py-3 px-6 rounded-xl text-sm text-center transition-all duration-300 flex items-center justify-center gap-2 w-full sm:w-auto active:scale-[0.98]">
-                  <Phone className="h-4 w-4" /> PEDIR PRESUPUESTO
-                </a>
-                <Link href="/productos"
-                  className="border border-black/8 dark:border-white/8 bg-white/60 dark:bg-white/[0.03] backdrop-blur-sm text-[#0a0a0a] dark:text-[#fafafa] hover:bg-[#0a0a0a] hover:text-white dark:hover:bg-[#fafafa] dark:hover:text-[#050505] font-semibold py-3 px-6 rounded-xl text-center transition-all duration-300 w-full sm:w-auto active:scale-[0.98] text-sm">
-                  VER CATÁLOGO
-                </Link>
-              </div>
-            </motion.div>
-
-            {/* Stats compactos */}
-            <motion.div
-              className="hidden md:flex md:col-span-5 justify-end"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.7 }}
+              transition={{ delay: 0.15, duration: 0.5 }}
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0891b2]/8 dark:bg-[#22d3ee]/8 border border-[#0891b2]/15 dark:border-[#22d3ee]/15 mb-5"
             >
-              <div className="grid grid-cols-2 gap-2.5 w-full max-w-[280px]">
-                {[
-                  { value: '500+', label: 'Productos' },
-                  { value: '100%', label: 'Personalizado' },
-                  { value: '24hs', label: 'Respuesta' },
-                  { value: '4.8★', label: 'Satisfacción' },
-                ].map((stat, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 + i * 0.08, duration: 0.4 }}
-                    className="bg-white/50 dark:bg-white/[0.04] backdrop-blur-sm border border-black/[0.04] dark:border-white/[0.06] rounded-xl p-3.5 transition-all duration-300"
-                  >
-                    <p className="text-xl font-bold text-[#0a0a0a] dark:text-[#fafafa] tracking-tight font-mono leading-none mb-1">{stat.value}</p>
-                    <p className="text-[10px] text-[#71717a] dark:text-[#52525b] font-mono uppercase tracking-wide">{stat.label}</p>
-                  </motion.div>
-                ))}
-              </div>
+              <div className="w-1.5 h-1.5 rounded-full bg-[#0891b2] dark:bg-[#22d3ee] animate-pulse" />
+              <span className="text-[10px] font-mono uppercase tracking-[0.18em] text-[#0891b2] dark:text-[#22d3ee]">Impresión 3D</span>
             </motion.div>
-          </div>
+
+            <h1 className="text-[2.2rem] sm:text-5xl md:text-6xl font-bold text-[#0a0a0a] dark:text-[#fafafa] leading-[1.02] tracking-tighter mb-5">
+              Tus ideas,<br />
+              <span className="text-[#0891b2] dark:text-[#22d3ee]">impresas</span> en 3D.
+            </h1>
+
+            <p className="text-[15px] md:text-base text-[#71717a] dark:text-[#a1a1aa] mb-7 max-w-md leading-relaxed">
+              Llaveros, mates, porta sahumerios, dijes, soportes, juguetes y piezas personalizadas. Envíos a todo el país.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-3">
+              <a href="https://wa.me/5493535635221" target="_blank" rel="noopener noreferrer"
+                className="bg-[#0891b2] hover:bg-[#0e7490] dark:bg-[#22d3ee] dark:hover:bg-[#06b6d4] text-white dark:text-[#050505] font-semibold py-3 px-6 rounded-xl text-sm text-center transition-all duration-300 flex items-center justify-center gap-2 w-full sm:w-auto active:scale-[0.98]">
+                <Phone className="h-4 w-4" /> PEDIR PRESUPUESTO
+              </a>
+              <Link href="/productos"
+                className="border border-black/8 dark:border-white/8 bg-white/60 dark:bg-white/[0.03] backdrop-blur-sm text-[#0a0a0a] dark:text-[#fafafa] hover:bg-[#0a0a0a] hover:text-white dark:hover:bg-[#fafafa] dark:hover:text-[#050505] font-semibold py-3 px-6 rounded-xl text-center transition-all duration-300 w-full sm:w-auto active:scale-[0.98] text-sm">
+                VER CATÁLOGO
+              </Link>
+            </div>
+          </motion.div>
         </div>
       </section>
 
