@@ -1,18 +1,25 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  BadRequestException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import type { Response } from 'express';
 import * as bcrypt from 'bcryptjs';
 import { PrismaService } from '../prisma/prisma.service';
 import { LoginDto } from './dto/login.dto';
+import { VerifyOtpDto } from './dto/verify-otp.dto';
+import { OtpService } from './otp.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private prisma: PrismaService,
     private jwtService: JwtService,
+    private otpService: OtpService,
   ) {}
 
-  async login(loginDto: LoginDto, res?: Response) {
+  async login(loginDto: LoginDto) {
     const user = await this.prisma.usuario.findUnique({
       where: { email: loginDto.email },
     });
@@ -28,6 +35,39 @@ export class AuthService {
 
     if (!isPasswordValid) {
       throw new UnauthorizedException('Credenciales incorrectas');
+    }
+
+    if (user.rol !== 'ADMIN') {
+      throw new UnauthorizedException('No tenés permisos de administrador');
+    }
+
+    const code = this.otpService.generate(user.email);
+    await this.otpService.sendEmail(user.email, code).catch((e) => {
+      console.error('[OTP] error enviando email:', e.message);
+    });
+
+    return {
+      message: 'Código enviado. Revisá tu correo electrónico.',
+      requiresOtp: true,
+    };
+  }
+
+  async verifyOtp(verifyOtpDto: VerifyOtpDto, res?: Response) {
+    const email = verifyOtpDto.email;
+    const valid = this.otpService.verify(email, verifyOtpDto.code);
+
+    if (!valid) {
+      throw new BadRequestException(
+        'Código inválido o expirado. Intentá de nuevo.',
+      );
+    }
+
+    const user = await this.prisma.usuario.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('Usuario no encontrado');
     }
 
     const payload = { sub: user.id, email: user.email, rol: user.rol };
@@ -52,6 +92,17 @@ export class AuthService {
         rol: user.rol,
       },
     };
+  }
+
+  async resendOtp(email: string) {
+    if (!email) {
+      throw new BadRequestException('Email requerido');
+    }
+    const code = this.otpService.generate(email);
+    await this.otpService.sendEmail(email, code).catch((e) => {
+      console.error('[OTP] error enviando email:', e.message);
+    });
+    return { message: 'Código reenviado. Revisá tu correo electrónico.' };
   }
 
   async createInitialAdmin(emailParam?: string, passwordParam?: string) {

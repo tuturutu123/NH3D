@@ -13,6 +13,7 @@ import { Throttle } from '@nestjs/throttler';
 import type { Response } from 'express';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
+import { VerifyOtpDto } from './dto/verify-otp.dto';
 import { Public } from './public.decorator';
 
 @Controller('auth')
@@ -23,8 +24,27 @@ export class AuthController {
   @Throttle({ default: { limit: 5, ttl: 300000 } })
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  login(@Body() loginDto: LoginDto, @Res({ passthrough: true }) res: Response) {
-    return this.authService.login(loginDto, res);
+  login(@Body() loginDto: LoginDto) {
+    return this.authService.login(loginDto);
+  }
+
+  @Public()
+  @Throttle({ default: { limit: 10, ttl: 300000 } })
+  @HttpCode(HttpStatus.OK)
+  @Post('verify-otp')
+  verifyOtp(
+    @Body() verifyOtpDto: VerifyOtpDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    return this.authService.verifyOtp(verifyOtpDto, res);
+  }
+
+  @Public()
+  @Throttle({ default: { limit: 3, ttl: 300000 } })
+  @HttpCode(HttpStatus.OK)
+  @Post('resend-otp')
+  resendOtp(@Body('email') email?: string) {
+    return this.authService.resendOtp(email || '');
   }
 
   @Public()
