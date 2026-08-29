@@ -16,10 +16,7 @@ export class OtpService {
 
   generate(email: string): string {
     const code = crypto.randomInt(100000, 1000000).toString();
-    const codeHash = crypto
-      .createHash('sha256')
-      .update(code)
-      .digest('hex');
+    const codeHash = crypto.createHash('sha256').update(code).digest('hex');
     this.otpStore.set(email, {
       codeHash,
       expiresAt: Date.now() + this.ttlMs,

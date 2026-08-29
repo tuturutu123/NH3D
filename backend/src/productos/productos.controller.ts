@@ -36,13 +36,18 @@ export class ProductosController {
 
   @Public()
   @Get()
-  findAll(@Query('q') q?: string, @Query('page') page = '1') {
-    const take = 24;
+  findAll(
+    @Query('q') q?: string,
+    @Query('page') page = '1',
+    @Query('all') all?: string,
+  ) {
+    const take = all === 'true' ? 500 : 24;
     const skip = (Number(page) - 1) * take;
-    const where: any = {
-      stock: { gt: 0 },
-      estado: true,
-    };
+    const where: any = {};
+    if (all !== 'true') {
+      where.stock = { gt: 0 };
+      where.estado = true;
+    }
     if (q && q.trim()) {
       where.OR = [
         { nombre: { contains: q, mode: 'insensitive' } },
@@ -86,15 +91,22 @@ export class ProductosController {
   }
 
   @Post()
-  @UseInterceptors(FileInterceptor('imagen', {
-    limits: { fileSize: 5 * 1024 * 1024 },
-    fileFilter: (_req, file, cb) => {
-      if (!file.mimetype.match(/^image\/(jpeg|png|webp|gif)$/)) {
-        return cb(new BadRequestException('Solo se permiten archivos de imagen (JPEG, PNG, WebP, GIF)'), false);
-      }
-      cb(null, true);
-    },
-  }))
+  @UseInterceptors(
+    FileInterceptor('imagen', {
+      limits: { fileSize: 5 * 1024 * 1024 },
+      fileFilter: (_req, file, cb) => {
+        if (!file.mimetype.match(/^image\/(jpeg|png|webp|gif)$/)) {
+          return cb(
+            new BadRequestException(
+              'Solo se permiten archivos de imagen (JPEG, PNG, WebP, GIF)',
+            ),
+            false,
+          );
+        }
+        cb(null, true);
+      },
+    }),
+  )
   async create(@Body() body: any, @UploadedFile() file: Express.Multer.File) {
     let imagenUrl: string | null = null;
     if (file) {
@@ -127,15 +139,22 @@ export class ProductosController {
   }
 
   @Patch(':id')
-  @UseInterceptors(FileInterceptor('imagen', {
-    limits: { fileSize: 5 * 1024 * 1024 },
-    fileFilter: (_req, file, cb) => {
-      if (!file.mimetype.match(/^image\/(jpeg|png|webp|gif)$/)) {
-        return cb(new BadRequestException('Solo se permiten archivos de imagen (JPEG, PNG, WebP, GIF)'), false);
-      }
-      cb(null, true);
-    },
-  }))
+  @UseInterceptors(
+    FileInterceptor('imagen', {
+      limits: { fileSize: 5 * 1024 * 1024 },
+      fileFilter: (_req, file, cb) => {
+        if (!file.mimetype.match(/^image\/(jpeg|png|webp|gif)$/)) {
+          return cb(
+            new BadRequestException(
+              'Solo se permiten archivos de imagen (JPEG, PNG, WebP, GIF)',
+            ),
+            false,
+          );
+        }
+        cb(null, true);
+      },
+    }),
+  )
   async update(
     @Param('id') id: string,
     @Body() body: any,

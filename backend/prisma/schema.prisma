@@ -92,3 +92,9 @@ model Cupon {
   descuento Float
   activo    Boolean @default(true)
 }
+
+model Setting {
+  id    Int    @id @default(autoincrement())
+  key   String @unique
+  value String
+}

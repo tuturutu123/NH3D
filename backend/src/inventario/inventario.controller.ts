@@ -1,13 +1,11 @@
 import { Controller, Get, Patch, Param, Body } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Public } from '../auth/public.decorator';
 import { UpdateStockDto } from './dto/update-stock.dto';
 
 @Controller('inventario')
 export class InventarioController {
   constructor(private prisma: PrismaService) {}
 
-  @Public()
   @Get('productos')
   async listProductos() {
     return this.prisma.producto.findMany({
@@ -33,7 +31,6 @@ export class InventarioController {
     });
   }
 
-  @Public()
   @Get('productos/agotados')
   async lowStock() {
     return this.prisma.producto.findMany({

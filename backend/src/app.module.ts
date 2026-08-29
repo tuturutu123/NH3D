@@ -13,14 +13,20 @@ import { PedidosModule } from './pedidos/pedidos.module';
 import { EnviosModule } from './envios/envios.module';
 import { ReportesModule } from './reportes/reportes.module';
 import { InventarioModule } from './inventario/inventario.module';
+import { MarcasModule } from './marcas/marcas.module';
+import { ValoracionesModule } from './valoraciones/valoraciones.module';
+import { CuponesModule } from './cupones/cupones.module';
+import { SettingsModule } from './settings/settings.module';
 import { DevModule } from './dev/dev.module';
 
 @Module({
   imports: [
-    ThrottlerModule.forRoot([{
-      ttl: 60000,
-      limit: 10,
-    }]),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 10,
+      },
+    ]),
     ServeStaticModule.forRoot({
       rootPath: join(process.cwd(), 'uploads'),
       serveRoot: '/uploads',
@@ -34,6 +40,10 @@ import { DevModule } from './dev/dev.module';
     EnviosModule,
     ReportesModule,
     InventarioModule,
+    MarcasModule,
+    ValoracionesModule,
+    CuponesModule,
+    SettingsModule,
     DevModule,
   ],
   controllers: [],

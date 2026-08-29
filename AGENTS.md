@@ -4,9 +4,9 @@
 
 - Monorepo: `backend/` (NestJS 11 + Prisma 7) + `frontend/` (Next.js 16 + React 19)
 - Cada carpeta tiene su propio `package.json` y `node_modules` (no hay workspace link)
-- Base de datos: PostgreSQL (Supabase) con Prisma usando `@prisma/adapter-pg` (driver adapter)
+- Base de datos: PostgreSQL (Supabase) con Prisma usando `@prisma/adapter-pg` (driver adapter) — requiere `npx prisma generate`; las migraciones usan `DIRECT_URL`
 - Imágenes: Cloudinary
-- Auth: JWT (guard en backend), token guardado en localStorage (Zustand en frontend)
+- Auth: login por email + password → OTP por email (Resend) → JWT en cookie **httpOnly** `access_token`. Guard global `JwtAuthGuard` + `ThrottlerGuard` en `backend/src/app.module.ts`; las rutas públicas se marcan con `@Public()`
 
 ## Comandos
 
@@ -42,17 +42,19 @@ npm run build        # build de producción
 
 - Todas las rutas del backend van bajo el prefijo `/api` (configurado en `backend/src/main.ts`)
 - El backend valida DTOs de forma estricta: `whitelist: true`, `forbidNonWhitelisted: true`, `transform: true`
-- El cliente API del frontend apunta a `http://localhost:3001/api` por defecto (se puede cambiar con `NEXT_PUBLIC_API_URL`)
-- El layout del admin (barra lateral verde oscuro) oculta automáticamente Navbar/Footer/CartDrawer cuando la URL empieza con `/admin`
-- Muchas páginas del admin son placeholder (marcas, ofertas, novedades, usuarios, valoraciones, cupones, envíos, reportes)
-- El schema de Prisma tiene 8 modelos pero solo 1 migración — el schema está adelantado del historial de migraciones
-- `reactCompiler: true` en `next.config.ts`
-- Next.js 16 tiene cambios rotos — revisar `frontend/node_modules/next/dist/docs/` antes de escribir código del frontend
+- El cliente API del frontend apunta a `http://localhost:3001/api` por defecto (se puede cambiar con `NEXT_PUBLIC_API_URL`) y usa `withCredentials: true` (el JWT viaja en cookie, no en header)
+- `LayoutShell` oculta Navbar/Footer/CartDrawer/ botón de carrito cuando la URL empieza con `/admin`
+- El sidebar del admin es oscuro (`#050505`) con acentos cyan (`#0891b2`/`#22d3ee`) — los tokens visuales están en `DESIGN.md` de la raíz
+- Casi todas las páginas del admin están implementadas: `novedades`/`ofertas` son vistas de `ProductFlagManager` (flags `destacado`/`oferta`) y `admin/productos` re-exporta el dashboard de `/admin`
+- El schema de Prisma tiene 10 modelos y 3 migraciones (`init`, `sync_models`, `add_settings`) — el schema está al día con las migraciones
 
 ## Cosas a tener cuidado
 
-- El `.env` del backend tiene credenciales reales de la DB y secretos de Cloudinary — nunca commitear cambios al mismo
-- El usuario admin se inicializa con `GET /api/auth/init` (no hay archivo de seed)
+- No existe `.env.example`. `backend/.env` tiene credenciales reales (DB, Cloudinary, Resend, JWT) — nunca commitearlo. Variables que hay que setear a mano: `DATABASE_URL`, `DIRECT_URL`, `CLOUDINARY_*`, `JWT_SECRET`, `INIT_SECRET`, `INIT_ADMIN_EMAIL`, `INIT_ADMIN_PASS`, `RESEND_API_KEY`, `RESEND_FROM`, `FRONTEND_URL` (CORS), `PORT`
+- El admin se inicializa con `GET /api/auth/init?secret=INIT_SECRET` — solo en dev (403 en producción); crea/actualiza el usuario de `INIT_ADMIN_EMAIL`/`INIT_ADMIN_PASS` (no hay archivo de seed)
+- Login de prueba requiere recibir el OTP por email (Resend) — no hay forma de saltarse el paso OTP
+- El backend tiene un módulo `dev` con `POST /api/dev/assign-images` que solo funciona fuera de producción
 - En el backend, `@typescript-eslint/no-explicit-any` está desactivado; `no-floating-promises` es solo warning
-- No hay CI ni Makefile — el deploy es un único proyecto Vercel en modo **Services** (`vercel.json` de la raíz): servicio `frontend` (Next.js) sirve `/` y servicio `backend` (NestJS con soporte nativo de Vercel, entrypoint auto-detectado en `backend/src/main.ts`, build: `npx prisma generate && npm run build`) sirve bajo `/api/*`. En producción hay que setear `NEXT_PUBLIC_API_URL=https://<dominio>/api` para que el frontend llame al backend same-origin
+- No hay CI ni Makefile — el deploy es un único proyecto Vercel en modo **Services** (`vercel.json` de la raíz): servicio `frontend` (Next.js) sirve `/` y servicio `backend` (NestJS con entrypoint en `backend/src/main.ts`, build: `npx prisma generate && npm run build`) sirve bajo `/api/*` vía rewrites. En producción hay que setear `NEXT_PUBLIC_API_URL=https://<dominio>/api` para llamadas same-origin
 - `frontend/AGENTS.md` y `frontend/CLAUDE.md` son auto-generados por Next.js — no editar a mano
+- Next.js 16 tiene cambios rotos — revisar `frontend/node_modules/next/dist/docs/` antes de escribir código del frontend

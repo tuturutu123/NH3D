@@ -1,13 +1,37 @@
-import { Controller, Get, Post, Body, Param, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Patch,
+  Req,
+  NotFoundException,
+} from '@nestjs/common';
 import type { Request } from 'express';
 import { PrismaService } from '../prisma/prisma.service';
-import { Public } from '../auth/public.decorator';
+import type { Prisma } from '@prisma/client';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
+import { UpdatePedidoDto } from './dto/update-pedido.dto';
 
 const pedidoInclude = {
-  items: { include: { producto: { select: { id: true, nombre: true, precio: true, imagenUrl: true } } } },
+  items: {
+    include: {
+      producto: {
+        select: { id: true, nombre: true, precio: true, imagenUrl: true },
+      },
+    },
+  },
   usuario: { select: { id: true, email: true } },
-  envio: { select: { id: true, metodo: true, costo: true, tracking: true, estado: true } },
+  envio: {
+    select: {
+      id: true,
+      metodo: true,
+      costo: true,
+      tracking: true,
+      estado: true,
+    },
+  },
 };
 
 @Controller('pedidos')
@@ -48,12 +72,31 @@ export class PedidosController {
     });
 
     for (const it of dto.items) {
+      const data: Prisma.ProductoUpdateInput = {
+        stock: { decrement: it.cantidad },
+      };
       await this.prisma.producto.update({
         where: { id: it.productoId },
-        data: { stock: { decrement: it.cantidad } } as any,
+        data,
       });
     }
 
     return pedido;
+  }
+
+  @Patch(':id')
+  async update(@Param('id') id: string, @Body() dto: UpdatePedidoDto) {
+    const pedidoId = Number(id);
+    const pedido = await this.prisma.pedido.findUnique({
+      where: { id: pedidoId },
+    });
+    if (!pedido) {
+      throw new NotFoundException('Pedido no encontrado');
+    }
+    return this.prisma.pedido.update({
+      where: { id: pedidoId },
+      data: dto,
+      include: pedidoInclude,
+    });
   }
 }

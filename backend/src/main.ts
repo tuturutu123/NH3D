@@ -1,25 +1,37 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
-import { ThrottlerGuard } from '@nestjs/throttler';
 import helmet from 'helmet';
+import type { Express } from 'express';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // Helmet — headers de seguridad (CSP, X-Frame-Options, HSTS, etc.)
-  app.use(helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        imgSrc: ["'self'", 'data:', 'blob:', 'https://res.cloudinary.com', 'http://localhost:3001'],
-        styleSrc: ["'self'", "'unsafe-inline'"],
-        scriptSrc: ["'self'"],
-        connectSrc: ["'self'", 'http://localhost:3001', 'https://res.cloudinary.com'],
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          imgSrc: [
+            "'self'",
+            'data:',
+            'blob:',
+            'https://res.cloudinary.com',
+            'http://localhost:3001',
+          ],
+          styleSrc: ["'self'", "'unsafe-inline'"],
+          scriptSrc: ["'self'"],
+          connectSrc: [
+            "'self'",
+            'http://localhost:3001',
+            'https://res.cloudinary.com',
+          ],
+        },
       },
-    },
-    crossOriginEmbedderPolicy: false,
-  }));
+      crossOriginEmbedderPolicy: false,
+    }),
+  );
 
   // CORS
   app.enableCors({
@@ -32,8 +44,8 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   // Trust proxy para HTTPS detrás de reverse proxy
-  const expressApp = app.getHttpAdapter().getInstance();
-  expressApp.set('trust proxy', 1);
+  const server = app.getHttpAdapter().getInstance() as Express;
+  server.set('trust proxy', 1);
 
   // Pipe de validación global
   app.useGlobalPipes(

@@ -42,8 +42,11 @@ export class AuthService {
     }
 
     const code = this.otpService.generate(user.email);
-    await this.otpService.sendEmail(user.email, code).catch((e) => {
-      console.error('[OTP] error enviando email:', e.message);
+    await this.otpService.sendEmail(user.email, code).catch((e: unknown) => {
+      console.error(
+        '[OTP] error enviando email:',
+        e instanceof Error ? e.message : String(e),
+      );
     });
 
     return {
@@ -99,8 +102,11 @@ export class AuthService {
       throw new BadRequestException('Email requerido');
     }
     const code = this.otpService.generate(email);
-    await this.otpService.sendEmail(email, code).catch((e) => {
-      console.error('[OTP] error enviando email:', e.message);
+    await this.otpService.sendEmail(email, code).catch((e: unknown) => {
+      console.error(
+        '[OTP] error enviando email:',
+        e instanceof Error ? e.message : String(e),
+      );
     });
     return { message: 'Código reenviado. Revisá tu correo electrónico.' };
   }
