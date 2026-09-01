@@ -19,7 +19,6 @@ export default function RootLayout({
     <html lang="es" className="scroll-smooth" suppressHydrationWarning>
       <body className={`${GeistSans.className} ${GeistMono.className} bg-[#fafafa] dark:bg-[#050505] text-[#0a0a0a] dark:text-[#fafafa] antialiased min-h-screen flex flex-col`}>
         <ThemeInitializer />
-        <div className="grain-overlay" />
         <LayoutShell>{children}</LayoutShell>
       </body>
     </html>

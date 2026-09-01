@@ -1,11 +1,15 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
 import type { Express } from 'express';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // Cookies (JWT httpOnly)
+  app.use(cookieParser());
 
   // Helmet — headers de seguridad (CSP, X-Frame-Options, HSTS, etc.)
   app.use(

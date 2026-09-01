@@ -44,6 +44,9 @@ export class OtpService {
   }
 
   async sendEmail(email: string, code: string): Promise<void> {
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(`[OTP] Código para ${email}: ${code}`);
+    }
     const apiKey = process.env.RESEND_API_KEY;
     if (!apiKey || apiKey === 'RE_PLACEHOLDER') {
       console.warn(
