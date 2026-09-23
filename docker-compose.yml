@@ -1,0 +1,35 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: nhprod-backend
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "3001:3001"
+    volumes:
+      - backend_uploads:/app/uploads
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_API_URL: ${API_URL_BUILD:-http://192.168.18.2:3001/api}
+    container_name: nhprod-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+
+volumes:
+  backend_uploads:
+
+networks:
+  app-network:
+    external: true

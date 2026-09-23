@@ -7,6 +7,7 @@
 - Base de datos: PostgreSQL (Supabase) con Prisma usando `@prisma/adapter-pg` (driver adapter) — requiere `npx prisma generate`. En runtime el cliente usa `DATABASE_URL` (`backend/src/prisma/prisma.service.ts`); el CLI de Prisma usa `DIRECT_URL` (`backend/prisma.config.ts`, el schema no define `url`)
 - El frontend usa el directorio `src/app` (no hay `app/` en la raíz); path alias `@/*` → `./src/*`
 - Imágenes: Cloudinary (solo en upload del módulo productos); scripts de seed/assign-images escriben rutas locales `/categorias/*.png`
+- Backend sirve estáticos desde `uploads/` (`ServeStaticModule`) — ese directorio está en `.gitignore`
 - Auth: login por email + password → OTP por email (Resend) → JWT en cookie **httpOnly** `access_token`. Guard global `JwtAuthGuard` + `ThrottlerGuard` en `backend/src/app.module.ts`; las rutas públicas se marcan con `@Public()`
 - Rate limit global: `ThrottlerGuard` con `ttl: 60000, limit: 10` (10 req/min por IP) — probar rutas a mano puede dar HTTP 429; no es error de la app
 
@@ -52,7 +53,7 @@ npm run build                    # production build (no tiene tests)
 - `backend/scripts/`: utilidades SQL directas (sin Prisma) — `node scripts/<archivo>.mjs` desde `backend/`
   - `reseed-catalogo.mjs` es **destructivo** (borra valoraciones, pedidos, envíos, marcas y catálogo)
   - `inspect-db.mjs` explora la DB
-- Backend: `@typescript-eslint/no-explicit-any` desactivado; `no-floating-promises` solo warning
+- Backend: `@typescript-eslint/no-explicit-any` desactivado; `no-floating-promises` y `no-unsafe-argument` solo warning
 - Backend tsconfig: usa `nodenext` module resolution, `ES2023` target, `noImplicitAny: false`
 - Frontend: Tailwind v4 con PostCSS plugin `@tailwindcss/postcss` (no usa config legacy de Tailwind)
 
